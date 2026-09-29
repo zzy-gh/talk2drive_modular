@@ -1,0 +1,4506 @@
+{
+  "meta": {
+    "interdrive": "/home/dellpro2/Zhiyuan/covlm-agent-main/CoLMDriver-main/simulation/leaderboard/data/Interdrive",
+    "intents": "/home/dellpro2/Zhiyuan/covlm-agent-main/CoLMDriver-main/simulation/leaderboard/team_code/agent_config/driver_intents.yaml",
+    "csv": "/home/dellpro2/Zhiyuan/talk2drive_modular/data/special_buildings_en.csv",
+    "limit": 46,
+    "intents_used": true,
+    "scenarios": 46,
+    "vehicles": 175
+  },
+  "anchors": [
+    {
+      "scenario": "r1_town05_ins_c",
+      "veh": 0,
+      "town": "Town05",
+      "start": [
+        -20.0,
+        -186.48,
+        0.0
+      ],
+      "vias": [
+        [
+          0.0,
+          -190.0,
+          0.0
+        ]
+      ],
+      "goal": [
+        30.0,
+        -190.0,
+        0.0
+      ],
+      "label": "house",
+      "label_source": "utterance",
+      "utterance": "My daughter is having a severe allergic reaction at home. I need to get to her as fast as possible.",
+      "nearest_kb_label": "warehouse",
+      "nearest_kb_m": 49.02,
+      "anchor_id": "r1_town05_ins_c#veh0"
+    },
+    {
+      "scenario": "r1_town05_ins_c",
+      "veh": 1,
+      "town": "Town05",
+      "start": [
+        -23.0,
+        -190.0,
+        0.0
+      ],
+      "vias": [
+        [
+          0.0,
+          -190.0,
+          0.0
+        ]
+      ],
+      "goal": [
+        25.0,
+        -190.0,
+        0.0
+      ],
+      "label": "supermarket",
+      "label_source": "utterance",
+      "utterance": "No rush at all, I'm just heading out to grab some groceries.",
+      "nearest_kb_label": "warehouse",
+      "nearest_kb_m": 51.99,
+      "anchor_id": "r1_town05_ins_c#veh1"
+    },
+    {
+      "scenario": "r2_town05_ins_c",
+      "veh": 0,
+      "town": "Town05",
+      "start": [
+        27.0,
+        -170.0,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        27.0,
+        -120.0,
+        0.0
+      ],
+      "label": "school",
+      "label_source": "utterance",
+      "utterance": "I'm on my way to pick up my kid from school. Nothing time-critical.",
+      "nearest_kb_label": "warehouse",
+      "nearest_kb_m": 42.44,
+      "anchor_id": "r2_town05_ins_c#veh0"
+    },
+    {
+      "scenario": "r2_town05_ins_c",
+      "veh": 1,
+      "town": "Town05",
+      "start": [
+        33.0,
+        -163.0,
+        0.0
+      ],
+      "vias": [
+        [
+          27.0,
+          -130.0,
+          0.0
+        ]
+      ],
+      "goal": [
+        27.0,
+        -110.0,
+        0.0
+      ],
+      "label": "airport",
+      "label_source": "utterance",
+      "utterance": "I'm about to miss my flight boarding, I really need to get moving.",
+      "nearest_kb_label": "bus_stop",
+      "nearest_kb_m": 41.46,
+      "anchor_id": "r2_town05_ins_c#veh1"
+    },
+    {
+      "scenario": "r3_town05_ins_c",
+      "veh": 0,
+      "town": "Town05",
+      "start": [
+        -160.4835662841797,
+        -88.11746215820312,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        -120.69560241699219,
+        -88.05902862548828,
+        0.0
+      ],
+      "label": "supermarket",
+      "label_source": "utterance",
+      "utterance": "Just a normal grocery run, no particular hurry.",
+      "nearest_kb_label": "bus_stop",
+      "nearest_kb_m": 33.62,
+      "anchor_id": "r3_town05_ins_c#veh0"
+    },
+    {
+      "scenario": "r3_town05_ins_c",
+      "veh": 1,
+      "town": "Town05",
+      "start": [
+        -155.4835662841797,
+        -83.11746215820312,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        -120.69560241699219,
+        -88.05902862548828,
+        0.0
+      ],
+      "label": "bus_stop",
+      "label_source": "nearest_kb",
+      "utterance": "My elderly father just called, he's fallen and can't get up. I need to reach him fast.",
+      "nearest_kb_label": "bus_stop",
+      "nearest_kb_m": 33.62,
+      "anchor_id": "r3_town05_ins_c#veh1"
+    },
+    {
+      "scenario": "r4_town06_ins_c",
+      "veh": 0,
+      "town": "Town06",
+      "start": [
+        60.0,
+        -15.0,
+        0.0
+      ],
+      "vias": [
+        [
+          50.0,
+          -15.0,
+          0.0
+        ],
+        [
+          45.0,
+          -15.0,
+          0.0
+        ]
+      ],
+      "goal": [
+        40.0,
+        -15.0,
+        0.0
+      ],
+      "label": "house",
+      "label_source": "utterance",
+      "utterance": "Heading home after work, in no particular rush.",
+      "nearest_kb_label": "house",
+      "nearest_kb_m": 36.21,
+      "anchor_id": "r4_town06_ins_c#veh0"
+    },
+    {
+      "scenario": "r4_town06_ins_c",
+      "veh": 1,
+      "town": "Town06",
+      "start": [
+        60.0,
+        -20.0,
+        0.0
+      ],
+      "vias": [
+        [
+          50.0,
+          -20.0,
+          0.0
+        ],
+        [
+          45.0,
+          -15.0,
+          0.0
+        ]
+      ],
+      "goal": [
+        40.0,
+        -15.0,
+        0.0
+      ],
+      "label": "hospital",
+      "label_source": "utterance",
+      "utterance": "I'm rushing my dog to the emergency vet, he's having trouble breathing.",
+      "nearest_kb_label": "house",
+      "nearest_kb_m": 36.21,
+      "anchor_id": "r4_town06_ins_c#veh1"
+    },
+    {
+      "scenario": "r5_town06_ins_c",
+      "veh": 0,
+      "town": "Town06",
+      "start": [
+        170.0,
+        -16.3,
+        0.0
+      ],
+      "vias": [
+        [
+          160.0,
+          -16.3,
+          0.0
+        ],
+        [
+          155.0,
+          -16.3,
+          0.0
+        ]
+      ],
+      "goal": [
+        150.0,
+        -16.3,
+        0.0
+      ],
+      "label": "gym",
+      "label_source": "utterance",
+      "utterance": "Just cruising back from the gym, nothing pressing.",
+      "nearest_kb_label": "house",
+      "nearest_kb_m": 8.45,
+      "anchor_id": "r5_town06_ins_c#veh0"
+    },
+    {
+      "scenario": "r5_town06_ins_c",
+      "veh": 1,
+      "town": "Town06",
+      "start": [
+        170.0,
+        -20.0,
+        0.0
+      ],
+      "vias": [
+        [
+          160.0,
+          -20.0,
+          0.0
+        ],
+        [
+          155.0,
+          -16.3,
+          0.0
+        ]
+      ],
+      "goal": [
+        150.0,
+        -16.3,
+        0.0
+      ],
+      "label": "parking",
+      "label_source": "utterance",
+      "utterance": "I have a job interview starting in ten minutes and I still need to find parking.",
+      "nearest_kb_label": "house",
+      "nearest_kb_m": 8.45,
+      "anchor_id": "r5_town06_ins_c#veh1"
+    },
+    {
+      "scenario": "r6_town07_ins_c",
+      "veh": 0,
+      "town": "Town07",
+      "start": [
+        15.0,
+        -3.5,
+        0.0
+      ],
+      "vias": [
+        [
+          10.0,
+          -3.5,
+          0.0
+        ],
+        [
+          -3.2,
+          -3.5,
+          0.0
+        ]
+      ],
+      "goal": [
+        -15.348737716674806,
+        -3.197587728500366,
+        0.0
+      ],
+      "label": "house",
+      "label_source": "utterance",
+      "utterance": "On my way to a friend's place, no rush at all.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 67.29,
+      "anchor_id": "r6_town07_ins_c#veh0"
+    },
+    {
+      "scenario": "r6_town07_ins_c",
+      "veh": 1,
+      "town": "Town07",
+      "start": [
+        15.0,
+        -5.5,
+        0.0
+      ],
+      "vias": [
+        [
+          10.0,
+          -5.5,
+          0.0
+        ],
+        [
+          -3.2,
+          -3.5,
+          0.0
+        ]
+      ],
+      "goal": [
+        -15.348737716674806,
+        -3.197587728500366,
+        0.0
+      ],
+      "label": "hospital",
+      "label_source": "utterance",
+      "utterance": "I'm delivering an organ transplant cooler to the hospital. Every minute counts.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 67.29,
+      "anchor_id": "r6_town07_ins_c#veh1"
+    },
+    {
+      "scenario": "r7_town05_ins_ss",
+      "veh": 0,
+      "town": "Town05",
+      "start": [
+        26.66,
+        -125.0,
+        0.0
+      ],
+      "vias": [
+        [
+          26.66,
+          -100.0,
+          0.0
+        ]
+      ],
+      "goal": [
+        26.66,
+        -75.0,
+        0.0
+      ],
+      "label": "bus_stop",
+      "label_source": "nearest_kb",
+      "utterance": "Just running a quick errand, no particular hurry.",
+      "nearest_kb_label": "bus_stop",
+      "nearest_kb_m": 33.61,
+      "anchor_id": "r7_town05_ins_ss#veh0"
+    },
+    {
+      "scenario": "r7_town05_ins_ss",
+      "veh": 1,
+      "town": "Town05",
+      "start": [
+        60.0,
+        -91.19309997558594,
+        0.0
+      ],
+      "vias": [
+        [
+          47.0,
+          -91.19309997558594,
+          0.0
+        ]
+      ],
+      "goal": [
+        5.97972297668457,
+        -91.39784240722656,
+        0.0
+      ],
+      "label": "hospital",
+      "label_source": "utterance",
+      "utterance": "I twisted my ankle badly on a hike and need to get to urgent care.",
+      "nearest_kb_label": "bus_stop",
+      "nearest_kb_m": 13.54,
+      "anchor_id": "r7_town05_ins_ss#veh1"
+    },
+    {
+      "scenario": "r8_town05_ins_ss",
+      "veh": 0,
+      "town": "Town05",
+      "start": [
+        -148.4835662841797,
+        -88.11746215820312,
+        0.0
+      ],
+      "vias": [
+        [
+          -120.69560241699219,
+          -88.05902862548828,
+          0.0
+        ]
+      ],
+      "goal": [
+        -90.89604949951172,
+        -88.0,
+        0.0
+      ],
+      "label": "factory",
+      "label_source": "utterance",
+      "utterance": "I'm a few minutes late clocking in for my shift.",
+      "nearest_kb_label": "bus_stop",
+      "nearest_kb_m": 5.03,
+      "anchor_id": "r8_town05_ins_ss#veh0"
+    },
+    {
+      "scenario": "r8_town05_ins_ss",
+      "veh": 1,
+      "town": "Town05",
+      "start": [
+        -124.71266174316406,
+        -63.11746215820312,
+        0.0
+      ],
+      "vias": [
+        [
+          -124.71266174316406,
+          -60.05902862548828,
+          0.0
+        ]
+      ],
+      "goal": [
+        -124.45105743408203,
+        -107.29784393310547,
+        0.0
+      ],
+      "label": "hospital",
+      "label_source": "utterance",
+      "utterance": "My wife just went into labor, I need to get her to the hospital now.",
+      "nearest_kb_label": "bus_stop",
+      "nearest_kb_m": 31.89,
+      "anchor_id": "r8_town05_ins_ss#veh1"
+    },
+    {
+      "scenario": "r9_town06_ins_ss",
+      "veh": 0,
+      "town": "Town06",
+      "start": [
+        6.0,
+        0.0,
+        0.0
+      ],
+      "vias": [
+        [
+          6.0,
+          -5.0,
+          0.0
+        ],
+        [
+          6.0,
+          -10.0,
+          0.0
+        ]
+      ],
+      "goal": [
+        6.0,
+        -15.0,
+        0.0
+      ],
+      "label": "house",
+      "label_source": "nearest_kb",
+      "utterance": "Heading out for a slow Sunday drive, no rush.",
+      "nearest_kb_label": "house",
+      "nearest_kb_m": 20.17,
+      "anchor_id": "r9_town06_ins_ss#veh0"
+    },
+    {
+      "scenario": "r9_town06_ins_ss",
+      "veh": 1,
+      "town": "Town06",
+      "start": [
+        18.0,
+        -12.5,
+        0.0
+      ],
+      "vias": [
+        [
+          10.0,
+          -12.5,
+          0.0
+        ],
+        [
+          5.0,
+          -12.5,
+          0.0
+        ]
+      ],
+      "goal": [
+        -2.0,
+        -12.5,
+        0.0
+      ],
+      "label": "pharmacy",
+      "label_source": "utterance",
+      "utterance": "Rushing insulin over to my dad, he's almost out.",
+      "nearest_kb_label": "house",
+      "nearest_kb_m": 25.21,
+      "anchor_id": "r9_town06_ins_ss#veh1"
+    },
+    {
+      "scenario": "r9_town06_ins_ss",
+      "veh": 2,
+      "town": "Town06",
+      "start": [
+        6.0,
+        6.0,
+        0.0
+      ],
+      "vias": [
+        [
+          6.0,
+          -5.0,
+          0.0
+        ],
+        [
+          6.0,
+          -10.0,
+          0.0
+        ]
+      ],
+      "goal": [
+        6.0,
+        -15.0,
+        0.0
+      ],
+      "label": "house",
+      "label_source": "nearest_kb",
+      "utterance": "Trying to make it to my dentist appointment on time.",
+      "nearest_kb_label": "house",
+      "nearest_kb_m": 20.17,
+      "anchor_id": "r9_town06_ins_ss#veh2"
+    },
+    {
+      "scenario": "r10_town07_ins_ss",
+      "veh": 0,
+      "town": "Town07",
+      "start": [
+        7.0,
+        -3.5,
+        0.0
+      ],
+      "vias": [
+        [
+          5.0,
+          -3.5,
+          0.0
+        ]
+      ],
+      "goal": [
+        -13.223197937011719,
+        -3.2129967212677,
+        0.0
+      ],
+      "label": "house",
+      "label_source": "utterance",
+      "utterance": "Just heading home, nothing pressing.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 68.08,
+      "anchor_id": "r10_town07_ins_ss#veh0"
+    },
+    {
+      "scenario": "r10_town07_ins_ss",
+      "veh": 1,
+      "town": "Town07",
+      "start": [
+        -2.0,
+        9.0,
+        0.0
+      ],
+      "vias": [
+        [
+          -2.0,
+          2.0,
+          0.0
+        ],
+        [
+          -2.0,
+          -15.5,
+          0.0
+        ]
+      ],
+      "goal": [
+        -1.8360180854797363,
+        -17.12346649169922,
+        0.0
+      ],
+      "label": "parking",
+      "label_source": "nearest_kb",
+      "utterance": "I'm running behind for a work meeting downtown.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 61.83,
+      "anchor_id": "r10_town07_ins_ss#veh1"
+    },
+    {
+      "scenario": "r10_town07_ins_ss",
+      "veh": 2,
+      "town": "Town07",
+      "start": [
+        13.0,
+        -3.5,
+        0.0
+      ],
+      "vias": [
+        [
+          10.0,
+          -3.5,
+          0.0
+        ]
+      ],
+      "goal": [
+        -6.0,
+        9.0,
+        0.0
+      ],
+      "label": "pharmacy",
+      "label_source": "utterance",
+      "utterance": "Bringing home medication for my mother, the pharmacy closes soon and she really needs this today.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 82.17,
+      "anchor_id": "r10_town07_ins_ss#veh2"
+    },
+    {
+      "scenario": "r11_town05_ins_sl",
+      "veh": 0,
+      "town": "Town05",
+      "start": [
+        26.66,
+        -125.0,
+        0.0
+      ],
+      "vias": [
+        [
+          30.0,
+          -85.0,
+          0.0
+        ]
+      ],
+      "goal": [
+        60.0,
+        -80.0,
+        0.0
+      ],
+      "label": "parking",
+      "label_source": "nearest_kb",
+      "utterance": "I've got a dentist appointment in fifteen minutes, hoping to get there without much delay.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 60.95,
+      "anchor_id": "r11_town05_ins_sl#veh0"
+    },
+    {
+      "scenario": "r11_town05_ins_sl",
+      "veh": 1,
+      "town": "Town05",
+      "start": [
+        60.0,
+        -91.39372253417969,
+        0.0
+      ],
+      "vias": [
+        [
+          43.0,
+          -91.39372253417969,
+          0.0
+        ]
+      ],
+      "goal": [
+        5.54352855682373,
+        -91.39372253417969,
+        0.0
+      ],
+      "label": "bus_stop",
+      "label_source": "nearest_kb",
+      "utterance": "Just out for a casual afternoon drive.",
+      "nearest_kb_label": "bus_stop",
+      "nearest_kb_m": 13.16,
+      "anchor_id": "r11_town05_ins_sl#veh1"
+    },
+    {
+      "scenario": "r11_town05_ins_sl",
+      "veh": 2,
+      "town": "Town05",
+      "start": [
+        66.0,
+        -91.39372253417969,
+        0.0
+      ],
+      "vias": [
+        [
+          43.0,
+          -91.39372253417969,
+          0.0
+        ]
+      ],
+      "goal": [
+        5.54352855682373,
+        -91.39372253417969,
+        0.0
+      ],
+      "label": "bus_stop",
+      "label_source": "nearest_kb",
+      "utterance": "My basement is flooding and the plumber's waiting on me to let him in.",
+      "nearest_kb_label": "bus_stop",
+      "nearest_kb_m": 13.16,
+      "anchor_id": "r11_town05_ins_sl#veh2"
+    },
+    {
+      "scenario": "r12_town06_ins_sl",
+      "veh": 0,
+      "town": "Town06",
+      "start": [
+        144.0,
+        5.0,
+        0.0
+      ],
+      "vias": [
+        [
+          144.0,
+          -3.0,
+          0.0
+        ]
+      ],
+      "goal": [
+        130.0,
+        -16.3,
+        0.0
+      ],
+      "label": "library",
+      "label_source": "utterance",
+      "utterance": "Heading to return a library book, no deadline pressure.",
+      "nearest_kb_label": "house",
+      "nearest_kb_m": 25.46,
+      "anchor_id": "r12_town06_ins_sl#veh0"
+    },
+    {
+      "scenario": "r12_town06_ins_sl",
+      "veh": 1,
+      "town": "Town06",
+      "start": [
+        160.0,
+        -16.3,
+        0.0
+      ],
+      "vias": [
+        [
+          150.0,
+          -16.3,
+          0.0
+        ]
+      ],
+      "goal": [
+        125.0,
+        -16.3,
+        0.0
+      ],
+      "label": "school",
+      "label_source": "utterance",
+      "utterance": "My son just texted me he's having a panic attack at school, I need to get to him.",
+      "nearest_kb_label": "house",
+      "nearest_kb_m": 30.29,
+      "anchor_id": "r12_town06_ins_sl#veh1"
+    },
+    {
+      "scenario": "r12_town06_ins_sl",
+      "veh": 2,
+      "town": "Town06",
+      "start": [
+        167.0,
+        -16.3,
+        0.0
+      ],
+      "vias": [
+        [
+          150.0,
+          -16.3,
+          0.0
+        ]
+      ],
+      "goal": [
+        125.0,
+        -16.3,
+        0.0
+      ],
+      "label": "cinema",
+      "label_source": "utterance",
+      "utterance": "Trying to catch the start of a movie showing.",
+      "nearest_kb_label": "house",
+      "nearest_kb_m": 30.29,
+      "anchor_id": "r12_town06_ins_sl#veh2"
+    },
+    {
+      "scenario": "r13_town05_ins_sl",
+      "veh": 0,
+      "town": "Town05",
+      "start": [
+        -148.4835662841797,
+        -88.11746215820312,
+        0.0
+      ],
+      "vias": [
+        [
+          -120.69560241699219,
+          -88.05902862548828,
+          0.0
+        ]
+      ],
+      "goal": [
+        -90.89604949951172,
+        -88.0,
+        0.0
+      ],
+      "label": "bus_stop",
+      "label_source": "nearest_kb",
+      "utterance": "Running a bit late to relieve the babysitter.",
+      "nearest_kb_label": "bus_stop",
+      "nearest_kb_m": 5.03,
+      "anchor_id": "r13_town05_ins_sl#veh0"
+    },
+    {
+      "scenario": "r13_town05_ins_sl",
+      "veh": 1,
+      "town": "Town05",
+      "start": [
+        -125.4835662841797,
+        -68.11746215820312,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        -148.4835662841797,
+        -92.0,
+        0.0
+      ],
+      "label": "gas_station",
+      "label_source": "utterance",
+      "utterance": "There's been a gas leak reported near my elderly neighbor's house and I need to check on her.",
+      "nearest_kb_label": "hotel",
+      "nearest_kb_m": 41.03,
+      "anchor_id": "r13_town05_ins_sl#veh1"
+    },
+    {
+      "scenario": "r14_town07_ins_sl",
+      "veh": 0,
+      "town": "Town07",
+      "start": [
+        12.0,
+        -3.4,
+        0.0
+      ],
+      "vias": [
+        [
+          6.0,
+          -3.4,
+          0.0
+        ]
+      ],
+      "goal": [
+        -13.223197937011719,
+        -3.2129967212677,
+        0.0
+      ],
+      "label": "house",
+      "label_source": "utterance",
+      "utterance": "Just cruising home, nothing urgent.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 68.08,
+      "anchor_id": "r14_town07_ins_sl#veh0"
+    },
+    {
+      "scenario": "r14_town07_ins_sl",
+      "veh": 1,
+      "town": "Town07",
+      "start": [
+        -4.0,
+        -16.0,
+        0.0
+      ],
+      "vias": [
+        [
+          -4.0,
+          -7.0,
+          0.0
+        ]
+      ],
+      "goal": [
+        12.0,
+        1.5,
+        0.0
+      ],
+      "label": "hospital",
+      "label_source": "utterance",
+      "utterance": "My coworker collapsed and I'm driving him to the ER.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 85.02,
+      "anchor_id": "r14_town07_ins_sl#veh1"
+    },
+    {
+      "scenario": "r14_town07_ins_sl",
+      "veh": 2,
+      "town": "Town07",
+      "start": [
+        -4.0,
+        -22.0,
+        0.0
+      ],
+      "vias": [
+        [
+          -4.0,
+          -12.0,
+          0.0
+        ],
+        [
+          -4.0,
+          -7.0,
+          0.0
+        ]
+      ],
+      "goal": [
+        12.0,
+        1.5,
+        0.0
+      ],
+      "label": "parking",
+      "label_source": "nearest_kb",
+      "utterance": "Trying to get to a client meeting that starts soon.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 85.02,
+      "anchor_id": "r14_town07_ins_sl#veh2"
+    },
+    {
+      "scenario": "r15_town07_ins_sl",
+      "veh": 0,
+      "town": "Town07",
+      "start": [
+        10.0,
+        58.0,
+        0.0
+      ],
+      "vias": [
+        [
+          5.0,
+          58.0,
+          0.0
+        ],
+        [
+          -15.0,
+          58.0,
+          0.0
+        ]
+      ],
+      "goal": [
+        -19.85127067565918,
+        57.602535247802734,
+        0.0
+      ],
+      "label": "farm",
+      "label_source": "nearest_kb",
+      "utterance": "No particular plans, just running weekend errands.",
+      "nearest_kb_label": "farm",
+      "nearest_kb_m": 88.1,
+      "anchor_id": "r15_town07_ins_sl#veh0"
+    },
+    {
+      "scenario": "r15_town07_ins_sl",
+      "veh": 1,
+      "town": "Town07",
+      "start": [
+        -20.0,
+        63.0,
+        0.0
+      ],
+      "vias": [
+        [
+          -15.0,
+          63.0,
+          0.0
+        ],
+        [
+          -2.0,
+          50.0,
+          0.0
+        ]
+      ],
+      "goal": [
+        -2.0253372192382812,
+        45.59782409667969,
+        0.0
+      ],
+      "label": "hospital",
+      "label_source": "utterance",
+      "utterance": "Rushing my elderly mother to the ER, she's having chest pains.",
+      "nearest_kb_label": "farm",
+      "nearest_kb_m": 100.74,
+      "anchor_id": "r15_town07_ins_sl#veh1"
+    },
+    {
+      "scenario": "r15_town07_ins_sl",
+      "veh": 2,
+      "town": "Town07",
+      "start": [
+        16.0,
+        58.0,
+        0.0
+      ],
+      "vias": [
+        [
+          5.0,
+          58.0,
+          0.0
+        ],
+        [
+          -15.0,
+          58.0,
+          0.0
+        ]
+      ],
+      "goal": [
+        -19.85127067565918,
+        57.602535247802734,
+        0.0
+      ],
+      "label": "school",
+      "label_source": "utterance",
+      "utterance": "Late picking up my daughter from soccer practice.",
+      "nearest_kb_label": "farm",
+      "nearest_kb_m": 88.1,
+      "anchor_id": "r15_town07_ins_sl#veh2"
+    },
+    {
+      "scenario": "r16_town05_ins_sl",
+      "veh": 0,
+      "town": "Town05",
+      "start": [
+        0.0,
+        -186.48,
+        0.0
+      ],
+      "vias": [
+        [
+          24.15,
+          -186.48,
+          0.0
+        ]
+      ],
+      "goal": [
+        60.0,
+        -186.48,
+        0.0
+      ],
+      "label": "warehouse",
+      "label_source": "nearest_kb",
+      "utterance": "Trying to make it to a haircut appointment on time.",
+      "nearest_kb_label": "warehouse",
+      "nearest_kb_m": 37.1,
+      "anchor_id": "r16_town05_ins_sl#veh0"
+    },
+    {
+      "scenario": "r16_town05_ins_sl",
+      "veh": 1,
+      "town": "Town05",
+      "start": [
+        35.0,
+        -150.0,
+        0.0
+      ],
+      "vias": [
+        [
+          35.0,
+          -180.0,
+          0.0
+        ]
+      ],
+      "goal": [
+        13.09366512298584,
+        -200.6963653564453,
+        0.0
+      ],
+      "label": "apartment",
+      "label_source": "utterance",
+      "utterance": "My apartment's fire alarm went off and I need to get home to check on my cat.",
+      "nearest_kb_label": "warehouse",
+      "nearest_kb_m": 67.83,
+      "anchor_id": "r16_town05_ins_sl#veh1"
+    },
+    {
+      "scenario": "r16_town05_ins_sl",
+      "veh": 2,
+      "town": "Town05",
+      "start": [
+        -5.0,
+        -186.48,
+        0.0
+      ],
+      "vias": [
+        [
+          24.15,
+          -186.48,
+          0.0
+        ]
+      ],
+      "goal": [
+        60.0,
+        -186.48,
+        0.0
+      ],
+      "label": "warehouse",
+      "label_source": "nearest_kb",
+      "utterance": "Just heading out for a slow drive, nothing planned.",
+      "nearest_kb_label": "warehouse",
+      "nearest_kb_m": 37.1,
+      "anchor_id": "r16_town05_ins_sl#veh2"
+    },
+    {
+      "scenario": "r17_town05_ins_sr",
+      "veh": 0,
+      "town": "Town05",
+      "start": [
+        0.0,
+        -186.48,
+        0.0
+      ],
+      "vias": [
+        [
+          24.15,
+          -186.48,
+          0.0
+        ]
+      ],
+      "goal": [
+        60.0,
+        -186.48,
+        0.0
+      ],
+      "label": "store",
+      "label_source": "utterance",
+      "utterance": "Hoping to catch the tail end of a sale before it closes.",
+      "nearest_kb_label": "warehouse",
+      "nearest_kb_m": 37.1,
+      "anchor_id": "r17_town05_ins_sr#veh0"
+    },
+    {
+      "scenario": "r17_town05_ins_sr",
+      "veh": 1,
+      "town": "Town05",
+      "start": [
+        35.0,
+        -150.0,
+        0.0
+      ],
+      "vias": [
+        [
+          50.0,
+          -186.48,
+          0.0
+        ]
+      ],
+      "goal": [
+        70.0,
+        -186.48,
+        0.0
+      ],
+      "label": "hospital",
+      "label_source": "utterance",
+      "utterance": "My brother just called, he thinks he broke his leg skateboarding and needs a ride to urgent care.",
+      "nearest_kb_label": "warehouse",
+      "nearest_kb_m": 39.06,
+      "anchor_id": "r17_town05_ins_sr#veh1"
+    },
+    {
+      "scenario": "r17_town05_ins_sr",
+      "veh": 2,
+      "town": "Town05",
+      "start": [
+        -5.0,
+        -186.48,
+        0.0
+      ],
+      "vias": [
+        [
+          24.15,
+          -186.48,
+          0.0
+        ]
+      ],
+      "goal": [
+        60.0,
+        -186.48,
+        0.0
+      ],
+      "label": "house",
+      "label_source": "utterance",
+      "utterance": "Just taking the scenic route home.",
+      "nearest_kb_label": "warehouse",
+      "nearest_kb_m": 37.1,
+      "anchor_id": "r17_town05_ins_sr#veh2"
+    },
+    {
+      "scenario": "r18_town05_ins_sr",
+      "veh": 0,
+      "town": "Town05",
+      "start": [
+        55.0,
+        -91.42157745361328,
+        0.0
+      ],
+      "vias": [
+        [
+          44.09228515625,
+          -91.42157745361328,
+          0.0
+        ]
+      ],
+      "goal": [
+        6.393203735351562,
+        -91.42157745361328,
+        0.0
+      ],
+      "label": "bus_stop",
+      "label_source": "nearest_kb",
+      "utterance": "Nothing on the agenda, just driving around.",
+      "nearest_kb_label": "bus_stop",
+      "nearest_kb_m": 13.91,
+      "anchor_id": "r18_town05_ins_sr#veh0"
+    },
+    {
+      "scenario": "r18_town05_ins_sr",
+      "veh": 1,
+      "town": "Town05",
+      "start": [
+        26.66,
+        -125.0,
+        0.0
+      ],
+      "vias": [
+        [
+          0.0,
+          -90.0,
+          0.0
+        ]
+      ],
+      "goal": [
+        -30.0,
+        -90.0,
+        0.0
+      ],
+      "label": "pharmacy",
+      "label_source": "utterance",
+      "utterance": "My power just went out and the freezer full of medication needs to get to a working fridge fast.",
+      "nearest_kb_label": "store",
+      "nearest_kb_m": 5.57,
+      "anchor_id": "r18_town05_ins_sr#veh1"
+    },
+    {
+      "scenario": "r18_town05_ins_sr",
+      "veh": 2,
+      "town": "Town05",
+      "start": [
+        62.0,
+        -91.42157745361328,
+        0.0
+      ],
+      "vias": [
+        [
+          44.09228515625,
+          -91.42157745361328,
+          0.0
+        ]
+      ],
+      "goal": [
+        6.393203735351562,
+        -91.42157745361328,
+        0.0
+      ],
+      "label": "store",
+      "label_source": "utterance",
+      "utterance": "Running a little late to open up the shop.",
+      "nearest_kb_label": "bus_stop",
+      "nearest_kb_m": 13.91,
+      "anchor_id": "r18_town05_ins_sr#veh2"
+    },
+    {
+      "scenario": "r19_town05_ins_sr",
+      "veh": 0,
+      "town": "Town05",
+      "start": [
+        -148.4835662841797,
+        -88.11746215820312,
+        0.0
+      ],
+      "vias": [
+        [
+          -120.69560241699219,
+          -88.05902862548828,
+          0.0
+        ]
+      ],
+      "goal": [
+        -90.89604949951172,
+        -88.0,
+        0.0
+      ],
+      "label": "house",
+      "label_source": "utterance",
+      "utterance": "Trying to beat rush hour traffic home.",
+      "nearest_kb_label": "bus_stop",
+      "nearest_kb_m": 5.03,
+      "anchor_id": "r19_town05_ins_sr#veh0"
+    },
+    {
+      "scenario": "r19_town05_ins_sr",
+      "veh": 1,
+      "town": "Town05",
+      "start": [
+        -125.4835662841797,
+        -68.11746215820312,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        -90.4835662841797,
+        -88.0,
+        0.0
+      ],
+      "label": "hospital",
+      "label_source": "utterance",
+      "utterance": "I just got the call, my grandmother's surgery got moved up and I need to be there.",
+      "nearest_kb_label": "bus_stop",
+      "nearest_kb_m": 4.74,
+      "anchor_id": "r19_town05_ins_sr#veh1"
+    },
+    {
+      "scenario": "r20_town06_ins_sr",
+      "veh": 0,
+      "town": "Town06",
+      "start": [
+        6.170839309692383,
+        -5.0,
+        0.0
+      ],
+      "vias": [
+        [
+          6.170839309692383,
+          -10.0,
+          0.0
+        ],
+        [
+          6.170839309692383,
+          -25.0,
+          0.0
+        ]
+      ],
+      "goal": [
+        6.170839309692383,
+        -30.620601654052734,
+        0.0
+      ],
+      "label": "house",
+      "label_source": "nearest_kb",
+      "utterance": "Just out running a few errands.",
+      "nearest_kb_label": "house",
+      "nearest_kb_m": 5.49,
+      "anchor_id": "r20_town06_ins_sr#veh0"
+    },
+    {
+      "scenario": "r20_town06_ins_sr",
+      "veh": 1,
+      "town": "Town06",
+      "start": [
+        22.0,
+        -25.0,
+        0.0
+      ],
+      "vias": [
+        [
+          18.0,
+          -25.0,
+          0.0
+        ],
+        [
+          8.537854194641113,
+          -32.0,
+          0.0
+        ]
+      ],
+      "goal": [
+        8.537854194641113,
+        -37.18013000488281,
+        0.0
+      ],
+      "label": "house",
+      "label_source": "nearest_kb",
+      "utterance": "Late for a haircut appointment I really don't want to reschedule.",
+      "nearest_kb_label": "house",
+      "nearest_kb_m": 2.62,
+      "anchor_id": "r20_town06_ins_sr#veh1"
+    },
+    {
+      "scenario": "r20_town06_ins_sr",
+      "veh": 2,
+      "town": "Town06",
+      "start": [
+        6.170839309692383,
+        1.0,
+        0.0
+      ],
+      "vias": [
+        [
+          6.170839309692383,
+          -10.0,
+          0.0
+        ],
+        [
+          6.170839309692383,
+          -25.0,
+          0.0
+        ]
+      ],
+      "goal": [
+        6.170839309692383,
+        -30.620601654052734,
+        0.0
+      ],
+      "label": "house",
+      "label_source": "utterance",
+      "utterance": "My daughter just texted she locked herself out in the rain, I need to get home.",
+      "nearest_kb_label": "house",
+      "nearest_kb_m": 5.49,
+      "anchor_id": "r20_town06_ins_sr#veh2"
+    },
+    {
+      "scenario": "r21_town07_ins_sr",
+      "veh": 0,
+      "town": "Town07",
+      "start": [
+        12.0,
+        -5.5,
+        0.0
+      ],
+      "vias": [
+        [
+          5.0,
+          -5.5,
+          0.0
+        ]
+      ],
+      "goal": [
+        -1.8360180854797363,
+        -17.12346649169922,
+        0.0
+      ],
+      "label": "parking",
+      "label_source": "nearest_kb",
+      "utterance": "Running behind on a delivery I promised would arrive by noon.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 61.83,
+      "anchor_id": "r21_town07_ins_sr#veh0"
+    },
+    {
+      "scenario": "r21_town07_ins_sr",
+      "veh": 1,
+      "town": "Town07",
+      "start": [
+        -2.0,
+        9.0,
+        0.0
+      ],
+      "vias": [
+        [
+          -2.0,
+          2.0,
+          0.0
+        ],
+        [
+          -2.0,
+          -15.5,
+          0.0
+        ]
+      ],
+      "goal": [
+        -1.8360180854797363,
+        -17.12346649169922,
+        0.0
+      ],
+      "label": "hospital",
+      "label_source": "utterance",
+      "utterance": "My neighbor's having a seizure and I'm the one driving her to the hospital.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 61.83,
+      "anchor_id": "r21_town07_ins_sr#veh1"
+    },
+    {
+      "scenario": "r21_town07_ins_sr",
+      "veh": 2,
+      "town": "Town07",
+      "start": [
+        18.0,
+        -5.5,
+        0.0
+      ],
+      "vias": [
+        [
+          12.0,
+          -5.5,
+          0.0
+        ],
+        [
+          5.0,
+          -5.5,
+          0.0
+        ]
+      ],
+      "goal": [
+        -1.8360180854797363,
+        -17.12346649169922,
+        0.0
+      ],
+      "label": "parking",
+      "label_source": "nearest_kb",
+      "utterance": "No real plans, just cruising.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 61.83,
+      "anchor_id": "r21_town07_ins_sr#veh2"
+    },
+    {
+      "scenario": "r22_town07_ins_sr",
+      "veh": 0,
+      "town": "Town07",
+      "start": [
+        4.0,
+        58.0,
+        0.0
+      ],
+      "vias": [
+        [
+          0.0,
+          59.0,
+          0.0
+        ],
+        [
+          -14.0,
+          58.0,
+          0.0
+        ]
+      ],
+      "goal": [
+        -25.0,
+        58.0,
+        0.0
+      ],
+      "label": "farm",
+      "label_source": "nearest_kb",
+      "utterance": "Just heading out for some fresh air, no destination in mind.",
+      "nearest_kb_label": "farm",
+      "nearest_kb_m": 83.67,
+      "anchor_id": "r22_town07_ins_sr#veh0"
+    },
+    {
+      "scenario": "r22_town07_ins_sr",
+      "veh": 1,
+      "town": "Town07",
+      "start": [
+        -6.0,
+        50.0,
+        0.0
+      ],
+      "vias": [
+        [
+          -7.0,
+          55.0,
+          0.0
+        ],
+        [
+          -15.0,
+          59.0,
+          0.0
+        ]
+      ],
+      "goal": [
+        -25.0,
+        59.0,
+        0.0
+      ],
+      "label": "parking",
+      "label_source": "utterance",
+      "utterance": "My tire's losing air fast and I need to reach the repair shop before it goes flat.",
+      "nearest_kb_label": "farm",
+      "nearest_kb_m": 84.13,
+      "anchor_id": "r22_town07_ins_sr#veh1"
+    },
+    {
+      "scenario": "r22_town07_ins_sr",
+      "veh": 2,
+      "town": "Town07",
+      "start": [
+        10.0,
+        58.0,
+        0.0
+      ],
+      "vias": [
+        [
+          0.0,
+          59.0,
+          0.0
+        ],
+        [
+          -14.0,
+          58.0,
+          0.0
+        ]
+      ],
+      "goal": [
+        -25.0,
+        58.0,
+        0.0
+      ],
+      "label": "school",
+      "label_source": "utterance",
+      "utterance": "Trying to make it to a parent-teacher conference on time.",
+      "nearest_kb_label": "farm",
+      "nearest_kb_m": 83.67,
+      "anchor_id": "r22_town07_ins_sr#veh2"
+    },
+    {
+      "scenario": "r23_town05_ins_oppo",
+      "veh": 0,
+      "town": "Town05",
+      "start": [
+        -159.7,
+        6.43,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        -121.51,
+        -25.89,
+        0.0
+      ],
+      "label": "bus_stop",
+      "label_source": "nearest_kb",
+      "utterance": "Running late to swap shifts with a coworker.",
+      "nearest_kb_label": "bus_stop",
+      "nearest_kb_m": 67.91,
+      "anchor_id": "r23_town05_ins_oppo#veh0"
+    },
+    {
+      "scenario": "r23_town05_ins_oppo",
+      "veh": 1,
+      "town": "Town05",
+      "start": [
+        -85.57,
+        -0.3,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        -151.47,
+        -0.3,
+        0.0
+      ],
+      "label": "cafe",
+      "label_source": "utterance",
+      "utterance": "Just heading over to a friend's for coffee, nothing urgent.",
+      "nearest_kb_label": "shopping_mall",
+      "nearest_kb_m": 49.94,
+      "anchor_id": "r23_town05_ins_oppo#veh1"
+    },
+    {
+      "scenario": "r23_town05_ins_oppo",
+      "veh": 2,
+      "town": "Town05",
+      "start": [
+        -152.7,
+        6.43,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        -121.51,
+        -25.89,
+        0.0
+      ],
+      "label": "school",
+      "label_source": "utterance",
+      "utterance": "My son's school just called, he's having a severe asthma attack and I need to get there immediately.",
+      "nearest_kb_label": "bus_stop",
+      "nearest_kb_m": 67.91,
+      "anchor_id": "r23_town05_ins_oppo#veh2"
+    },
+    {
+      "scenario": "r24_town05_ins_rl",
+      "veh": 0,
+      "town": "Town05",
+      "start": [
+        151.0,
+        -15.7,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        134.0,
+        -1.96,
+        0.0
+      ],
+      "label": "parking",
+      "label_source": "utterance",
+      "utterance": "Trying to get back before my parking meter runs out.",
+      "nearest_kb_label": "park",
+      "nearest_kb_m": 5.39,
+      "anchor_id": "r24_town05_ins_rl#veh0"
+    },
+    {
+      "scenario": "r24_town05_ins_rl",
+      "veh": 1,
+      "town": "Town05",
+      "start": [
+        155.0,
+        20.7,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        134.0,
+        -1.96,
+        0.0
+      ],
+      "label": "hospital",
+      "label_source": "utterance",
+      "utterance": "My roommate just called from the ER, I need to get there as fast as I safely can.",
+      "nearest_kb_label": "park",
+      "nearest_kb_m": 5.39,
+      "anchor_id": "r24_town05_ins_rl#veh1"
+    },
+    {
+      "scenario": "r24_town05_ins_rl",
+      "veh": 2,
+      "town": "Town05",
+      "start": [
+        151.0,
+        -25.7,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        134.0,
+        -1.96,
+        0.0
+      ],
+      "label": "park",
+      "label_source": "nearest_kb",
+      "utterance": "Just out for a relaxed evening drive.",
+      "nearest_kb_label": "park",
+      "nearest_kb_m": 5.39,
+      "anchor_id": "r24_town05_ins_rl#veh2"
+    },
+    {
+      "scenario": "r25_town05_ins_crosschange",
+      "veh": 0,
+      "town": "Town05",
+      "start": [
+        27.91,
+        -14.97,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        7.17,
+        -4.56,
+        0.0
+      ],
+      "label": "school",
+      "label_source": "utterance",
+      "utterance": "Trying to make it to a rescheduled parent-teacher conference.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 31.15,
+      "anchor_id": "r25_town05_ins_crosschange#veh0"
+    },
+    {
+      "scenario": "r25_town05_ins_crosschange",
+      "veh": 1,
+      "town": "Town05",
+      "start": [
+        24.41,
+        -15.19,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        24.47,
+        13.496,
+        0.0
+      ],
+      "label": "cafe",
+      "label_source": "utterance",
+      "utterance": "Just running out for a coffee, nothing on the clock.",
+      "nearest_kb_label": "store",
+      "nearest_kb_m": 27.83,
+      "anchor_id": "r25_town05_ins_crosschange#veh1"
+    },
+    {
+      "scenario": "r25_town05_ins_crosschange",
+      "veh": 2,
+      "town": "Town05",
+      "start": [
+        27.98,
+        -19.99,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        7.04,
+        -4.44,
+        0.0
+      ],
+      "label": "house",
+      "label_source": "utterance",
+      "utterance": "My husband just called, he's locked out and having chest pains, I need to get home immediately.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 31.32,
+      "anchor_id": "r25_town05_ins_crosschange#veh2"
+    },
+    {
+      "scenario": "r26_town05_ins_chaos",
+      "veh": 0,
+      "town": "Town05",
+      "start": [
+        -28.25,
+        -0.95,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        -68.35,
+        -0.75,
+        0.0
+      ],
+      "label": "shopping_mall",
+      "label_source": "nearest_kb",
+      "utterance": "Just running a routine errand, nothing urgent.",
+      "nearest_kb_label": "shopping_mall",
+      "nearest_kb_m": 78.06,
+      "anchor_id": "r26_town05_ins_chaos#veh0"
+    },
+    {
+      "scenario": "r26_town05_ins_chaos",
+      "veh": 1,
+      "town": "Town05",
+      "start": [
+        -54.95,
+        -17.15,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        -50.65,
+        35.04,
+        0.0
+      ],
+      "label": "restaurant",
+      "label_source": "nearest_kb",
+      "utterance": "Trying to make it to a rescheduled meeting.",
+      "nearest_kb_label": "restaurant",
+      "nearest_kb_m": 69.42,
+      "anchor_id": "r26_town05_ins_chaos#veh1"
+    },
+    {
+      "scenario": "r26_town05_ins_chaos",
+      "veh": 2,
+      "town": "Town05",
+      "start": [
+        -66.65,
+        6.04,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        -19.45,
+        6.14,
+        0.0
+      ],
+      "label": "house",
+      "label_source": "utterance",
+      "utterance": "My neighbor's house alarm went off and I need to get there to check on their kids.",
+      "nearest_kb_label": "sports_facility",
+      "nearest_kb_m": 56.93,
+      "anchor_id": "r26_town05_ins_chaos#veh2"
+    },
+    {
+      "scenario": "r26_town05_ins_chaos",
+      "veh": 3,
+      "town": "Town05",
+      "start": [
+        -43.85,
+        19.54,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        -48.05,
+        -18.35,
+        0.0
+      ],
+      "label": "park",
+      "label_source": "utterance",
+      "utterance": "Heading to the park, no particular schedule.",
+      "nearest_kb_label": "store",
+      "nearest_kb_m": 68.61,
+      "anchor_id": "r26_town05_ins_chaos#veh3"
+    },
+    {
+      "scenario": "r26_town05_ins_chaos",
+      "veh": 4,
+      "town": "Town05",
+      "start": [
+        -31.05,
+        -4.25,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        -54.15,
+        34.34,
+        0.0
+      ],
+      "label": "pharmacy",
+      "label_source": "utterance",
+      "utterance": "The pharmacy closes soon and my prescription runs out tonight.",
+      "nearest_kb_label": "restaurant",
+      "nearest_kb_m": 68.34,
+      "anchor_id": "r26_town05_ins_chaos#veh4"
+    },
+    {
+      "scenario": "r26_town05_ins_chaos",
+      "veh": 5,
+      "town": "Town05",
+      "start": [
+        -54.95,
+        -22.15,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        -18.15,
+        2.74,
+        0.0
+      ],
+      "label": "store",
+      "label_source": "utterance",
+      "utterance": "Running a bit late to pick up dry cleaning before closing.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 54.13,
+      "anchor_id": "r26_town05_ins_chaos#veh5"
+    },
+    {
+      "scenario": "r27_town06_hw_merge",
+      "veh": 0,
+      "town": "Town06",
+      "start": [
+        187.73,
+        52.2,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        283.09,
+        52.34,
+        0.0
+      ],
+      "label": "apartment",
+      "label_source": "nearest_kb",
+      "utterance": "Just a normal highway drive, nothing on a schedule.",
+      "nearest_kb_label": "apartment",
+      "nearest_kb_m": 89.59,
+      "anchor_id": "r27_town06_hw_merge#veh0"
+    },
+    {
+      "scenario": "r27_town06_hw_merge",
+      "veh": 1,
+      "town": "Town06",
+      "start": [
+        201.33,
+        72.46,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        283.09,
+        52.34,
+        0.0
+      ],
+      "label": "airport",
+      "label_source": "utterance",
+      "utterance": "I'm coming from the airport and my connecting ride is waiting, I really need to keep moving.",
+      "nearest_kb_label": "apartment",
+      "nearest_kb_m": 89.59,
+      "anchor_id": "r27_town06_hw_merge#veh1"
+    },
+    {
+      "scenario": "r27_town06_hw_merge",
+      "veh": 2,
+      "town": "Town06",
+      "start": [
+        177.73,
+        52.2,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        283.09,
+        52.34,
+        0.0
+      ],
+      "label": "apartment",
+      "label_source": "nearest_kb",
+      "utterance": "Trying to make it to a work call I'm dialing into soon.",
+      "nearest_kb_label": "apartment",
+      "nearest_kb_m": 89.59,
+      "anchor_id": "r27_town06_hw_merge#veh2"
+    },
+    {
+      "scenario": "r28_town06_hw_c",
+      "veh": 0,
+      "town": "Town06",
+      "start": [
+        138.11,
+        237.06,
+        0.0
+      ],
+      "vias": [
+        [
+          154.41,
+          237.06,
+          0.0
+        ],
+        [
+          178.11,
+          244.6,
+          0.0
+        ],
+        [
+          190.11,
+          240.83,
+          0.0
+        ],
+        [
+          203.11,
+          244.6,
+          0.0
+        ],
+        [
+          220.11,
+          248.37,
+          0.0
+        ],
+        [
+          245.11,
+          248.37,
+          0.0
+        ],
+        [
+          261.11,
+          252.16,
+          0.0
+        ]
+      ],
+      "goal": [
+        280.11,
+        252.16,
+        0.0
+      ],
+      "label": "airport",
+      "label_source": "utterance",
+      "utterance": "Trying to make it to a connecting flight with enough buffer.",
+      "nearest_kb_label": "post_office",
+      "nearest_kb_m": 108.18,
+      "anchor_id": "r28_town06_hw_c#veh0"
+    },
+    {
+      "scenario": "r28_town06_hw_c",
+      "veh": 1,
+      "town": "Town06",
+      "start": [
+        128.11,
+        240.83,
+        0.0
+      ],
+      "vias": [
+        [
+          150.41,
+          240.83,
+          0.0
+        ],
+        [
+          173.11,
+          244.6,
+          0.0
+        ],
+        [
+          191.11,
+          244.6,
+          0.0
+        ],
+        [
+          210.11,
+          252.16,
+          0.0
+        ],
+        [
+          222.11,
+          252.16,
+          0.0
+        ],
+        [
+          234.11,
+          248.37,
+          0.0
+        ],
+        [
+          259.11,
+          248.37,
+          0.0
+        ]
+      ],
+      "goal": [
+        289.11,
+        248.37,
+        0.0
+      ],
+      "label": "post_office",
+      "label_source": "nearest_kb",
+      "utterance": "Just a long highway stretch, no rush today.",
+      "nearest_kb_label": "post_office",
+      "nearest_kb_m": 101.64,
+      "anchor_id": "r28_town06_hw_c#veh1"
+    },
+    {
+      "scenario": "r28_town06_hw_c",
+      "veh": 2,
+      "town": "Town06",
+      "start": [
+        132.11,
+        244.6,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        290.11,
+        244.6,
+        0.0
+      ],
+      "label": "hospital",
+      "label_source": "utterance",
+      "utterance": "My son just called from soccer practice, he twisted his ankle badly and I need to get him to urgent care.",
+      "nearest_kb_label": "post_office",
+      "nearest_kb_m": 97.75,
+      "anchor_id": "r28_town06_hw_c#veh2"
+    },
+    {
+      "scenario": "r28_town06_hw_c",
+      "veh": 3,
+      "town": "Town06",
+      "start": [
+        126.11,
+        244.6,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        290.11,
+        244.6,
+        0.0
+      ],
+      "label": "post_office",
+      "label_source": "nearest_kb",
+      "utterance": "I'm behind schedule delivering time-sensitive lab samples.",
+      "nearest_kb_label": "post_office",
+      "nearest_kb_m": 97.75,
+      "anchor_id": "r28_town06_hw_c#veh3"
+    },
+    {
+      "scenario": "r28_town06_hw_c",
+      "veh": 4,
+      "town": "Town06",
+      "start": [
+        128.11,
+        252.16,
+        0.0
+      ],
+      "vias": [
+        [
+          150.41,
+          252.16,
+          0.0
+        ],
+        [
+          173.11,
+          248.37,
+          0.0
+        ],
+        [
+          191.11,
+          248.37,
+          0.0
+        ],
+        [
+          210.11,
+          244.37,
+          0.0
+        ],
+        [
+          222.11,
+          240.37,
+          0.0
+        ],
+        [
+          234.11,
+          240.37,
+          0.0
+        ],
+        [
+          259.11,
+          237.37,
+          0.0
+        ]
+      ],
+      "goal": [
+        289.11,
+        237.37,
+        0.0
+      ],
+      "label": "post_office",
+      "label_source": "nearest_kb",
+      "utterance": "Just driving through, no particular timeline.",
+      "nearest_kb_label": "post_office",
+      "nearest_kb_m": 91.19,
+      "anchor_id": "r28_town06_hw_c#veh4"
+    },
+    {
+      "scenario": "r28_town06_hw_c",
+      "veh": 5,
+      "town": "Town06",
+      "start": [
+        118.11,
+        248.37,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        290.11,
+        248.37,
+        0.0
+      ],
+      "label": "airport",
+      "label_source": "utterance",
+      "utterance": "Trying to make it to a hotel check-in before the desk closes.",
+      "nearest_kb_label": "post_office",
+      "nearest_kb_m": 101.35,
+      "anchor_id": "r28_town06_hw_c#veh5"
+    },
+    {
+      "scenario": "r29_town06_hw_merge",
+      "veh": 0,
+      "town": "Town06",
+      "start": [
+        200.0,
+        52.2,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        270.0,
+        52.2,
+        0.0
+      ],
+      "label": "apartment",
+      "label_source": "nearest_kb",
+      "utterance": "Running a bit behind getting to a meeting downstate.",
+      "nearest_kb_label": "apartment",
+      "nearest_kb_m": 96.94,
+      "anchor_id": "r29_town06_hw_merge#veh0"
+    },
+    {
+      "scenario": "r29_town06_hw_merge",
+      "veh": 1,
+      "town": "Town06",
+      "start": [
+        192.0,
+        52.2,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        270.0,
+        52.2,
+        0.0
+      ],
+      "label": "house",
+      "label_source": "utterance",
+      "utterance": "Just a long drive home, no rush at all.",
+      "nearest_kb_label": "apartment",
+      "nearest_kb_m": 96.94,
+      "anchor_id": "r29_town06_hw_merge#veh1"
+    },
+    {
+      "scenario": "r29_town06_hw_merge",
+      "veh": 2,
+      "town": "Town06",
+      "start": [
+        185.0,
+        52.2,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        270.0,
+        52.2,
+        0.0
+      ],
+      "label": "hospital",
+      "label_source": "utterance",
+      "utterance": "My sister's in active labor and I'm driving her to the hospital.",
+      "nearest_kb_label": "apartment",
+      "nearest_kb_m": 96.94,
+      "anchor_id": "r29_town06_hw_merge#veh2"
+    },
+    {
+      "scenario": "r29_town06_hw_merge",
+      "veh": 3,
+      "town": "Town06",
+      "start": [
+        201.33,
+        72.46,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        270.0,
+        52.2,
+        0.0
+      ],
+      "label": "apartment",
+      "label_source": "nearest_kb",
+      "utterance": "I just got called in for an emergency shift and need to get there fast.",
+      "nearest_kb_label": "apartment",
+      "nearest_kb_m": 96.94,
+      "anchor_id": "r29_town06_hw_merge#veh3"
+    },
+    {
+      "scenario": "r30_town06_hw_merge",
+      "veh": 0,
+      "town": "Town06",
+      "start": [
+        200.0,
+        52.2,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        270.0,
+        52.2,
+        0.0
+      ],
+      "label": "apartment",
+      "label_source": "nearest_kb",
+      "utterance": "Nothing pressing, just cruising on a road trip.",
+      "nearest_kb_label": "apartment",
+      "nearest_kb_m": 96.94,
+      "anchor_id": "r30_town06_hw_merge#veh0"
+    },
+    {
+      "scenario": "r30_town06_hw_merge",
+      "veh": 1,
+      "town": "Town06",
+      "start": [
+        192.0,
+        52.2,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        270.0,
+        52.2,
+        0.0
+      ],
+      "label": "train_station",
+      "label_source": "utterance",
+      "utterance": "Trying to make a connecting train that leaves soon.",
+      "nearest_kb_label": "apartment",
+      "nearest_kb_m": 96.94,
+      "anchor_id": "r30_town06_hw_merge#veh1"
+    },
+    {
+      "scenario": "r30_town06_hw_merge",
+      "veh": 2,
+      "town": "Town06",
+      "start": [
+        180.0,
+        52.2,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        270.0,
+        52.2,
+        0.0
+      ],
+      "label": "apartment",
+      "label_source": "nearest_kb",
+      "utterance": "My phone's about to die and I need to get to a rest stop to call my kid back, he sounded scared.",
+      "nearest_kb_label": "apartment",
+      "nearest_kb_m": 96.94,
+      "anchor_id": "r30_town06_hw_merge#veh2"
+    },
+    {
+      "scenario": "r30_town06_hw_merge",
+      "veh": 3,
+      "town": "Town06",
+      "start": [
+        185.0,
+        80.0,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        270.0,
+        52.2,
+        0.0
+      ],
+      "label": "hospital",
+      "label_source": "utterance",
+      "utterance": "I'm driving my grandfather to the ER, he's having trouble breathing.",
+      "nearest_kb_label": "apartment",
+      "nearest_kb_m": 96.94,
+      "anchor_id": "r30_town06_hw_merge#veh3"
+    },
+    {
+      "scenario": "r31_town05_ins_oppo",
+      "veh": 0,
+      "town": "Town05",
+      "start": [
+        0.54,
+        2.55,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "label": "parking",
+      "label_source": "nearest_kb",
+      "utterance": "My father's oxygen tank is running low and I need to get the replacement to him fast.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 11.8,
+      "anchor_id": "r31_town05_ins_oppo#veh0"
+    },
+    {
+      "scenario": "r31_town05_ins_oppo",
+      "veh": 1,
+      "town": "Town05",
+      "start": [
+        8.0,
+        2.55,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "label": "store",
+      "label_source": "utterance",
+      "utterance": "Just heading to the store, nothing pressing.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 11.8,
+      "anchor_id": "r31_town05_ins_oppo#veh1"
+    },
+    {
+      "scenario": "r31_town05_ins_oppo",
+      "veh": 2,
+      "town": "Town05",
+      "start": [
+        50.15,
+        -0.99,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        0.0,
+        -0.99,
+        0.0
+      ],
+      "label": "parking",
+      "label_source": "nearest_kb",
+      "utterance": "Running behind for a work call I really can't miss.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 38.34,
+      "anchor_id": "r31_town05_ins_oppo#veh2"
+    },
+    {
+      "scenario": "r31_town05_ins_oppo",
+      "veh": 3,
+      "town": "Town05",
+      "start": [
+        65.25,
+        -0.99,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        0.0,
+        -0.99,
+        0.0
+      ],
+      "label": "airport",
+      "label_source": "utterance",
+      "utterance": "I just found out my flight got moved up and I'm racing to make it to the airport.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 38.34,
+      "anchor_id": "r31_town05_ins_oppo#veh3"
+    },
+    {
+      "scenario": "r32_town05_ins_oppo",
+      "veh": 0,
+      "town": "Town05",
+      "start": [
+        0.54,
+        2.55,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "label": "parking",
+      "label_source": "nearest_kb",
+      "utterance": "Just taking a leisurely drive, no plans.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 11.8,
+      "anchor_id": "r32_town05_ins_oppo#veh0"
+    },
+    {
+      "scenario": "r32_town05_ins_oppo",
+      "veh": 1,
+      "town": "Town05",
+      "start": [
+        8.0,
+        2.55,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "label": "hospital",
+      "label_source": "utterance",
+      "utterance": "My wife just called, she thinks she's in labor and I need to get to her right away.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 11.8,
+      "anchor_id": "r32_town05_ins_oppo#veh1"
+    },
+    {
+      "scenario": "r32_town05_ins_oppo",
+      "veh": 2,
+      "town": "Town05",
+      "start": [
+        45.15,
+        -0.99,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        0.0,
+        -0.99,
+        0.0
+      ],
+      "label": "parking",
+      "label_source": "nearest_kb",
+      "utterance": "Trying to make an appointment I already rescheduled once.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 38.34,
+      "anchor_id": "r32_town05_ins_oppo#veh2"
+    },
+    {
+      "scenario": "r32_town05_ins_oppo",
+      "veh": 3,
+      "town": "Town05",
+      "start": [
+        52.25,
+        -0.99,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        0.0,
+        -0.99,
+        0.0
+      ],
+      "label": "park",
+      "label_source": "utterance",
+      "utterance": "Heading out to walk the dog at the park, no hurry.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 38.34,
+      "anchor_id": "r32_town05_ins_oppo#veh3"
+    },
+    {
+      "scenario": "r33_town05_ins_rl",
+      "veh": 0,
+      "town": "Town05",
+      "start": [
+        0.54,
+        2.55,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "label": "hospital",
+      "label_source": "utterance",
+      "utterance": "My baby's running a dangerously high fever and I'm rushing her to the pediatrician.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 11.8,
+      "anchor_id": "r33_town05_ins_rl#veh0"
+    },
+    {
+      "scenario": "r33_town05_ins_rl",
+      "veh": 1,
+      "town": "Town05",
+      "start": [
+        6.0,
+        2.55,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "label": "store",
+      "label_source": "utterance",
+      "utterance": "Just heading to browse the bookstore, no particular time frame.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 11.8,
+      "anchor_id": "r33_town05_ins_rl#veh1"
+    },
+    {
+      "scenario": "r33_town05_ins_rl",
+      "veh": 2,
+      "town": "Town05",
+      "start": [
+        45.15,
+        -0.99,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "label": "parking",
+      "label_source": "nearest_kb",
+      "utterance": "Trying to make it to a rescheduled dentist appointment.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 11.8,
+      "anchor_id": "r33_town05_ins_rl#veh2"
+    },
+    {
+      "scenario": "r33_town05_ins_rl",
+      "veh": 3,
+      "town": "Town05",
+      "start": [
+        54.25,
+        -0.99,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "label": "house",
+      "label_source": "utterance",
+      "utterance": "My father collapsed at home and I'm racing to get to him.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 11.8,
+      "anchor_id": "r33_town05_ins_rl#veh3"
+    },
+    {
+      "scenario": "r34_town05_ins_rl",
+      "veh": 0,
+      "town": "Town05",
+      "start": [
+        0.54,
+        2.55,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "label": "house",
+      "label_source": "utterance",
+      "utterance": "My son just texted that he's stuck and scared on the side of the highway, I need to get to him immediately.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 11.8,
+      "anchor_id": "r34_town05_ins_rl#veh0"
+    },
+    {
+      "scenario": "r34_town05_ins_rl",
+      "veh": 1,
+      "town": "Town05",
+      "start": [
+        59.25,
+        -0.99,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "label": "parking",
+      "label_source": "nearest_kb",
+      "utterance": "Just running a low-key errand, nothing urgent.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 11.8,
+      "anchor_id": "r34_town05_ins_rl#veh1"
+    },
+    {
+      "scenario": "r34_town05_ins_rl",
+      "veh": 2,
+      "town": "Town05",
+      "start": [
+        45.15,
+        -0.99,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "label": "cinema",
+      "label_source": "utterance",
+      "utterance": "Hoping to catch my kid's recital before it starts.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 11.8,
+      "anchor_id": "r34_town05_ins_rl#veh2"
+    },
+    {
+      "scenario": "r34_town05_ins_rl",
+      "veh": 3,
+      "town": "Town05",
+      "start": [
+        52.25,
+        -0.99,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "label": "hospital",
+      "label_source": "utterance",
+      "utterance": "The vet just called, my cat needs surgery today and I have to sign off in person.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 11.8,
+      "anchor_id": "r34_town05_ins_rl#veh3"
+    },
+    {
+      "scenario": "r35_town05_ins_crosschange",
+      "veh": 0,
+      "town": "Town05",
+      "start": [
+        54.25,
+        -0.99,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "label": "hospital",
+      "label_source": "utterance",
+      "utterance": "My brother's having a severe allergic reaction and I'm the closest one who can get him to the hospital.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 11.8,
+      "anchor_id": "r35_town05_ins_crosschange#veh0"
+    },
+    {
+      "scenario": "r35_town05_ins_crosschange",
+      "veh": 1,
+      "town": "Town05",
+      "start": [
+        47.25,
+        -0.99,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "label": "parking",
+      "label_source": "nearest_kb",
+      "utterance": "Just out for an evening drive.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 11.8,
+      "anchor_id": "r35_town05_ins_crosschange#veh1"
+    },
+    {
+      "scenario": "r35_town05_ins_crosschange",
+      "veh": 2,
+      "town": "Town05",
+      "start": [
+        50.15,
+        -4.0,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        0.0,
+        -4.0,
+        0.0
+      ],
+      "label": "store",
+      "label_source": "utterance",
+      "utterance": "Trying to catch the last bit of a store's closing hours.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 36.09,
+      "anchor_id": "r35_town05_ins_crosschange#veh2"
+    },
+    {
+      "scenario": "r35_town05_ins_crosschange",
+      "veh": 3,
+      "town": "Town05",
+      "start": [
+        57.25,
+        -4.0,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        0.0,
+        -4.0,
+        0.0
+      ],
+      "label": "gas_station",
+      "label_source": "utterance",
+      "utterance": "My propane tank at home is leaking and I need to get back to shut it off.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 36.09,
+      "anchor_id": "r35_town05_ins_crosschange#veh3"
+    },
+    {
+      "scenario": "r36_town05_ins_crosschange",
+      "veh": 0,
+      "town": "Town05",
+      "start": [
+        54.25,
+        -0.99,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "label": "house",
+      "label_source": "utterance",
+      "utterance": "My mother just fell getting out of the shower and I need to get to her fast.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 11.8,
+      "anchor_id": "r36_town05_ins_crosschange#veh0"
+    },
+    {
+      "scenario": "r36_town05_ins_crosschange",
+      "veh": 1,
+      "town": "Town05",
+      "start": [
+        63.0,
+        -4.0,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        0.0,
+        -4.0,
+        0.0
+      ],
+      "label": "restaurant",
+      "label_source": "utterance",
+      "utterance": "Nothing urgent, just heading to grab lunch.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 36.09,
+      "anchor_id": "r36_town05_ins_crosschange#veh1"
+    },
+    {
+      "scenario": "r36_town05_ins_crosschange",
+      "veh": 2,
+      "town": "Town05",
+      "start": [
+        50.15,
+        -4.0,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        0.0,
+        -4.0,
+        0.0
+      ],
+      "label": "store",
+      "label_source": "utterance",
+      "utterance": "Running late to pick my car up from the shop before it closes.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 36.09,
+      "anchor_id": "r36_town05_ins_crosschange#veh2"
+    },
+    {
+      "scenario": "r36_town05_ins_crosschange",
+      "veh": 3,
+      "town": "Town05",
+      "start": [
+        57.25,
+        -4.0,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        0.0,
+        -4.0,
+        0.0
+      ],
+      "label": "parking",
+      "label_source": "nearest_kb",
+      "utterance": "Just cruising, no particular destination.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 36.09,
+      "anchor_id": "r36_town05_ins_crosschange#veh3"
+    },
+    {
+      "scenario": "r37_town05_ins_chaos",
+      "veh": 0,
+      "town": "Town05",
+      "start": [
+        0.54,
+        2.55,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "label": "apartment",
+      "label_source": "utterance",
+      "utterance": "My apartment's smoke detector won't stop and I need to get back to check it isn't a real fire.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 11.8,
+      "anchor_id": "r37_town05_ins_chaos#veh0"
+    },
+    {
+      "scenario": "r37_town05_ins_chaos",
+      "veh": 1,
+      "town": "Town05",
+      "start": [
+        6.0,
+        2.55,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        24.58,
+        19.14,
+        0.0
+      ],
+      "label": "cafe",
+      "label_source": "utterance",
+      "utterance": "Just out for coffee, nothing pressing.",
+      "nearest_kb_label": "store",
+      "nearest_kb_m": 22.67,
+      "anchor_id": "r37_town05_ins_chaos#veh1"
+    },
+    {
+      "scenario": "r37_town05_ins_chaos",
+      "veh": 2,
+      "town": "Town05",
+      "start": [
+        31.59,
+        30.2,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "label": "parking",
+      "label_source": "nearest_kb",
+      "utterance": "My daughter just called crying, she's stranded after her car broke down on a dark road.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 11.8,
+      "anchor_id": "r37_town05_ins_chaos#veh2"
+    },
+    {
+      "scenario": "r37_town05_ins_chaos",
+      "veh": 3,
+      "town": "Town05",
+      "start": [
+        31.59,
+        36.2,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        0.0,
+        -0.99,
+        0.0
+      ],
+      "label": "post_office",
+      "label_source": "utterance",
+      "utterance": "Trying to catch the last available slot at the DMV today.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 38.34,
+      "anchor_id": "r37_town05_ins_chaos#veh3"
+    },
+    {
+      "scenario": "r37_town05_ins_chaos",
+      "veh": 4,
+      "town": "Town05",
+      "start": [
+        54.0,
+        -4.0,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        0.0,
+        -4.0,
+        0.0
+      ],
+      "label": "store",
+      "label_source": "utterance",
+      "utterance": "Heading to browse a bookstore, no rush.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 36.09,
+      "anchor_id": "r37_town05_ins_chaos#veh4"
+    },
+    {
+      "scenario": "r37_town05_ins_chaos",
+      "veh": 5,
+      "town": "Town05",
+      "start": [
+        60.0,
+        -0.99,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        31.59,
+        30.2,
+        0.0
+      ],
+      "label": "hospital",
+      "label_source": "utterance",
+      "utterance": "I'm behind on getting my father to his dialysis appointment.",
+      "nearest_kb_label": "store",
+      "nearest_kb_m": 9.68,
+      "anchor_id": "r37_town05_ins_chaos#veh5"
+    },
+    {
+      "scenario": "r37_town05_ins_chaos",
+      "veh": 6,
+      "town": "Town05",
+      "start": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        50.0,
+        2.55,
+        0.0
+      ],
+      "label": "store",
+      "label_source": "nearest_kb",
+      "utterance": "Running a little late to relieve the babysitter.",
+      "nearest_kb_label": "store",
+      "nearest_kb_m": 39.58,
+      "anchor_id": "r37_town05_ins_chaos#veh6"
+    },
+    {
+      "scenario": "r37_town05_ins_chaos",
+      "veh": 7,
+      "town": "Town05",
+      "start": [
+        31.39,
+        -26.53,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        24.58,
+        19.14,
+        0.0
+      ],
+      "label": "store",
+      "label_source": "nearest_kb",
+      "utterance": "Just cruising, no particular plan.",
+      "nearest_kb_label": "store",
+      "nearest_kb_m": 22.67,
+      "anchor_id": "r37_town05_ins_chaos#veh7"
+    },
+    {
+      "scenario": "r38_town05_ins_chaos",
+      "veh": 0,
+      "town": "Town05",
+      "start": [
+        0.54,
+        2.55,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        50.0,
+        2.55,
+        0.0
+      ],
+      "label": "store",
+      "label_source": "utterance",
+      "utterance": "Heading out to return a package, nothing urgent.",
+      "nearest_kb_label": "store",
+      "nearest_kb_m": 39.58,
+      "anchor_id": "r38_town05_ins_chaos#veh0"
+    },
+    {
+      "scenario": "r38_town05_ins_chaos",
+      "veh": 1,
+      "town": "Town05",
+      "start": [
+        6.0,
+        5.55,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "label": "factory",
+      "label_source": "utterance",
+      "utterance": "Trying to make it to a job orientation on time.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 11.8,
+      "anchor_id": "r38_town05_ins_chaos#veh1"
+    },
+    {
+      "scenario": "r38_town05_ins_chaos",
+      "veh": 2,
+      "town": "Town05",
+      "start": [
+        31.59,
+        30.2,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "label": "house",
+      "label_source": "utterance",
+      "utterance": "My husband just texted he's having severe chest pains and I need to get to him.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 11.8,
+      "anchor_id": "r38_town05_ins_chaos#veh2"
+    },
+    {
+      "scenario": "r38_town05_ins_chaos",
+      "veh": 3,
+      "town": "Town05",
+      "start": [
+        31.59,
+        36.2,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        0.0,
+        -0.99,
+        0.0
+      ],
+      "label": "parking",
+      "label_source": "nearest_kb",
+      "utterance": "Just out for a quiet weekend drive.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 38.34,
+      "anchor_id": "r38_town05_ins_chaos#veh3"
+    },
+    {
+      "scenario": "r38_town05_ins_chaos",
+      "veh": 4,
+      "town": "Town05",
+      "start": [
+        54.0,
+        -4.0,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        0.0,
+        -4.0,
+        0.0
+      ],
+      "label": "parking",
+      "label_source": "utterance",
+      "utterance": "The tow truck is waiting on me and I need to get there before they leave.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 36.09,
+      "anchor_id": "r38_town05_ins_chaos#veh4"
+    },
+    {
+      "scenario": "r38_town05_ins_chaos",
+      "veh": 5,
+      "town": "Town05",
+      "start": [
+        60.0,
+        -0.99,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        31.59,
+        30.2,
+        0.0
+      ],
+      "label": "airport",
+      "label_source": "utterance",
+      "utterance": "Running behind for a rescheduled flight check-in.",
+      "nearest_kb_label": "store",
+      "nearest_kb_m": 9.68,
+      "anchor_id": "r38_town05_ins_chaos#veh5"
+    },
+    {
+      "scenario": "r38_town05_ins_chaos",
+      "veh": 6,
+      "town": "Town05",
+      "start": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        0.0,
+        -4.0,
+        0.0
+      ],
+      "label": "pharmacy",
+      "label_source": "utterance",
+      "utterance": "My son's asthma inhaler is empty and the pharmacy closes in twenty minutes.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 36.09,
+      "anchor_id": "r38_town05_ins_chaos#veh6"
+    },
+    {
+      "scenario": "r38_town05_ins_chaos",
+      "veh": 7,
+      "town": "Town05",
+      "start": [
+        31.39,
+        -26.53,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        24.58,
+        19.14,
+        0.0
+      ],
+      "label": "restaurant",
+      "label_source": "utterance",
+      "utterance": "Just heading to grab lunch, no time pressure.",
+      "nearest_kb_label": "store",
+      "nearest_kb_m": 22.67,
+      "anchor_id": "r38_town05_ins_chaos#veh7"
+    },
+    {
+      "scenario": "r39_town06_hw_c",
+      "veh": 0,
+      "town": "Town06",
+      "start": [
+        145.11,
+        237.06,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        180.0,
+        237.06,
+        0.0
+      ],
+      "label": "house",
+      "label_source": "nearest_kb",
+      "utterance": "Just cruising the highway, nothing urgent.",
+      "nearest_kb_label": "house",
+      "nearest_kb_m": 17.34,
+      "anchor_id": "r39_town06_hw_c#veh0"
+    },
+    {
+      "scenario": "r39_town06_hw_c",
+      "veh": 1,
+      "town": "Town06",
+      "start": [
+        138.11,
+        237.06,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        155.0,
+        240.83,
+        0.0
+      ],
+      "label": "house",
+      "label_source": "nearest_kb",
+      "utterance": "Running behind on a delivery window.",
+      "nearest_kb_label": "house",
+      "nearest_kb_m": 18.88,
+      "anchor_id": "r39_town06_hw_c#veh1"
+    },
+    {
+      "scenario": "r39_town06_hw_c",
+      "veh": 2,
+      "town": "Town06",
+      "start": [
+        138.11,
+        240.83,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        155.0,
+        237.06,
+        0.0
+      ],
+      "label": "hospital",
+      "label_source": "utterance",
+      "utterance": "My father's having a stroke and I'm rushing him to the nearest hospital.",
+      "nearest_kb_label": "house",
+      "nearest_kb_m": 21.25,
+      "anchor_id": "r39_town06_hw_c#veh2"
+    },
+    {
+      "scenario": "r39_town06_hw_c",
+      "veh": 3,
+      "town": "Town06",
+      "start": [
+        138.11,
+        244.6,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        155.0,
+        248.37,
+        0.0
+      ],
+      "label": "house",
+      "label_source": "nearest_kb",
+      "utterance": "Heading out on a weekend road trip, no schedule.",
+      "nearest_kb_label": "house",
+      "nearest_kb_m": 15.85,
+      "anchor_id": "r39_town06_hw_c#veh3"
+    },
+    {
+      "scenario": "r39_town06_hw_c",
+      "veh": 4,
+      "town": "Town06",
+      "start": [
+        138.11,
+        248.37,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        155.0,
+        252.16,
+        0.0
+      ],
+      "label": "house",
+      "label_source": "nearest_kb",
+      "utterance": "The moving truck is waiting on me and every extra minute costs money I don't have.",
+      "nearest_kb_label": "house",
+      "nearest_kb_m": 15.53,
+      "anchor_id": "r39_town06_hw_c#veh4"
+    },
+    {
+      "scenario": "r39_town06_hw_c",
+      "veh": 5,
+      "town": "Town06",
+      "start": [
+        138.11,
+        252.16,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        160.0,
+        252.16,
+        0.0
+      ],
+      "label": "hospital",
+      "label_source": "utterance",
+      "utterance": "Trying to make a rescheduled doctor's appointment.",
+      "nearest_kb_label": "house",
+      "nearest_kb_m": 10.54,
+      "anchor_id": "r39_town06_hw_c#veh5"
+    },
+    {
+      "scenario": "r39_town06_hw_c",
+      "veh": 6,
+      "town": "Town06",
+      "start": [
+        145.0,
+        248.37,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        160.0,
+        244.6,
+        0.0
+      ],
+      "label": "house",
+      "label_source": "nearest_kb",
+      "utterance": "Just passing through, nothing pressing.",
+      "nearest_kb_label": "house",
+      "nearest_kb_m": 12.63,
+      "anchor_id": "r39_town06_hw_c#veh6"
+    },
+    {
+      "scenario": "r39_town06_hw_c",
+      "veh": 7,
+      "town": "Town06",
+      "start": [
+        145.0,
+        244.6,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        160.0,
+        244.6,
+        0.0
+      ],
+      "label": "hospital",
+      "label_source": "utterance",
+      "utterance": "My baby's running a high fever and we're heading straight to the ER.",
+      "nearest_kb_label": "house",
+      "nearest_kb_m": 12.63,
+      "anchor_id": "r39_town06_hw_c#veh7"
+    },
+    {
+      "scenario": "r40_town06_hw_c",
+      "veh": 0,
+      "town": "Town06",
+      "start": [
+        145.11,
+        237.06,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        180.0,
+        237.06,
+        0.0
+      ],
+      "label": "factory",
+      "label_source": "utterance",
+      "utterance": "Trying to make it to a job site before the crew leaves.",
+      "nearest_kb_label": "house",
+      "nearest_kb_m": 17.34,
+      "anchor_id": "r40_town06_hw_c#veh0"
+    },
+    {
+      "scenario": "r40_town06_hw_c",
+      "veh": 1,
+      "town": "Town06",
+      "start": [
+        155.11,
+        240.83,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        180.0,
+        244.6,
+        0.0
+      ],
+      "label": "house",
+      "label_source": "nearest_kb",
+      "utterance": "Just a regular commute, nothing time-sensitive.",
+      "nearest_kb_label": "house",
+      "nearest_kb_m": 11.77,
+      "anchor_id": "r40_town06_hw_c#veh1"
+    },
+    {
+      "scenario": "r40_town06_hw_c",
+      "veh": 2,
+      "town": "Town06",
+      "start": [
+        145.0,
+        240.83,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        160.0,
+        240.83,
+        0.0
+      ],
+      "label": "house",
+      "label_source": "nearest_kb",
+      "utterance": "My dog got loose and animal control says they can only hold her for another hour.",
+      "nearest_kb_label": "house",
+      "nearest_kb_m": 15.04,
+      "anchor_id": "r40_town06_hw_c#veh2"
+    },
+    {
+      "scenario": "r40_town06_hw_c",
+      "veh": 3,
+      "town": "Town06",
+      "start": [
+        138.11,
+        240.83,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        155.0,
+        248.37,
+        0.0
+      ],
+      "label": "house",
+      "label_source": "nearest_kb",
+      "utterance": "Heading out for a scenic drive, no destination.",
+      "nearest_kb_label": "house",
+      "nearest_kb_m": 15.85,
+      "anchor_id": "r40_town06_hw_c#veh3"
+    },
+    {
+      "scenario": "r40_town06_hw_c",
+      "veh": 4,
+      "town": "Town06",
+      "start": [
+        145.11,
+        244.6,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        165.0,
+        252.16,
+        0.0
+      ],
+      "label": "hospital",
+      "label_source": "utterance",
+      "utterance": "My wife's in early labor and I'm driving her to the hospital.",
+      "nearest_kb_label": "house",
+      "nearest_kb_m": 5.55,
+      "anchor_id": "r40_town06_hw_c#veh4"
+    },
+    {
+      "scenario": "r40_town06_hw_c",
+      "veh": 5,
+      "town": "Town06",
+      "start": [
+        138.11,
+        244.6,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        160.0,
+        244.6,
+        0.0
+      ],
+      "label": "train_station",
+      "label_source": "utterance",
+      "utterance": "Running late to catch a rescheduled ferry.",
+      "nearest_kb_label": "house",
+      "nearest_kb_m": 12.63,
+      "anchor_id": "r40_town06_hw_c#veh5"
+    },
+    {
+      "scenario": "r40_town06_hw_c",
+      "veh": 6,
+      "town": "Town06",
+      "start": [
+        138.11,
+        248.37,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        160.0,
+        252.16,
+        0.0
+      ],
+      "label": "house",
+      "label_source": "nearest_kb",
+      "utterance": "Just on my normal commute, no rush.",
+      "nearest_kb_label": "house",
+      "nearest_kb_m": 10.54,
+      "anchor_id": "r40_town06_hw_c#veh6"
+    },
+    {
+      "scenario": "r40_town06_hw_c",
+      "veh": 7,
+      "town": "Town06",
+      "start": [
+        138.11,
+        252.16,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        160.0,
+        252.16,
+        0.0
+      ],
+      "label": "pharmacy",
+      "label_source": "utterance",
+      "utterance": "I need to get to the pharmacy before it closes, my prescription's out.",
+      "nearest_kb_label": "house",
+      "nearest_kb_m": 10.54,
+      "anchor_id": "r40_town06_hw_c#veh7"
+    },
+    {
+      "scenario": "r41_town05_ins_oppo",
+      "veh": 0,
+      "town": "Town05",
+      "start": [
+        -159.7,
+        6.43,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        -121.51,
+        -25.89,
+        0.0
+      ],
+      "label": "bus_stop",
+      "label_source": "nearest_kb",
+      "utterance": "Just out running Saturday errands.",
+      "nearest_kb_label": "bus_stop",
+      "nearest_kb_m": 67.91,
+      "anchor_id": "r41_town05_ins_oppo#veh0"
+    },
+    {
+      "scenario": "r41_town05_ins_oppo",
+      "veh": 1,
+      "town": "Town05",
+      "start": [
+        -85.57,
+        -0.3,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        -151.47,
+        -0.3,
+        0.0
+      ],
+      "label": "factory",
+      "label_source": "utterance",
+      "utterance": "Trying to get to a job interview with a little buffer left.",
+      "nearest_kb_label": "shopping_mall",
+      "nearest_kb_m": 49.94,
+      "anchor_id": "r41_town05_ins_oppo#veh1"
+    },
+    {
+      "scenario": "r41_town05_ins_oppo",
+      "veh": 2,
+      "town": "Town05",
+      "start": [
+        -152.7,
+        6.43,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        -121.51,
+        -25.89,
+        0.0
+      ],
+      "label": "house",
+      "label_source": "utterance",
+      "utterance": "My basement sump pump failed and water's rising fast, I need to get home.",
+      "nearest_kb_label": "bus_stop",
+      "nearest_kb_m": 67.91,
+      "anchor_id": "r41_town05_ins_oppo#veh2"
+    },
+    {
+      "scenario": "r41_town05_ins_oppo",
+      "veh": 3,
+      "town": "Town05",
+      "start": [
+        -78.57,
+        -0.3,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        -151.47,
+        -0.3,
+        0.0
+      ],
+      "label": "restaurant",
+      "label_source": "utterance",
+      "utterance": "No rush, just driving to meet a friend for lunch.",
+      "nearest_kb_label": "shopping_mall",
+      "nearest_kb_m": 49.94,
+      "anchor_id": "r41_town05_ins_oppo#veh3"
+    },
+    {
+      "scenario": "r42_town05_ins_rl",
+      "veh": 0,
+      "town": "Town05",
+      "start": [
+        151.0,
+        -15.7,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        134.0,
+        -1.96,
+        0.0
+      ],
+      "label": "restaurant",
+      "label_source": "utterance",
+      "utterance": "Heading to pick up dinner, no rush.",
+      "nearest_kb_label": "park",
+      "nearest_kb_m": 5.39,
+      "anchor_id": "r42_town05_ins_rl#veh0"
+    },
+    {
+      "scenario": "r42_town05_ins_rl",
+      "veh": 1,
+      "town": "Town05",
+      "start": [
+        155.0,
+        20.7,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        134.0,
+        -1.96,
+        0.0
+      ],
+      "label": "park",
+      "label_source": "nearest_kb",
+      "utterance": "Running a few minutes behind for a haircut appointment.",
+      "nearest_kb_label": "park",
+      "nearest_kb_m": 5.39,
+      "anchor_id": "r42_town05_ins_rl#veh1"
+    },
+    {
+      "scenario": "r42_town05_ins_rl",
+      "veh": 2,
+      "town": "Town05",
+      "start": [
+        151.0,
+        -25.7,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        134.0,
+        -1.96,
+        0.0
+      ],
+      "label": "hospital",
+      "label_source": "utterance",
+      "utterance": "My elderly neighbor fell and I'm the only one who can drive her to the clinic.",
+      "nearest_kb_label": "park",
+      "nearest_kb_m": 5.39,
+      "anchor_id": "r42_town05_ins_rl#veh2"
+    },
+    {
+      "scenario": "r42_town05_ins_rl",
+      "veh": 3,
+      "town": "Town05",
+      "start": [
+        155.0,
+        27.7,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        134.0,
+        -1.96,
+        0.0
+      ],
+      "label": "park",
+      "label_source": "nearest_kb",
+      "utterance": "Just cruising around, killing time before an evening class.",
+      "nearest_kb_label": "park",
+      "nearest_kb_m": 5.39,
+      "anchor_id": "r42_town05_ins_rl#veh3"
+    },
+    {
+      "scenario": "r43_town05_ins_crosschange",
+      "veh": 0,
+      "town": "Town05",
+      "start": [
+        27.91,
+        -14.97,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        7.17,
+        -4.56,
+        0.0
+      ],
+      "label": "parking",
+      "label_source": "nearest_kb",
+      "utterance": "Heading out for a quiet drive, no plans.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 31.15,
+      "anchor_id": "r43_town05_ins_crosschange#veh0"
+    },
+    {
+      "scenario": "r43_town05_ins_crosschange",
+      "veh": 1,
+      "town": "Town05",
+      "start": [
+        24.41,
+        -15.19,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        24.47,
+        13.496,
+        0.0
+      ],
+      "label": "school",
+      "label_source": "utterance",
+      "utterance": "The daycare just called, my toddler has a fever and I need to pick her up now.",
+      "nearest_kb_label": "store",
+      "nearest_kb_m": 27.83,
+      "anchor_id": "r43_town05_ins_crosschange#veh1"
+    },
+    {
+      "scenario": "r43_town05_ins_crosschange",
+      "veh": 2,
+      "town": "Town05",
+      "start": [
+        27.98,
+        -21.99,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        7.04,
+        -4.44,
+        0.0
+      ],
+      "label": "parking",
+      "label_source": "nearest_kb",
+      "utterance": "Running a bit behind for a haircut I really don't want to lose the slot for.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 31.32,
+      "anchor_id": "r43_town05_ins_crosschange#veh2"
+    },
+    {
+      "scenario": "r43_town05_ins_crosschange",
+      "veh": 3,
+      "town": "Town05",
+      "start": [
+        24.41,
+        -22.19,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        24.47,
+        13.496,
+        0.0
+      ],
+      "label": "store",
+      "label_source": "nearest_kb",
+      "utterance": "Just going to meet a friend, nothing time-sensitive.",
+      "nearest_kb_label": "store",
+      "nearest_kb_m": 27.83,
+      "anchor_id": "r43_town05_ins_crosschange#veh3"
+    },
+    {
+      "scenario": "r44_town05_ins_chaos",
+      "veh": 0,
+      "town": "Town05",
+      "start": [
+        -28.25,
+        -0.95,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        -68.35,
+        -0.75,
+        0.0
+      ],
+      "label": "parking",
+      "label_source": "utterance",
+      "utterance": "Trying to get to the car wash before it closes for the day.",
+      "nearest_kb_label": "shopping_mall",
+      "nearest_kb_m": 78.06,
+      "anchor_id": "r44_town05_ins_chaos#veh0"
+    },
+    {
+      "scenario": "r44_town05_ins_chaos",
+      "veh": 1,
+      "town": "Town05",
+      "start": [
+        -54.95,
+        -17.15,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        -50.65,
+        35.04,
+        0.0
+      ],
+      "label": "hospital",
+      "label_source": "utterance",
+      "utterance": "I just got word my sister is in premature labor and I need to reach her.",
+      "nearest_kb_label": "restaurant",
+      "nearest_kb_m": 69.42,
+      "anchor_id": "r44_town05_ins_chaos#veh1"
+    },
+    {
+      "scenario": "r44_town05_ins_chaos",
+      "veh": 2,
+      "town": "Town05",
+      "start": [
+        -66.65,
+        6.04,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        -19.45,
+        6.14,
+        0.0
+      ],
+      "label": "sports_facility",
+      "label_source": "nearest_kb",
+      "utterance": "Just meeting a friend for a walk, no time pressure.",
+      "nearest_kb_label": "sports_facility",
+      "nearest_kb_m": 56.93,
+      "anchor_id": "r44_town05_ins_chaos#veh2"
+    },
+    {
+      "scenario": "r44_town05_ins_chaos",
+      "veh": 3,
+      "town": "Town05",
+      "start": [
+        -43.85,
+        19.54,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        -48.05,
+        -18.35,
+        0.0
+      ],
+      "label": "gas_station",
+      "label_source": "utterance",
+      "utterance": "My furnace started smoking and I need to get home to shut off the gas.",
+      "nearest_kb_label": "store",
+      "nearest_kb_m": 68.61,
+      "anchor_id": "r44_town05_ins_chaos#veh3"
+    },
+    {
+      "scenario": "r44_town05_ins_chaos",
+      "veh": 4,
+      "town": "Town05",
+      "start": [
+        -31.05,
+        -4.25,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        -54.15,
+        34.34,
+        0.0
+      ],
+      "label": "restaurant",
+      "label_source": "nearest_kb",
+      "utterance": "Heading out for a casual bike shop visit.",
+      "nearest_kb_label": "restaurant",
+      "nearest_kb_m": 68.34,
+      "anchor_id": "r44_town05_ins_chaos#veh4"
+    },
+    {
+      "scenario": "r44_town05_ins_chaos",
+      "veh": 5,
+      "town": "Town05",
+      "start": [
+        -54.95,
+        -22.15,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        -18.15,
+        2.74,
+        0.0
+      ],
+      "label": "parking",
+      "label_source": "nearest_kb",
+      "utterance": "Running late for a haircut I already rescheduled once.",
+      "nearest_kb_label": "parking",
+      "nearest_kb_m": 54.13,
+      "anchor_id": "r44_town05_ins_chaos#veh5"
+    },
+    {
+      "scenario": "r44_town05_ins_chaos",
+      "veh": 6,
+      "town": "Town05",
+      "start": [
+        -50.0,
+        -22.15,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        -75.15,
+        -0.75,
+        0.0
+      ],
+      "label": "pharmacy",
+      "label_source": "utterance",
+      "utterance": "My coworker is having a diabetic emergency and I'm the one driving him to get glucose.",
+      "nearest_kb_label": "shopping_mall",
+      "nearest_kb_m": 72.69,
+      "anchor_id": "r44_town05_ins_chaos#veh6"
+    },
+    {
+      "scenario": "r44_town05_ins_chaos",
+      "veh": 7,
+      "town": "Town05",
+      "start": [
+        -69.95,
+        2.6,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        -45.0,
+        -25.0,
+        0.0
+      ],
+      "label": "store",
+      "label_source": "nearest_kb",
+      "utterance": "Just taking a break, driving with no destination.",
+      "nearest_kb_label": "store",
+      "nearest_kb_m": 61.4,
+      "anchor_id": "r44_town05_ins_chaos#veh7"
+    },
+    {
+      "scenario": "r45_town06_hw_merge",
+      "veh": 0,
+      "town": "Town06",
+      "start": [
+        187.73,
+        52.2,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        283.09,
+        52.34,
+        0.0
+      ],
+      "label": "apartment",
+      "label_source": "nearest_kb",
+      "utterance": "Just heading out on a relaxed highway drive.",
+      "nearest_kb_label": "apartment",
+      "nearest_kb_m": 89.59,
+      "anchor_id": "r45_town06_hw_merge#veh0"
+    },
+    {
+      "scenario": "r45_town06_hw_merge",
+      "veh": 1,
+      "town": "Town06",
+      "start": [
+        201.33,
+        72.46,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        283.09,
+        52.34,
+        0.0
+      ],
+      "label": "school",
+      "label_source": "utterance",
+      "utterance": "My daughter's having a medical emergency at camp and I need to get there as fast as safely possible.",
+      "nearest_kb_label": "apartment",
+      "nearest_kb_m": 89.59,
+      "anchor_id": "r45_town06_hw_merge#veh1"
+    },
+    {
+      "scenario": "r45_town06_hw_merge",
+      "veh": 2,
+      "town": "Town06",
+      "start": [
+        177.73,
+        52.2,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        283.09,
+        52.34,
+        0.0
+      ],
+      "label": "parking",
+      "label_source": "utterance",
+      "utterance": "Running late to pick up a rental car before the counter closes.",
+      "nearest_kb_label": "apartment",
+      "nearest_kb_m": 89.59,
+      "anchor_id": "r45_town06_hw_merge#veh2"
+    },
+    {
+      "scenario": "r45_town06_hw_merge",
+      "veh": 3,
+      "town": "Town06",
+      "start": [
+        210.33,
+        58.46,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        283.09,
+        52.34,
+        0.0
+      ],
+      "label": "parking",
+      "label_source": "utterance",
+      "utterance": "I'm rushing a spare part to a stranded coworker before the tow truck gives up waiting.",
+      "nearest_kb_label": "apartment",
+      "nearest_kb_m": 89.59,
+      "anchor_id": "r45_town06_hw_merge#veh3"
+    },
+    {
+      "scenario": "r46_town06_hw_c",
+      "veh": 0,
+      "town": "Town06",
+      "start": [
+        138.11,
+        237.06,
+        0.0
+      ],
+      "vias": [
+        [
+          154.41,
+          237.06,
+          0.0
+        ],
+        [
+          178.11,
+          244.6,
+          0.0
+        ],
+        [
+          190.11,
+          240.83,
+          0.0
+        ],
+        [
+          203.11,
+          244.6,
+          0.0
+        ],
+        [
+          220.11,
+          248.37,
+          0.0
+        ],
+        [
+          245.11,
+          248.37,
+          0.0
+        ],
+        [
+          261.11,
+          252.16,
+          0.0
+        ]
+      ],
+      "goal": [
+        280.11,
+        252.16,
+        0.0
+      ],
+      "label": "post_office",
+      "label_source": "nearest_kb",
+      "utterance": "Just a long stretch of highway, nothing urgent.",
+      "nearest_kb_label": "post_office",
+      "nearest_kb_m": 108.18,
+      "anchor_id": "r46_town06_hw_c#veh0"
+    },
+    {
+      "scenario": "r46_town06_hw_c",
+      "veh": 1,
+      "town": "Town06",
+      "start": [
+        133.11,
+        240.83,
+        0.0
+      ],
+      "vias": [
+        [
+          150.41,
+          240.83,
+          0.0
+        ],
+        [
+          173.11,
+          237.06,
+          0.0
+        ]
+      ],
+      "goal": [
+        191.11,
+        237.06,
+        0.0
+      ],
+      "label": "factory",
+      "label_source": "utterance",
+      "utterance": "Trying to make it to a work shift with some buffer left.",
+      "nearest_kb_label": "house",
+      "nearest_kb_m": 25.19,
+      "anchor_id": "r46_town06_hw_c#veh1"
+    },
+    {
+      "scenario": "r46_town06_hw_c",
+      "veh": 2,
+      "town": "Town06",
+      "start": [
+        132.11,
+        244.6,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        290.11,
+        244.6,
+        0.0
+      ],
+      "label": "house",
+      "label_source": "utterance",
+      "utterance": "My mother collapsed at home and I'm the closest one who can get to her.",
+      "nearest_kb_label": "post_office",
+      "nearest_kb_m": 97.75,
+      "anchor_id": "r46_town06_hw_c#veh2"
+    },
+    {
+      "scenario": "r46_town06_hw_c",
+      "veh": 3,
+      "town": "Town06",
+      "start": [
+        126.11,
+        244.6,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        290.11,
+        244.6,
+        0.0
+      ],
+      "label": "post_office",
+      "label_source": "nearest_kb",
+      "utterance": "I'm rushing spare parts to a stranded coworker on the shoulder up ahead.",
+      "nearest_kb_label": "post_office",
+      "nearest_kb_m": 97.75,
+      "anchor_id": "r46_town06_hw_c#veh3"
+    },
+    {
+      "scenario": "r46_town06_hw_c",
+      "veh": 4,
+      "town": "Town06",
+      "start": [
+        128.11,
+        252.16,
+        0.0
+      ],
+      "vias": [
+        [
+          150.41,
+          252.16,
+          0.0
+        ],
+        [
+          173.11,
+          248.37,
+          0.0
+        ],
+        [
+          191.11,
+          248.37,
+          0.0
+        ],
+        [
+          210.11,
+          244.37,
+          0.0
+        ],
+        [
+          222.11,
+          240.37,
+          0.0
+        ],
+        [
+          234.11,
+          240.37,
+          0.0
+        ],
+        [
+          259.11,
+          237.37,
+          0.0
+        ]
+      ],
+      "goal": [
+        289.11,
+        237.37,
+        0.0
+      ],
+      "label": "post_office",
+      "label_source": "nearest_kb",
+      "utterance": "Just driving through, no particular timeline.",
+      "nearest_kb_label": "post_office",
+      "nearest_kb_m": 91.19,
+      "anchor_id": "r46_town06_hw_c#veh4"
+    },
+    {
+      "scenario": "r46_town06_hw_c",
+      "veh": 5,
+      "town": "Town06",
+      "start": [
+        118.11,
+        248.37,
+        0.0
+      ],
+      "vias": [],
+      "goal": [
+        290.11,
+        248.37,
+        0.0
+      ],
+      "label": "airport",
+      "label_source": "utterance",
+      "utterance": "Trying to make it to a hotel check-in before the desk closes.",
+      "nearest_kb_label": "post_office",
+      "nearest_kb_m": 101.35,
+      "anchor_id": "r46_town06_hw_c#veh5"
+    },
+    {
+      "scenario": "r46_town06_hw_c",
+      "veh": 6,
+      "town": "Town06",
+      "start": [
+        130.11,
+        237.06,
+        0.0
+      ],
+      "vias": [
+        [
+          154.41,
+          237.06,
+          0.0
+        ],
+        [
+          178.11,
+          244.6,
+          0.0
+        ],
+        [
+          190.11,
+          240.83,
+          0.0
+        ],
+        [
+          203.11,
+          244.6,
+          0.0
+        ],
+        [
+          220.11,
+          248.37,
+          0.0
+        ],
+        [
+          245.11,
+          248.37,
+          0.0
+        ],
+        [
+          261.11,
+          252.16,
+          0.0
+        ]
+      ],
+      "goal": [
+        280.11,
+        252.16,
+        0.0
+      ],
+      "label": "school",
+      "label_source": "utterance",
+      "utterance": "My son's school just called, he's having a severe allergic reaction and I need to get there.",
+      "nearest_kb_label": "post_office",
+      "nearest_kb_m": 108.18,
+      "anchor_id": "r46_town06_hw_c#veh6"
+    }
+  ]
+}

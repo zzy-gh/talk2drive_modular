@@ -1,0 +1,69 @@
+# talk2drive_modular configuration -- EXAMPLE
+#
+#   cp config.example.yaml config.yaml
+#
+# config.yaml is git-ignored: it holds your machine's paths, not the
+# project's. This file is the tracked template -- keep the two in step.
+#
+# YAML, not TOML: `section:` then two-space-indented `key: value`.
+#
+# Paths that differ from machine to machine. Relative paths resolve from this
+# file's directory, so the defaults keep working when the whole folder moves.
+# Leave a value empty if you do not use that backend or tool.
+#
+# Command-line flags override anything here.
+# `python -m runtime.cli --paths` shows what resolved, and what is missing.
+
+paths:
+  # Landmark knowledge base: the building annotations the LLM picks
+  # destinations from. Ships with the repo.
+  kb_csv: data/special_buildings_en.csv
+
+  # Interpreter for core/llm_worker.py -- only set this if the LLM parsing
+  # step (google-genai) should run as its own subprocess instead of
+  # in-process. Useful with --backend leaderboard, whose process has to run
+  # in the policy's own (possibly old) conda env. Leave empty to keep
+  # GeminiCommandParser in-process, as before.
+  llm_python: ""
+
+
+# The covlm/ subpackage only — the CoVLM / InterDrive benchmark. Nothing in
+# core/, backends/ or runtime/ reads this section. Leave it empty if you do not
+# work on that benchmark; the rest of the package runs without it.
+covlm:
+  # CARLA's OpenDRIVE road-network files — one .xodr per town (Town01.xodr,
+  # Town02.xodr, ...). They describe lanes, junctions and road geometry, which
+  # is everything the route planner needs.
+  #
+  # covlm/verify_nav_routes.py builds carla.Map straight from the .xodr, so it
+  # can trace and compare routes with NO CARLA server running.
+  #
+  # Inside a CARLA install: <CARLA>/CarlaUE4/Content/Carla/Maps/OpenDrive
+  opendrive_dir: ""
+
+  # CoLMDriver scenario data, used only by covlm/build_route_anchors.py to
+  # regenerate covlm/data/route_anchors.json. The generated file is already in
+  # the repo, so these are only needed if you rebuild it.
+  interdrive_dir: ""
+  driver_intents: ""
+
+# For --backend simlingo, which drives SimLingo in a subprocess.
+simlingo:
+  # Must contain simlingo_inference/ — that ships with the CoVLM fork, not
+  # with the official SimLingo release under "AD software/".
+  repo: ""
+
+  # SimLingo's own conda environment, not the one running talk2drive. Keeping
+  # them apart is the whole point of using a subprocess.
+  python: ""
+
+  checkpoint: ""
+
+# For --backend leaderboard: any CARLA-leaderboard agent (TCP, Bench2Drive, ...).
+leaderboard:
+  # The .py that defines get_entry_point(). Its repo's import roots are derived
+  # from this path, so PYTHONPATH needs no setting.
+  agent_module: AD software/TCP/leaderboard/team_code/tcp_agent.py
+
+  # Whatever that agent's setup() expects — usually a checkpoint or a config.py.
+  agent_config: ""

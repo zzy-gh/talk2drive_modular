@@ -1,0 +1,5301 @@
+{
+  "meta": {
+    "anchors": "/home/dellpro2/Zhiyuan/talk2drive_modular/covlm/data/route_anchors.json",
+    "templates": "/home/dellpro2/Zhiyuan/covlm-agent-main/CoLMDriver-main/scripts/scenario_gen",
+    "usable_types": [
+      "bakery",
+      "beach",
+      "bus_stop",
+      "cafe",
+      "church",
+      "cinema",
+      "factory",
+      "farm",
+      "gas_station",
+      "hospital",
+      "hotel",
+      "house",
+      "lake",
+      "library",
+      "museum",
+      "park",
+      "parking",
+      "restaurant",
+      "river",
+      "shopping_mall",
+      "sports_facility",
+      "store",
+      "supermarket",
+      "theater",
+      "train_station",
+      "university",
+      "warehouse",
+      "woods"
+    ],
+    "kept_original": 59,
+    "vehicles": 175
+  },
+  "missions": {
+    "r1_town05_ins_c#veh0": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r1_town05_ins_c",
+      "veh": 0,
+      "town": "Town05",
+      "label": "house",
+      "label_how": "kept",
+      "tier": "high",
+      "utterance": "My daughter is having a severe allergic reaction at home. I need to get to her as fast as possible.",
+      "kept_original": true,
+      "original_utterance": "My daughter is having a severe allergic reaction at home. I need to get to her as fast as possible.",
+      "goal": [
+        30.0,
+        -190.0,
+        0.0
+      ],
+      "start": [
+        -20.0,
+        -186.48,
+        0.0
+      ],
+      "vias": [
+        [
+          0.0,
+          -190.0,
+          0.0
+        ]
+      ]
+    },
+    "r1_town05_ins_c#veh1": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r1_town05_ins_c",
+      "veh": 1,
+      "town": "Town05",
+      "label": "supermarket",
+      "label_how": "kept",
+      "tier": "low",
+      "utterance": "No rush at all, I'm just heading out to grab some groceries.",
+      "kept_original": true,
+      "original_utterance": "No rush at all, I'm just heading out to grab some groceries.",
+      "goal": [
+        25.0,
+        -190.0,
+        0.0
+      ],
+      "start": [
+        -23.0,
+        -190.0,
+        0.0
+      ],
+      "vias": [
+        [
+          0.0,
+          -190.0,
+          0.0
+        ]
+      ]
+    },
+    "r2_town05_ins_c#veh0": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r2_town05_ins_c",
+      "veh": 0,
+      "town": "Town05",
+      "label": "bakery",
+      "label_how": "town",
+      "tier": "low",
+      "utterance": "Picking something up at the bakery, no rush.",
+      "kept_original": false,
+      "original_utterance": "I'm on my way to pick up my kid from school. Nothing time-critical.",
+      "goal": [
+        27.0,
+        -120.0,
+        0.0
+      ],
+      "start": [
+        27.0,
+        -170.0,
+        0.0
+      ],
+      "vias": []
+    },
+    "r2_town05_ins_c#veh1": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r2_town05_ins_c",
+      "veh": 1,
+      "town": "Town05",
+      "label": "bus_stop",
+      "label_how": "town",
+      "tier": "med",
+      "utterance": "My friend's bus leaves in a few minutes and I promised I'd get her to the stop.",
+      "kept_original": false,
+      "original_utterance": "I'm about to miss my flight boarding, I really need to get moving.",
+      "goal": [
+        27.0,
+        -110.0,
+        0.0
+      ],
+      "start": [
+        33.0,
+        -163.0,
+        0.0
+      ],
+      "vias": [
+        [
+          27.0,
+          -130.0,
+          0.0
+        ]
+      ]
+    },
+    "r3_town05_ins_c#veh0": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r3_town05_ins_c",
+      "veh": 0,
+      "town": "Town05",
+      "label": "supermarket",
+      "label_how": "kept",
+      "tier": "low",
+      "utterance": "Just a normal grocery run, no particular hurry.",
+      "kept_original": true,
+      "original_utterance": "Just a normal grocery run, no particular hurry.",
+      "goal": [
+        -120.69560241699219,
+        -88.05902862548828,
+        0.0
+      ],
+      "start": [
+        -160.4835662841797,
+        -88.11746215820312,
+        0.0
+      ],
+      "vias": []
+    },
+    "r3_town05_ins_c#veh1": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r3_town05_ins_c",
+      "veh": 1,
+      "town": "Town05",
+      "label": "bakery",
+      "label_how": "town",
+      "tier": "high",
+      "utterance": "It's my daughter's wedding cake at the bakery and the ceremony starts in half an hour.",
+      "kept_original": false,
+      "original_utterance": "My elderly father just called, he's fallen and can't get up. I need to reach him fast.",
+      "goal": [
+        -120.69560241699219,
+        -88.05902862548828,
+        0.0
+      ],
+      "start": [
+        -155.4835662841797,
+        -83.11746215820312,
+        0.0
+      ],
+      "vias": []
+    },
+    "r4_town06_ins_c#veh0": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r4_town06_ins_c",
+      "veh": 0,
+      "town": "Town06",
+      "label": "house",
+      "label_how": "kept",
+      "tier": "low",
+      "utterance": "Heading home after work, in no particular rush.",
+      "kept_original": true,
+      "original_utterance": "Heading home after work, in no particular rush.",
+      "goal": [
+        40.0,
+        -15.0,
+        0.0
+      ],
+      "start": [
+        60.0,
+        -15.0,
+        0.0
+      ],
+      "vias": [
+        [
+          50.0,
+          -15.0,
+          0.0
+        ],
+        [
+          45.0,
+          -15.0,
+          0.0
+        ]
+      ]
+    },
+    "r4_town06_ins_c#veh1": {
+      "stops": [
+        {
+          "label": "factory",
+          "point": [
+            50.0,
+            -20.0,
+            0.0
+          ]
+        }
+      ],
+      "shape_vias": [],
+      "via_mode": "stop",
+      "scenario": "r4_town06_ins_c",
+      "veh": 1,
+      "town": "Town06",
+      "label": "hospital",
+      "label_how": "kept",
+      "tier": "high",
+      "utterance": "Pull in at the factory on the way, then I'm rushing my dog to the emergency vet, he's having trouble breathing.",
+      "kept_original": true,
+      "original_utterance": "I'm rushing my dog to the emergency vet, he's having trouble breathing.",
+      "goal": [
+        40.0,
+        -15.0,
+        0.0
+      ],
+      "start": [
+        60.0,
+        -20.0,
+        0.0
+      ],
+      "vias": [
+        [
+          50.0,
+          -20.0,
+          0.0
+        ],
+        [
+          45.0,
+          -15.0,
+          0.0
+        ]
+      ]
+    },
+    "r5_town06_ins_c#veh0": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r5_town06_ins_c",
+      "veh": 0,
+      "town": "Town06",
+      "label": "factory",
+      "label_how": "town",
+      "tier": "low",
+      "utterance": "On my way to the factory, normal shift, no rush.",
+      "kept_original": false,
+      "original_utterance": "Just cruising back from the gym, nothing pressing.",
+      "goal": [
+        150.0,
+        -16.3,
+        0.0
+      ],
+      "start": [
+        170.0,
+        -16.3,
+        0.0
+      ],
+      "vias": [
+        [
+          160.0,
+          -16.3,
+          0.0
+        ],
+        [
+          155.0,
+          -16.3,
+          0.0
+        ]
+      ]
+    },
+    "r5_town06_ins_c#veh1": {
+      "stops": [
+        {
+          "label": "farm",
+          "point": [
+            160.0,
+            -20.0,
+            0.0
+          ]
+        }
+      ],
+      "shape_vias": [],
+      "via_mode": "stop",
+      "scenario": "r5_town06_ins_c",
+      "veh": 1,
+      "town": "Town06",
+      "label": "parking",
+      "label_how": "kept",
+      "tier": "med",
+      "utterance": "Stop at the farm on the way, then I have a job interview starting in ten minutes and I still need to find parking.",
+      "kept_original": true,
+      "original_utterance": "I have a job interview starting in ten minutes and I still need to find parking.",
+      "goal": [
+        150.0,
+        -16.3,
+        0.0
+      ],
+      "start": [
+        170.0,
+        -20.0,
+        0.0
+      ],
+      "vias": [
+        [
+          160.0,
+          -20.0,
+          0.0
+        ],
+        [
+          155.0,
+          -16.3,
+          0.0
+        ]
+      ]
+    },
+    "r6_town07_ins_c#veh0": {
+      "stops": [
+        {
+          "label": "bus_stop",
+          "point": [
+            -3.2,
+            -3.5,
+            0.0
+          ]
+        }
+      ],
+      "shape_vias": [],
+      "via_mode": "stop",
+      "scenario": "r6_town07_ins_c",
+      "veh": 0,
+      "town": "Town07",
+      "label": "house",
+      "label_how": "kept",
+      "tier": "low",
+      "utterance": "Swing by the bus stop on the way, then on my way to a friend's place, no rush at all.",
+      "kept_original": true,
+      "original_utterance": "On my way to a friend's place, no rush at all.",
+      "goal": [
+        -15.348737716674806,
+        -3.197587728500366,
+        0.0
+      ],
+      "start": [
+        15.0,
+        -3.5,
+        0.0
+      ],
+      "vias": [
+        [
+          10.0,
+          -3.5,
+          0.0
+        ],
+        [
+          -3.2,
+          -3.5,
+          0.0
+        ]
+      ]
+    },
+    "r6_town07_ins_c#veh1": {
+      "stops": [
+        {
+          "label": "farm",
+          "point": [
+            10.0,
+            -5.5,
+            0.0
+          ]
+        },
+        {
+          "label": "bus_stop",
+          "point": [
+            -3.2,
+            -3.5,
+            0.0
+          ]
+        }
+      ],
+      "shape_vias": [],
+      "via_mode": "stop",
+      "scenario": "r6_town07_ins_c",
+      "veh": 1,
+      "town": "Town07",
+      "label": "hospital",
+      "label_how": "kept",
+      "tier": "high",
+      "utterance": "Pull in at the farm and then the bus stop on the way, then I'm delivering an organ transplant cooler to the hospital. Every minute counts.",
+      "kept_original": true,
+      "original_utterance": "I'm delivering an organ transplant cooler to the hospital. Every minute counts.",
+      "goal": [
+        -15.348737716674806,
+        -3.197587728500366,
+        0.0
+      ],
+      "start": [
+        15.0,
+        -5.5,
+        0.0
+      ],
+      "vias": [
+        [
+          10.0,
+          -5.5,
+          0.0
+        ],
+        [
+          -3.2,
+          -3.5,
+          0.0
+        ]
+      ]
+    },
+    "r7_town05_ins_ss#veh0": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r7_town05_ins_ss",
+      "veh": 0,
+      "town": "Town05",
+      "label": "bakery",
+      "label_how": "town",
+      "tier": "low",
+      "utterance": "Picking something up at the bakery, no rush.",
+      "kept_original": false,
+      "original_utterance": "Just running a quick errand, no particular hurry.",
+      "goal": [
+        26.66,
+        -75.0,
+        0.0
+      ],
+      "start": [
+        26.66,
+        -125.0,
+        0.0
+      ],
+      "vias": [
+        [
+          26.66,
+          -100.0,
+          0.0
+        ]
+      ]
+    },
+    "r7_town05_ins_ss#veh1": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r7_town05_ins_ss",
+      "veh": 1,
+      "town": "Town05",
+      "label": "hospital",
+      "label_how": "kept",
+      "tier": "high",
+      "utterance": "I twisted my ankle badly on a hike and need to get to urgent care.",
+      "kept_original": true,
+      "original_utterance": "I twisted my ankle badly on a hike and need to get to urgent care.",
+      "goal": [
+        5.97972297668457,
+        -91.39784240722656,
+        0.0
+      ],
+      "start": [
+        60.0,
+        -91.19309997558594,
+        0.0
+      ],
+      "vias": [
+        [
+          47.0,
+          -91.19309997558594,
+          0.0
+        ]
+      ]
+    },
+    "r8_town05_ins_ss#veh0": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r8_town05_ins_ss",
+      "veh": 0,
+      "town": "Town05",
+      "label": "factory",
+      "label_how": "template_after_llm_feedback",
+      "tier": "med",
+      "utterance": "My shift at the factory starts soon and I'm behind.",
+      "kept_original": false,
+      "original_utterance": "I'm a few minutes late clocking in for my shift.",
+      "goal": [
+        -90.89604949951172,
+        -88.0,
+        0.0
+      ],
+      "start": [
+        -148.4835662841797,
+        -88.11746215820312,
+        0.0
+      ],
+      "vias": [
+        [
+          -120.69560241699219,
+          -88.05902862548828,
+          0.0
+        ]
+      ]
+    },
+    "r8_town05_ins_ss#veh1": {
+      "stops": [
+        {
+          "label": "bakery",
+          "point": [
+            -124.71266174316406,
+            -60.05902862548828,
+            0.0
+          ]
+        }
+      ],
+      "shape_vias": [],
+      "via_mode": "stop",
+      "scenario": "r8_town05_ins_ss",
+      "veh": 1,
+      "town": "Town05",
+      "label": "hospital",
+      "label_how": "kept",
+      "tier": "high",
+      "utterance": "Pull in at the bakery on the way, then my wife just went into labor, I need to get her to the hospital now.",
+      "kept_original": true,
+      "original_utterance": "My wife just went into labor, I need to get her to the hospital now.",
+      "goal": [
+        -124.45105743408203,
+        -107.29784393310547,
+        0.0
+      ],
+      "start": [
+        -124.71266174316406,
+        -63.11746215820312,
+        0.0
+      ],
+      "vias": [
+        [
+          -124.71266174316406,
+          -60.05902862548828,
+          0.0
+        ]
+      ]
+    },
+    "r9_town06_ins_ss#veh0": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r9_town06_ins_ss",
+      "veh": 0,
+      "town": "Town06",
+      "label": "factory",
+      "label_how": "town",
+      "tier": "low",
+      "utterance": "On my way to the factory, normal shift, no rush.",
+      "kept_original": false,
+      "original_utterance": "Heading out for a slow Sunday drive, no rush.",
+      "goal": [
+        6.0,
+        -15.0,
+        0.0
+      ],
+      "start": [
+        6.0,
+        0.0,
+        0.0
+      ],
+      "vias": [
+        [
+          6.0,
+          -5.0,
+          0.0
+        ],
+        [
+          6.0,
+          -10.0,
+          0.0
+        ]
+      ]
+    },
+    "r9_town06_ins_ss#veh1": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r9_town06_ins_ss",
+      "veh": 1,
+      "town": "Town06",
+      "label": "farm",
+      "label_how": "town",
+      "tier": "high",
+      "utterance": "A calving's gone wrong at the farm and the vet won't start until I'm there to sign.",
+      "kept_original": false,
+      "original_utterance": "Rushing insulin over to my dad, he's almost out.",
+      "goal": [
+        -2.0,
+        -12.5,
+        0.0
+      ],
+      "start": [
+        18.0,
+        -12.5,
+        0.0
+      ],
+      "vias": [
+        [
+          10.0,
+          -12.5,
+          0.0
+        ],
+        [
+          5.0,
+          -12.5,
+          0.0
+        ]
+      ]
+    },
+    "r9_town06_ins_ss#veh2": {
+      "stops": [
+        {
+          "label": "house",
+          "point": [
+            6.0,
+            -5.0,
+            0.0
+          ]
+        }
+      ],
+      "shape_vias": [],
+      "via_mode": "stop",
+      "scenario": "r9_town06_ins_ss",
+      "veh": 2,
+      "town": "Town06",
+      "label": "factory",
+      "label_how": "town",
+      "tier": "med",
+      "utterance": "Stop at the house on the way, then my shift at the factory starts soon and I'm behind.",
+      "kept_original": false,
+      "original_utterance": "Trying to make it to my dentist appointment on time.",
+      "goal": [
+        6.0,
+        -15.0,
+        0.0
+      ],
+      "start": [
+        6.0,
+        6.0,
+        0.0
+      ],
+      "vias": [
+        [
+          6.0,
+          -5.0,
+          0.0
+        ],
+        [
+          6.0,
+          -10.0,
+          0.0
+        ]
+      ]
+    },
+    "r10_town07_ins_ss#veh0": {
+      "stops": [
+        {
+          "label": "lake",
+          "point": [
+            5.0,
+            -3.5,
+            0.0
+          ]
+        }
+      ],
+      "shape_vias": [],
+      "via_mode": "stop",
+      "scenario": "r10_town07_ins_ss",
+      "veh": 0,
+      "town": "Town07",
+      "label": "house",
+      "label_how": "kept",
+      "tier": "low",
+      "utterance": "Swing by the lake on the way, then just heading home, nothing pressing.",
+      "kept_original": true,
+      "original_utterance": "Just heading home, nothing pressing.",
+      "goal": [
+        -13.223197937011719,
+        -3.2129967212677,
+        0.0
+      ],
+      "start": [
+        7.0,
+        -3.5,
+        0.0
+      ],
+      "vias": [
+        [
+          5.0,
+          -3.5,
+          0.0
+        ]
+      ]
+    },
+    "r10_town07_ins_ss#veh1": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r10_town07_ins_ss",
+      "veh": 1,
+      "town": "Town07",
+      "label": "bus_stop",
+      "label_how": "town",
+      "tier": "med",
+      "utterance": "My friend's bus leaves in a few minutes and I promised I'd get her to the stop.",
+      "kept_original": false,
+      "original_utterance": "I'm running behind for a work meeting downtown.",
+      "goal": [
+        -1.8360180854797363,
+        -17.12346649169922,
+        0.0
+      ],
+      "start": [
+        -2.0,
+        9.0,
+        0.0
+      ],
+      "vias": [
+        [
+          -2.0,
+          2.0,
+          0.0
+        ],
+        [
+          -2.0,
+          -15.5,
+          0.0
+        ]
+      ]
+    },
+    "r10_town07_ins_ss#veh2": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r10_town07_ins_ss",
+      "veh": 2,
+      "town": "Town07",
+      "label": "farm",
+      "label_how": "town",
+      "tier": "med",
+      "utterance": "I'm expected at the farm for the afternoon and running late.",
+      "kept_original": false,
+      "original_utterance": "Bringing home medication for my mother, the pharmacy closes soon and she really needs this today.",
+      "goal": [
+        -6.0,
+        9.0,
+        0.0
+      ],
+      "start": [
+        13.0,
+        -3.5,
+        0.0
+      ],
+      "vias": [
+        [
+          10.0,
+          -3.5,
+          0.0
+        ]
+      ]
+    },
+    "r11_town05_ins_sl#veh0": {
+      "stops": [
+        {
+          "label": "cafe",
+          "point": [
+            30.0,
+            -85.0,
+            0.0
+          ]
+        }
+      ],
+      "shape_vias": [],
+      "via_mode": "stop",
+      "scenario": "r11_town05_ins_sl",
+      "veh": 0,
+      "town": "Town05",
+      "label": "bakery",
+      "label_how": "town",
+      "tier": "med",
+      "utterance": "Stop at the cafe on the way, then the bakery holds my order only until closing and I'm cutting it close.",
+      "kept_original": false,
+      "original_utterance": "I've got a dentist appointment in fifteen minutes, hoping to get there without much delay.",
+      "goal": [
+        60.0,
+        -80.0,
+        0.0
+      ],
+      "start": [
+        26.66,
+        -125.0,
+        0.0
+      ],
+      "vias": [
+        [
+          30.0,
+          -85.0,
+          0.0
+        ]
+      ]
+    },
+    "r11_town05_ins_sl#veh1": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r11_town05_ins_sl",
+      "veh": 1,
+      "town": "Town05",
+      "label": "bus_stop",
+      "label_how": "town",
+      "tier": "low",
+      "utterance": "Just dropping a friend at the bus stop, no rush at all.",
+      "kept_original": false,
+      "original_utterance": "Just out for a casual afternoon drive.",
+      "goal": [
+        5.54352855682373,
+        -91.39372253417969,
+        0.0
+      ],
+      "start": [
+        60.0,
+        -91.39372253417969,
+        0.0
+      ],
+      "vias": [
+        [
+          43.0,
+          -91.39372253417969,
+          0.0
+        ]
+      ]
+    },
+    "r11_town05_ins_sl#veh2": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r11_town05_ins_sl",
+      "veh": 2,
+      "town": "Town05",
+      "label": "bus_stop",
+      "label_how": "town",
+      "tier": "high",
+      "utterance": "My mother's stranded at the bus stop in the cold and she's not well, I need to reach her now.",
+      "kept_original": false,
+      "original_utterance": "My basement is flooding and the plumber's waiting on me to let him in.",
+      "goal": [
+        5.54352855682373,
+        -91.39372253417969,
+        0.0
+      ],
+      "start": [
+        66.0,
+        -91.39372253417969,
+        0.0
+      ],
+      "vias": [
+        [
+          43.0,
+          -91.39372253417969,
+          0.0
+        ]
+      ]
+    },
+    "r12_town06_ins_sl#veh0": {
+      "stops": [
+        {
+          "label": "farm",
+          "point": [
+            144.0,
+            -3.0,
+            0.0
+          ]
+        }
+      ],
+      "shape_vias": [],
+      "via_mode": "stop",
+      "scenario": "r12_town06_ins_sl",
+      "veh": 0,
+      "town": "Town06",
+      "label": "library",
+      "label_how": "kept",
+      "tier": "low",
+      "utterance": "Swing by the farm on the way, then heading to return a library book, no deadline pressure.",
+      "kept_original": true,
+      "original_utterance": "Heading to return a library book, no deadline pressure.",
+      "goal": [
+        130.0,
+        -16.3,
+        0.0
+      ],
+      "start": [
+        144.0,
+        5.0,
+        0.0
+      ],
+      "vias": [
+        [
+          144.0,
+          -3.0,
+          0.0
+        ]
+      ]
+    },
+    "r12_town06_ins_sl#veh1": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r12_town06_ins_sl",
+      "veh": 1,
+      "town": "Town06",
+      "label": "factory",
+      "label_how": "town",
+      "tier": "high",
+      "utterance": "A line worker at the factory got his arm caught and I'm the one with the key to the safety cage.",
+      "kept_original": false,
+      "original_utterance": "My son just texted me he's having a panic attack at school, I need to get to him.",
+      "goal": [
+        125.0,
+        -16.3,
+        0.0
+      ],
+      "start": [
+        160.0,
+        -16.3,
+        0.0
+      ],
+      "vias": [
+        [
+          150.0,
+          -16.3,
+          0.0
+        ]
+      ]
+    },
+    "r12_town06_ins_sl#veh2": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r12_town06_ins_sl",
+      "veh": 2,
+      "town": "Town06",
+      "label": "cinema",
+      "label_how": "kept",
+      "tier": "med",
+      "utterance": "Trying to catch the start of a movie showing.",
+      "kept_original": true,
+      "original_utterance": "Trying to catch the start of a movie showing.",
+      "goal": [
+        125.0,
+        -16.3,
+        0.0
+      ],
+      "start": [
+        167.0,
+        -16.3,
+        0.0
+      ],
+      "vias": [
+        [
+          150.0,
+          -16.3,
+          0.0
+        ]
+      ]
+    },
+    "r13_town05_ins_sl#veh0": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r13_town05_ins_sl",
+      "veh": 0,
+      "town": "Town05",
+      "label": "bakery",
+      "label_how": "town",
+      "tier": "med",
+      "utterance": "The bakery holds my order only until closing and I'm cutting it close.",
+      "kept_original": false,
+      "original_utterance": "Running a bit late to relieve the babysitter.",
+      "goal": [
+        -90.89604949951172,
+        -88.0,
+        0.0
+      ],
+      "start": [
+        -148.4835662841797,
+        -88.11746215820312,
+        0.0
+      ],
+      "vias": [
+        [
+          -120.69560241699219,
+          -88.05902862548828,
+          0.0
+        ]
+      ]
+    },
+    "r13_town05_ins_sl#veh1": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r13_town05_ins_sl",
+      "veh": 1,
+      "town": "Town05",
+      "label": "gas_station",
+      "label_how": "template_after_llm_feedback",
+      "tier": "high",
+      "utterance": "I'm running on fumes, the light's been on for miles and I'll stall out if I don't reach that gas station.",
+      "kept_original": false,
+      "original_utterance": "There's been a gas leak reported near my elderly neighbor's house and I need to check on her.",
+      "goal": [
+        -148.4835662841797,
+        -92.0,
+        0.0
+      ],
+      "start": [
+        -125.4835662841797,
+        -68.11746215820312,
+        0.0
+      ],
+      "vias": []
+    },
+    "r14_town07_ins_sl#veh0": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r14_town07_ins_sl",
+      "veh": 0,
+      "town": "Town07",
+      "label": "house",
+      "label_how": "kept",
+      "tier": "low",
+      "utterance": "Just cruising home, nothing urgent.",
+      "kept_original": true,
+      "original_utterance": "Just cruising home, nothing urgent.",
+      "goal": [
+        -13.223197937011719,
+        -3.2129967212677,
+        0.0
+      ],
+      "start": [
+        12.0,
+        -3.4,
+        0.0
+      ],
+      "vias": [
+        [
+          6.0,
+          -3.4,
+          0.0
+        ]
+      ]
+    },
+    "r14_town07_ins_sl#veh1": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r14_town07_ins_sl",
+      "veh": 1,
+      "town": "Town07",
+      "label": "hospital",
+      "label_how": "kept",
+      "tier": "high",
+      "utterance": "My coworker collapsed and I'm driving him to the ER.",
+      "kept_original": true,
+      "original_utterance": "My coworker collapsed and I'm driving him to the ER.",
+      "goal": [
+        12.0,
+        1.5,
+        0.0
+      ],
+      "start": [
+        -4.0,
+        -16.0,
+        0.0
+      ],
+      "vias": [
+        [
+          -4.0,
+          -7.0,
+          0.0
+        ]
+      ]
+    },
+    "r14_town07_ins_sl#veh2": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r14_town07_ins_sl",
+      "veh": 2,
+      "town": "Town07",
+      "label": "bus_stop",
+      "label_how": "town",
+      "tier": "med",
+      "utterance": "My friend's bus leaves in a few minutes and I promised I'd get her to the stop.",
+      "kept_original": false,
+      "original_utterance": "Trying to get to a client meeting that starts soon.",
+      "goal": [
+        12.0,
+        1.5,
+        0.0
+      ],
+      "start": [
+        -4.0,
+        -22.0,
+        0.0
+      ],
+      "vias": [
+        [
+          -4.0,
+          -12.0,
+          0.0
+        ],
+        [
+          -4.0,
+          -7.0,
+          0.0
+        ]
+      ]
+    },
+    "r15_town07_ins_sl#veh0": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r15_town07_ins_sl",
+      "veh": 0,
+      "town": "Town07",
+      "label": "bus_stop",
+      "label_how": "town",
+      "tier": "low",
+      "utterance": "Just dropping a friend at the bus stop, no rush at all.",
+      "kept_original": false,
+      "original_utterance": "No particular plans, just running weekend errands.",
+      "goal": [
+        -19.85127067565918,
+        57.602535247802734,
+        0.0
+      ],
+      "start": [
+        10.0,
+        58.0,
+        0.0
+      ],
+      "vias": [
+        [
+          5.0,
+          58.0,
+          0.0
+        ],
+        [
+          -15.0,
+          58.0,
+          0.0
+        ]
+      ]
+    },
+    "r15_town07_ins_sl#veh1": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r15_town07_ins_sl",
+      "veh": 1,
+      "town": "Town07",
+      "label": "hospital",
+      "label_how": "kept",
+      "tier": "high",
+      "utterance": "Rushing my elderly mother to the ER, she's having chest pains.",
+      "kept_original": true,
+      "original_utterance": "Rushing my elderly mother to the ER, she's having chest pains.",
+      "goal": [
+        -2.0253372192382812,
+        45.59782409667969,
+        0.0
+      ],
+      "start": [
+        -20.0,
+        63.0,
+        0.0
+      ],
+      "vias": [
+        [
+          -15.0,
+          63.0,
+          0.0
+        ],
+        [
+          -2.0,
+          50.0,
+          0.0
+        ]
+      ]
+    },
+    "r15_town07_ins_sl#veh2": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r15_town07_ins_sl",
+      "veh": 2,
+      "town": "Town07",
+      "label": "bus_stop",
+      "label_how": "town",
+      "tier": "med",
+      "utterance": "My friend's bus leaves in a few minutes and I promised I'd get her to the stop.",
+      "kept_original": false,
+      "original_utterance": "Late picking up my daughter from soccer practice.",
+      "goal": [
+        -19.85127067565918,
+        57.602535247802734,
+        0.0
+      ],
+      "start": [
+        16.0,
+        58.0,
+        0.0
+      ],
+      "vias": [
+        [
+          5.0,
+          58.0,
+          0.0
+        ],
+        [
+          -15.0,
+          58.0,
+          0.0
+        ]
+      ]
+    },
+    "r16_town05_ins_sl#veh0": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r16_town05_ins_sl",
+      "veh": 0,
+      "town": "Town05",
+      "label": "bus_stop",
+      "label_how": "town",
+      "tier": "med",
+      "utterance": "My friend's bus leaves in a few minutes and I promised I'd get her to the stop.",
+      "kept_original": false,
+      "original_utterance": "Trying to make it to a haircut appointment on time.",
+      "goal": [
+        60.0,
+        -186.48,
+        0.0
+      ],
+      "start": [
+        0.0,
+        -186.48,
+        0.0
+      ],
+      "vias": [
+        [
+          24.15,
+          -186.48,
+          0.0
+        ]
+      ]
+    },
+    "r16_town05_ins_sl#veh1": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r16_town05_ins_sl",
+      "veh": 1,
+      "town": "Town05",
+      "label": "bakery",
+      "label_how": "town",
+      "tier": "high",
+      "utterance": "It's my daughter's wedding cake at the bakery and the ceremony starts in half an hour.",
+      "kept_original": false,
+      "original_utterance": "My apartment's fire alarm went off and I need to get home to check on my cat.",
+      "goal": [
+        13.09366512298584,
+        -200.6963653564453,
+        0.0
+      ],
+      "start": [
+        35.0,
+        -150.0,
+        0.0
+      ],
+      "vias": [
+        [
+          35.0,
+          -180.0,
+          0.0
+        ]
+      ]
+    },
+    "r16_town05_ins_sl#veh2": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r16_town05_ins_sl",
+      "veh": 2,
+      "town": "Town05",
+      "label": "bus_stop",
+      "label_how": "town",
+      "tier": "low",
+      "utterance": "Just dropping a friend at the bus stop, no rush at all.",
+      "kept_original": false,
+      "original_utterance": "Just heading out for a slow drive, nothing planned.",
+      "goal": [
+        60.0,
+        -186.48,
+        0.0
+      ],
+      "start": [
+        -5.0,
+        -186.48,
+        0.0
+      ],
+      "vias": [
+        [
+          24.15,
+          -186.48,
+          0.0
+        ]
+      ]
+    },
+    "r17_town05_ins_sr#veh0": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r17_town05_ins_sr",
+      "veh": 0,
+      "town": "Town05",
+      "label": "store",
+      "label_how": "template_after_llm_feedback",
+      "tier": "med",
+      "utterance": "The store closes soon and I need to get there before they lock up.",
+      "kept_original": false,
+      "original_utterance": "Hoping to catch the tail end of a sale before it closes.",
+      "goal": [
+        60.0,
+        -186.48,
+        0.0
+      ],
+      "start": [
+        0.0,
+        -186.48,
+        0.0
+      ],
+      "vias": [
+        [
+          24.15,
+          -186.48,
+          0.0
+        ]
+      ]
+    },
+    "r17_town05_ins_sr#veh1": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r17_town05_ins_sr",
+      "veh": 1,
+      "town": "Town05",
+      "label": "hospital",
+      "label_how": "kept",
+      "tier": "high",
+      "utterance": "My brother just called, he thinks he broke his leg skateboarding and needs a ride to urgent care.",
+      "kept_original": true,
+      "original_utterance": "My brother just called, he thinks he broke his leg skateboarding and needs a ride to urgent care.",
+      "goal": [
+        70.0,
+        -186.48,
+        0.0
+      ],
+      "start": [
+        35.0,
+        -150.0,
+        0.0
+      ],
+      "vias": [
+        [
+          50.0,
+          -186.48,
+          0.0
+        ]
+      ]
+    },
+    "r17_town05_ins_sr#veh2": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r17_town05_ins_sr",
+      "veh": 2,
+      "town": "Town05",
+      "label": "house",
+      "label_how": "kept",
+      "tier": "low",
+      "utterance": "Just taking the scenic route home.",
+      "kept_original": true,
+      "original_utterance": "Just taking the scenic route home.",
+      "goal": [
+        60.0,
+        -186.48,
+        0.0
+      ],
+      "start": [
+        -5.0,
+        -186.48,
+        0.0
+      ],
+      "vias": [
+        [
+          24.15,
+          -186.48,
+          0.0
+        ]
+      ]
+    },
+    "r18_town05_ins_sr#veh0": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r18_town05_ins_sr",
+      "veh": 0,
+      "town": "Town05",
+      "label": "bus_stop",
+      "label_how": "town",
+      "tier": "low",
+      "utterance": "Just dropping a friend at the bus stop, no rush at all.",
+      "kept_original": false,
+      "original_utterance": "Nothing on the agenda, just driving around.",
+      "goal": [
+        6.393203735351562,
+        -91.42157745361328,
+        0.0
+      ],
+      "start": [
+        55.0,
+        -91.42157745361328,
+        0.0
+      ],
+      "vias": [
+        [
+          44.09228515625,
+          -91.42157745361328,
+          0.0
+        ]
+      ]
+    },
+    "r18_town05_ins_sr#veh1": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r18_town05_ins_sr",
+      "veh": 1,
+      "town": "Town05",
+      "label": "bakery",
+      "label_how": "town",
+      "tier": "high",
+      "utterance": "It's my daughter's wedding cake at the bakery and the ceremony starts in half an hour.",
+      "kept_original": false,
+      "original_utterance": "My power just went out and the freezer full of medication needs to get to a working fridge fast.",
+      "goal": [
+        -30.0,
+        -90.0,
+        0.0
+      ],
+      "start": [
+        26.66,
+        -125.0,
+        0.0
+      ],
+      "vias": [
+        [
+          0.0,
+          -90.0,
+          0.0
+        ]
+      ]
+    },
+    "r18_town05_ins_sr#veh2": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r18_town05_ins_sr",
+      "veh": 2,
+      "town": "Town05",
+      "label": "store",
+      "label_how": "kept",
+      "tier": "med",
+      "utterance": "Running a little late to open up the shop.",
+      "kept_original": true,
+      "original_utterance": "Running a little late to open up the shop.",
+      "goal": [
+        6.393203735351562,
+        -91.42157745361328,
+        0.0
+      ],
+      "start": [
+        62.0,
+        -91.42157745361328,
+        0.0
+      ],
+      "vias": [
+        [
+          44.09228515625,
+          -91.42157745361328,
+          0.0
+        ]
+      ]
+    },
+    "r19_town05_ins_sr#veh0": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r19_town05_ins_sr",
+      "veh": 0,
+      "town": "Town05",
+      "label": "house",
+      "label_how": "kept",
+      "tier": "med",
+      "utterance": "Trying to beat rush hour traffic home.",
+      "kept_original": true,
+      "original_utterance": "Trying to beat rush hour traffic home.",
+      "goal": [
+        -90.89604949951172,
+        -88.0,
+        0.0
+      ],
+      "start": [
+        -148.4835662841797,
+        -88.11746215820312,
+        0.0
+      ],
+      "vias": [
+        [
+          -120.69560241699219,
+          -88.05902862548828,
+          0.0
+        ]
+      ]
+    },
+    "r19_town05_ins_sr#veh1": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r19_town05_ins_sr",
+      "veh": 1,
+      "town": "Town05",
+      "label": "hospital",
+      "label_how": "kept",
+      "tier": "high",
+      "utterance": "I just got the call, my grandmother's surgery got moved up and I need to be there.",
+      "kept_original": true,
+      "original_utterance": "I just got the call, my grandmother's surgery got moved up and I need to be there.",
+      "goal": [
+        -90.4835662841797,
+        -88.0,
+        0.0
+      ],
+      "start": [
+        -125.4835662841797,
+        -68.11746215820312,
+        0.0
+      ],
+      "vias": []
+    },
+    "r20_town06_ins_sr#veh0": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r20_town06_ins_sr",
+      "veh": 0,
+      "town": "Town06",
+      "label": "farm",
+      "label_how": "town",
+      "tier": "low",
+      "utterance": "Driving out to the farm, nothing urgent.",
+      "kept_original": false,
+      "original_utterance": "Just out running a few errands.",
+      "goal": [
+        6.170839309692383,
+        -30.620601654052734,
+        0.0
+      ],
+      "start": [
+        6.170839309692383,
+        -5.0,
+        0.0
+      ],
+      "vias": [
+        [
+          6.170839309692383,
+          -10.0,
+          0.0
+        ],
+        [
+          6.170839309692383,
+          -25.0,
+          0.0
+        ]
+      ]
+    },
+    "r20_town06_ins_sr#veh1": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r20_town06_ins_sr",
+      "veh": 1,
+      "town": "Town06",
+      "label": "factory",
+      "label_how": "town",
+      "tier": "med",
+      "utterance": "My shift at the factory starts soon and I'm behind.",
+      "kept_original": false,
+      "original_utterance": "Late for a haircut appointment I really don't want to reschedule.",
+      "goal": [
+        8.537854194641113,
+        -37.18013000488281,
+        0.0
+      ],
+      "start": [
+        22.0,
+        -25.0,
+        0.0
+      ],
+      "vias": [
+        [
+          18.0,
+          -25.0,
+          0.0
+        ],
+        [
+          8.537854194641113,
+          -32.0,
+          0.0
+        ]
+      ]
+    },
+    "r20_town06_ins_sr#veh2": {
+      "stops": [
+        {
+          "label": "factory",
+          "point": [
+            6.170839309692383,
+            -10.0,
+            0.0
+          ]
+        }
+      ],
+      "shape_vias": [],
+      "via_mode": "stop",
+      "scenario": "r20_town06_ins_sr",
+      "veh": 2,
+      "town": "Town06",
+      "label": "house",
+      "label_how": "template_after_llm_feedback",
+      "tier": "med",
+      "utterance": "Stop at the factory on the way, then I'm late letting the repair man into the house.",
+      "kept_original": false,
+      "original_utterance": "My daughter just texted she locked herself out in the rain, I need to get home.",
+      "goal": [
+        6.170839309692383,
+        -30.620601654052734,
+        0.0
+      ],
+      "start": [
+        6.170839309692383,
+        1.0,
+        0.0
+      ],
+      "vias": [
+        [
+          6.170839309692383,
+          -10.0,
+          0.0
+        ],
+        [
+          6.170839309692383,
+          -25.0,
+          0.0
+        ]
+      ]
+    },
+    "r21_town07_ins_sr#veh0": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r21_town07_ins_sr",
+      "veh": 0,
+      "town": "Town07",
+      "label": "bus_stop",
+      "label_how": "town",
+      "tier": "med",
+      "utterance": "My friend's bus leaves in a few minutes and I promised I'd get her to the stop.",
+      "kept_original": false,
+      "original_utterance": "Running behind on a delivery I promised would arrive by noon.",
+      "goal": [
+        -1.8360180854797363,
+        -17.12346649169922,
+        0.0
+      ],
+      "start": [
+        12.0,
+        -5.5,
+        0.0
+      ],
+      "vias": [
+        [
+          5.0,
+          -5.5,
+          0.0
+        ]
+      ]
+    },
+    "r21_town07_ins_sr#veh1": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r21_town07_ins_sr",
+      "veh": 1,
+      "town": "Town07",
+      "label": "hospital",
+      "label_how": "kept",
+      "tier": "high",
+      "utterance": "My neighbor's having a seizure and I'm the one driving her to the hospital.",
+      "kept_original": true,
+      "original_utterance": "My neighbor's having a seizure and I'm the one driving her to the hospital.",
+      "goal": [
+        -1.8360180854797363,
+        -17.12346649169922,
+        0.0
+      ],
+      "start": [
+        -2.0,
+        9.0,
+        0.0
+      ],
+      "vias": [
+        [
+          -2.0,
+          2.0,
+          0.0
+        ],
+        [
+          -2.0,
+          -15.5,
+          0.0
+        ]
+      ]
+    },
+    "r21_town07_ins_sr#veh2": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r21_town07_ins_sr",
+      "veh": 2,
+      "town": "Town07",
+      "label": "bus_stop",
+      "label_how": "town",
+      "tier": "low",
+      "utterance": "Just dropping a friend at the bus stop, no rush at all.",
+      "kept_original": false,
+      "original_utterance": "No real plans, just cruising.",
+      "goal": [
+        -1.8360180854797363,
+        -17.12346649169922,
+        0.0
+      ],
+      "start": [
+        18.0,
+        -5.5,
+        0.0
+      ],
+      "vias": [
+        [
+          12.0,
+          -5.5,
+          0.0
+        ],
+        [
+          5.0,
+          -5.5,
+          0.0
+        ]
+      ]
+    },
+    "r22_town07_ins_sr#veh0": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r22_town07_ins_sr",
+      "veh": 0,
+      "town": "Town07",
+      "label": "bus_stop",
+      "label_how": "town",
+      "tier": "low",
+      "utterance": "Just dropping a friend at the bus stop, no rush at all.",
+      "kept_original": false,
+      "original_utterance": "Just heading out for some fresh air, no destination in mind.",
+      "goal": [
+        -25.0,
+        58.0,
+        0.0
+      ],
+      "start": [
+        4.0,
+        58.0,
+        0.0
+      ],
+      "vias": [
+        [
+          0.0,
+          59.0,
+          0.0
+        ],
+        [
+          -14.0,
+          58.0,
+          0.0
+        ]
+      ]
+    },
+    "r22_town07_ins_sr#veh1": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r22_town07_ins_sr",
+      "veh": 1,
+      "town": "Town07",
+      "label": "parking",
+      "label_how": "template_after_llm_feedback",
+      "tier": "med",
+      "utterance": "My parking meter runs out shortly and I'd rather not get ticketed.",
+      "kept_original": false,
+      "original_utterance": "My tire's losing air fast and I need to reach the repair shop before it goes flat.",
+      "goal": [
+        -25.0,
+        59.0,
+        0.0
+      ],
+      "start": [
+        -6.0,
+        50.0,
+        0.0
+      ],
+      "vias": [
+        [
+          -7.0,
+          55.0,
+          0.0
+        ],
+        [
+          -15.0,
+          59.0,
+          0.0
+        ]
+      ]
+    },
+    "r22_town07_ins_sr#veh2": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r22_town07_ins_sr",
+      "veh": 2,
+      "town": "Town07",
+      "label": "bus_stop",
+      "label_how": "town",
+      "tier": "med",
+      "utterance": "My friend's bus leaves in a few minutes and I promised I'd get her to the stop.",
+      "kept_original": false,
+      "original_utterance": "Trying to make it to a parent-teacher conference on time.",
+      "goal": [
+        -25.0,
+        58.0,
+        0.0
+      ],
+      "start": [
+        10.0,
+        58.0,
+        0.0
+      ],
+      "vias": [
+        [
+          0.0,
+          59.0,
+          0.0
+        ],
+        [
+          -14.0,
+          58.0,
+          0.0
+        ]
+      ]
+    },
+    "r23_town05_ins_oppo#veh0": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r23_town05_ins_oppo",
+      "veh": 0,
+      "town": "Town05",
+      "label": "bakery",
+      "label_how": "town",
+      "tier": "med",
+      "utterance": "The bakery holds my order only until closing and I'm cutting it close.",
+      "kept_original": false,
+      "original_utterance": "Running late to swap shifts with a coworker.",
+      "goal": [
+        -121.51,
+        -25.89,
+        0.0
+      ],
+      "start": [
+        -159.7,
+        6.43,
+        0.0
+      ],
+      "vias": []
+    },
+    "r23_town05_ins_oppo#veh1": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r23_town05_ins_oppo",
+      "veh": 1,
+      "town": "Town05",
+      "label": "cafe",
+      "label_how": "kept",
+      "tier": "low",
+      "utterance": "Just heading over to a friend's for coffee, nothing urgent.",
+      "kept_original": true,
+      "original_utterance": "Just heading over to a friend's for coffee, nothing urgent.",
+      "goal": [
+        -151.47,
+        -0.3,
+        0.0
+      ],
+      "start": [
+        -85.57,
+        -0.3,
+        0.0
+      ],
+      "vias": []
+    },
+    "r23_town05_ins_oppo#veh2": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r23_town05_ins_oppo",
+      "veh": 2,
+      "town": "Town05",
+      "label": "bakery",
+      "label_how": "town",
+      "tier": "high",
+      "utterance": "It's my daughter's wedding cake at the bakery and the ceremony starts in half an hour.",
+      "kept_original": false,
+      "original_utterance": "My son's school just called, he's having a severe asthma attack and I need to get there immediately.",
+      "goal": [
+        -121.51,
+        -25.89,
+        0.0
+      ],
+      "start": [
+        -152.7,
+        6.43,
+        0.0
+      ],
+      "vias": []
+    },
+    "r24_town05_ins_rl#veh0": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r24_town05_ins_rl",
+      "veh": 0,
+      "town": "Town05",
+      "label": "parking",
+      "label_how": "kept",
+      "tier": "med",
+      "utterance": "Trying to get back before my parking meter runs out.",
+      "kept_original": true,
+      "original_utterance": "Trying to get back before my parking meter runs out.",
+      "goal": [
+        134.0,
+        -1.96,
+        0.0
+      ],
+      "start": [
+        151.0,
+        -15.7,
+        0.0
+      ],
+      "vias": []
+    },
+    "r24_town05_ins_rl#veh1": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r24_town05_ins_rl",
+      "veh": 1,
+      "town": "Town05",
+      "label": "hospital",
+      "label_how": "kept",
+      "tier": "high",
+      "utterance": "My roommate just called from the ER, I need to get there as fast as I safely can.",
+      "kept_original": true,
+      "original_utterance": "My roommate just called from the ER, I need to get there as fast as I safely can.",
+      "goal": [
+        134.0,
+        -1.96,
+        0.0
+      ],
+      "start": [
+        155.0,
+        20.7,
+        0.0
+      ],
+      "vias": []
+    },
+    "r24_town05_ins_rl#veh2": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r24_town05_ins_rl",
+      "veh": 2,
+      "town": "Town05",
+      "label": "bakery",
+      "label_how": "town",
+      "tier": "low",
+      "utterance": "Picking something up at the bakery, no rush.",
+      "kept_original": false,
+      "original_utterance": "Just out for a relaxed evening drive.",
+      "goal": [
+        134.0,
+        -1.96,
+        0.0
+      ],
+      "start": [
+        151.0,
+        -25.7,
+        0.0
+      ],
+      "vias": []
+    },
+    "r25_town05_ins_crosschange#veh0": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r25_town05_ins_crosschange",
+      "veh": 0,
+      "town": "Town05",
+      "label": "bakery",
+      "label_how": "town",
+      "tier": "med",
+      "utterance": "The bakery holds my order only until closing and I'm cutting it close.",
+      "kept_original": false,
+      "original_utterance": "Trying to make it to a rescheduled parent-teacher conference.",
+      "goal": [
+        7.17,
+        -4.56,
+        0.0
+      ],
+      "start": [
+        27.91,
+        -14.97,
+        0.0
+      ],
+      "vias": []
+    },
+    "r25_town05_ins_crosschange#veh1": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r25_town05_ins_crosschange",
+      "veh": 1,
+      "town": "Town05",
+      "label": "cafe",
+      "label_how": "kept",
+      "tier": "low",
+      "utterance": "Just running out for a coffee, nothing on the clock.",
+      "kept_original": true,
+      "original_utterance": "Just running out for a coffee, nothing on the clock.",
+      "goal": [
+        24.47,
+        13.496,
+        0.0
+      ],
+      "start": [
+        24.41,
+        -15.19,
+        0.0
+      ],
+      "vias": []
+    },
+    "r25_town05_ins_crosschange#veh2": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r25_town05_ins_crosschange",
+      "veh": 2,
+      "town": "Town05",
+      "label": "house",
+      "label_how": "kept",
+      "tier": "high",
+      "utterance": "My husband just called, he's locked out and having chest pains, I need to get home immediately.",
+      "kept_original": true,
+      "original_utterance": "My husband just called, he's locked out and having chest pains, I need to get home immediately.",
+      "goal": [
+        7.04,
+        -4.44,
+        0.0
+      ],
+      "start": [
+        27.98,
+        -19.99,
+        0.0
+      ],
+      "vias": []
+    },
+    "r26_town05_ins_chaos#veh0": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r26_town05_ins_chaos",
+      "veh": 0,
+      "town": "Town05",
+      "label": "bakery",
+      "label_how": "town",
+      "tier": "low",
+      "utterance": "Picking something up at the bakery, no rush.",
+      "kept_original": false,
+      "original_utterance": "Just running a routine errand, nothing urgent.",
+      "goal": [
+        -68.35,
+        -0.75,
+        0.0
+      ],
+      "start": [
+        -28.25,
+        -0.95,
+        0.0
+      ],
+      "vias": []
+    },
+    "r26_town05_ins_chaos#veh1": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r26_town05_ins_chaos",
+      "veh": 1,
+      "town": "Town05",
+      "label": "bus_stop",
+      "label_how": "town",
+      "tier": "med",
+      "utterance": "My friend's bus leaves in a few minutes and I promised I'd get her to the stop.",
+      "kept_original": false,
+      "original_utterance": "Trying to make it to a rescheduled meeting.",
+      "goal": [
+        -50.65,
+        35.04,
+        0.0
+      ],
+      "start": [
+        -54.95,
+        -17.15,
+        0.0
+      ],
+      "vias": []
+    },
+    "r26_town05_ins_chaos#veh2": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r26_town05_ins_chaos",
+      "veh": 2,
+      "town": "Town05",
+      "label": "house",
+      "label_how": "kept",
+      "tier": "med",
+      "utterance": "My neighbor's house alarm went off and I need to get there to check on their kids.",
+      "kept_original": true,
+      "original_utterance": "My neighbor's house alarm went off and I need to get there to check on their kids.",
+      "goal": [
+        -19.45,
+        6.14,
+        0.0
+      ],
+      "start": [
+        -66.65,
+        6.04,
+        0.0
+      ],
+      "vias": []
+    },
+    "r26_town05_ins_chaos#veh3": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r26_town05_ins_chaos",
+      "veh": 3,
+      "town": "Town05",
+      "label": "park",
+      "label_how": "kept",
+      "tier": "low",
+      "utterance": "Heading to the park, no particular schedule.",
+      "kept_original": true,
+      "original_utterance": "Heading to the park, no particular schedule.",
+      "goal": [
+        -48.05,
+        -18.35,
+        0.0
+      ],
+      "start": [
+        -43.85,
+        19.54,
+        0.0
+      ],
+      "vias": []
+    },
+    "r26_town05_ins_chaos#veh4": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r26_town05_ins_chaos",
+      "veh": 4,
+      "town": "Town05",
+      "label": "cafe",
+      "label_how": "town",
+      "tier": "med",
+      "utterance": "I'm meeting a client at the cafe and I'm already running behind.",
+      "kept_original": false,
+      "original_utterance": "The pharmacy closes soon and my prescription runs out tonight.",
+      "goal": [
+        -54.15,
+        34.34,
+        0.0
+      ],
+      "start": [
+        -31.05,
+        -4.25,
+        0.0
+      ],
+      "vias": []
+    },
+    "r26_town05_ins_chaos#veh5": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r26_town05_ins_chaos",
+      "veh": 5,
+      "town": "Town05",
+      "label": "store",
+      "label_how": "kept",
+      "tier": "med",
+      "utterance": "Running a bit late to pick up dry cleaning before closing.",
+      "kept_original": true,
+      "original_utterance": "Running a bit late to pick up dry cleaning before closing.",
+      "goal": [
+        -18.15,
+        2.74,
+        0.0
+      ],
+      "start": [
+        -54.95,
+        -22.15,
+        0.0
+      ],
+      "vias": []
+    },
+    "r27_town06_hw_merge#veh0": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r27_town06_hw_merge",
+      "veh": 0,
+      "town": "Town06",
+      "label": "farm",
+      "label_how": "town",
+      "tier": "med",
+      "utterance": "I'm expected at the farm for the afternoon and running late.",
+      "kept_original": false,
+      "original_utterance": "Just a normal highway drive, nothing on a schedule.",
+      "goal": [
+        283.09,
+        52.34,
+        0.0
+      ],
+      "start": [
+        187.73,
+        52.2,
+        0.0
+      ],
+      "vias": []
+    },
+    "r27_town06_hw_merge#veh1": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r27_town06_hw_merge",
+      "veh": 1,
+      "town": "Town06",
+      "label": "house",
+      "label_how": "town",
+      "tier": "med",
+      "utterance": "I'm late letting the repair man into the house.",
+      "kept_original": false,
+      "original_utterance": "I'm coming from the airport and my connecting ride is waiting, I really need to keep moving.",
+      "goal": [
+        283.09,
+        52.34,
+        0.0
+      ],
+      "start": [
+        201.33,
+        72.46,
+        0.0
+      ],
+      "vias": []
+    },
+    "r27_town06_hw_merge#veh2": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r27_town06_hw_merge",
+      "veh": 2,
+      "town": "Town06",
+      "label": "university",
+      "label_how": "town",
+      "tier": "med",
+      "utterance": "I've got a lecture at the university starting soon.",
+      "kept_original": false,
+      "original_utterance": "Trying to make it to a work call I'm dialing into soon.",
+      "goal": [
+        283.09,
+        52.34,
+        0.0
+      ],
+      "start": [
+        177.73,
+        52.2,
+        0.0
+      ],
+      "vias": []
+    },
+    "r28_town06_hw_c#veh0": {
+      "stops": [],
+      "shape_vias": [
+        [
+          154.41,
+          237.06,
+          0.0
+        ],
+        [
+          178.11,
+          244.6,
+          0.0
+        ],
+        [
+          190.11,
+          240.83,
+          0.0
+        ],
+        [
+          203.11,
+          244.6,
+          0.0
+        ],
+        [
+          245.11,
+          248.37,
+          0.0
+        ]
+      ],
+      "via_mode": "manoeuvre",
+      "scenario": "r28_town06_hw_c",
+      "veh": 0,
+      "town": "Town06",
+      "label": "factory",
+      "label_how": "town",
+      "tier": "med",
+      "utterance": "My shift at the factory starts soon and I'm behind.",
+      "kept_original": false,
+      "original_utterance": "Trying to make it to a connecting flight with enough buffer.",
+      "goal": [
+        280.11,
+        252.16,
+        0.0
+      ],
+      "start": [
+        138.11,
+        237.06,
+        0.0
+      ],
+      "vias": [
+        [
+          154.41,
+          237.06,
+          0.0
+        ],
+        [
+          178.11,
+          244.6,
+          0.0
+        ],
+        [
+          190.11,
+          240.83,
+          0.0
+        ],
+        [
+          203.11,
+          244.6,
+          0.0
+        ],
+        [
+          220.11,
+          248.37,
+          0.0
+        ],
+        [
+          245.11,
+          248.37,
+          0.0
+        ],
+        [
+          261.11,
+          252.16,
+          0.0
+        ]
+      ]
+    },
+    "r28_town06_hw_c#veh1": {
+      "stops": [],
+      "shape_vias": [
+        [
+          150.41,
+          240.83,
+          0.0
+        ],
+        [
+          191.11,
+          244.6,
+          0.0
+        ],
+        [
+          222.11,
+          252.16,
+          0.0
+        ]
+      ],
+      "via_mode": "manoeuvre",
+      "scenario": "r28_town06_hw_c",
+      "veh": 1,
+      "town": "Town06",
+      "label": "farm",
+      "label_how": "town",
+      "tier": "low",
+      "utterance": "Driving out to the farm, nothing urgent.",
+      "kept_original": false,
+      "original_utterance": "Just a long highway stretch, no rush today.",
+      "goal": [
+        289.11,
+        248.37,
+        0.0
+      ],
+      "start": [
+        128.11,
+        240.83,
+        0.0
+      ],
+      "vias": [
+        [
+          150.41,
+          240.83,
+          0.0
+        ],
+        [
+          173.11,
+          244.6,
+          0.0
+        ],
+        [
+          191.11,
+          244.6,
+          0.0
+        ],
+        [
+          210.11,
+          252.16,
+          0.0
+        ],
+        [
+          222.11,
+          252.16,
+          0.0
+        ],
+        [
+          234.11,
+          248.37,
+          0.0
+        ],
+        [
+          259.11,
+          248.37,
+          0.0
+        ]
+      ]
+    },
+    "r28_town06_hw_c#veh2": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r28_town06_hw_c",
+      "veh": 2,
+      "town": "Town06",
+      "label": "hospital",
+      "label_how": "kept",
+      "tier": "high",
+      "utterance": "My son just called from soccer practice, he twisted his ankle badly and I need to get him to urgent care.",
+      "kept_original": true,
+      "original_utterance": "My son just called from soccer practice, he twisted his ankle badly and I need to get him to urgent care.",
+      "goal": [
+        290.11,
+        244.6,
+        0.0
+      ],
+      "start": [
+        132.11,
+        244.6,
+        0.0
+      ],
+      "vias": []
+    },
+    "r28_town06_hw_c#veh3": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r28_town06_hw_c",
+      "veh": 3,
+      "town": "Town06",
+      "label": "warehouse",
+      "label_how": "town",
+      "tier": "med",
+      "utterance": "The warehouse loading bay shuts shortly and my pallet's still on it.",
+      "kept_original": false,
+      "original_utterance": "I'm behind schedule delivering time-sensitive lab samples.",
+      "goal": [
+        290.11,
+        244.6,
+        0.0
+      ],
+      "start": [
+        126.11,
+        244.6,
+        0.0
+      ],
+      "vias": []
+    },
+    "r28_town06_hw_c#veh4": {
+      "stops": [],
+      "shape_vias": [
+        [
+          150.41,
+          252.16,
+          0.0
+        ],
+        [
+          191.11,
+          248.37,
+          0.0
+        ],
+        [
+          210.11,
+          244.37,
+          0.0
+        ],
+        [
+          234.11,
+          240.37,
+          0.0
+        ]
+      ],
+      "via_mode": "manoeuvre",
+      "scenario": "r28_town06_hw_c",
+      "veh": 4,
+      "town": "Town06",
+      "label": "woods",
+      "label_how": "town",
+      "tier": "low",
+      "utterance": "Driving out to the woods for a hike, no timetable.",
+      "kept_original": false,
+      "original_utterance": "Just driving through, no particular timeline.",
+      "goal": [
+        289.11,
+        237.37,
+        0.0
+      ],
+      "start": [
+        128.11,
+        252.16,
+        0.0
+      ],
+      "vias": [
+        [
+          150.41,
+          252.16,
+          0.0
+        ],
+        [
+          173.11,
+          248.37,
+          0.0
+        ],
+        [
+          191.11,
+          248.37,
+          0.0
+        ],
+        [
+          210.11,
+          244.37,
+          0.0
+        ],
+        [
+          222.11,
+          240.37,
+          0.0
+        ],
+        [
+          234.11,
+          240.37,
+          0.0
+        ],
+        [
+          259.11,
+          237.37,
+          0.0
+        ]
+      ]
+    },
+    "r28_town06_hw_c#veh5": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r28_town06_hw_c",
+      "veh": 5,
+      "town": "Town06",
+      "label": "bakery",
+      "label_how": "fallback",
+      "tier": "med",
+      "utterance": "The bakery holds my order only until closing and I'm cutting it close.",
+      "kept_original": false,
+      "original_utterance": "Trying to make it to a hotel check-in before the desk closes.",
+      "goal": [
+        290.11,
+        248.37,
+        0.0
+      ],
+      "start": [
+        118.11,
+        248.37,
+        0.0
+      ],
+      "vias": []
+    },
+    "r29_town06_hw_merge#veh0": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r29_town06_hw_merge",
+      "veh": 0,
+      "town": "Town06",
+      "label": "farm",
+      "label_how": "town",
+      "tier": "med",
+      "utterance": "I'm expected at the farm for the afternoon and running late.",
+      "kept_original": false,
+      "original_utterance": "Running a bit behind getting to a meeting downstate.",
+      "goal": [
+        270.0,
+        52.2,
+        0.0
+      ],
+      "start": [
+        200.0,
+        52.2,
+        0.0
+      ],
+      "vias": []
+    },
+    "r29_town06_hw_merge#veh1": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r29_town06_hw_merge",
+      "veh": 1,
+      "town": "Town06",
+      "label": "house",
+      "label_how": "kept",
+      "tier": "low",
+      "utterance": "Just a long drive home, no rush at all.",
+      "kept_original": true,
+      "original_utterance": "Just a long drive home, no rush at all.",
+      "goal": [
+        270.0,
+        52.2,
+        0.0
+      ],
+      "start": [
+        192.0,
+        52.2,
+        0.0
+      ],
+      "vias": []
+    },
+    "r29_town06_hw_merge#veh2": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r29_town06_hw_merge",
+      "veh": 2,
+      "town": "Town06",
+      "label": "hospital",
+      "label_how": "kept",
+      "tier": "high",
+      "utterance": "My sister's in active labor and I'm driving her to the hospital.",
+      "kept_original": true,
+      "original_utterance": "My sister's in active labor and I'm driving her to the hospital.",
+      "goal": [
+        270.0,
+        52.2,
+        0.0
+      ],
+      "start": [
+        185.0,
+        52.2,
+        0.0
+      ],
+      "vias": []
+    },
+    "r29_town06_hw_merge#veh3": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r29_town06_hw_merge",
+      "veh": 3,
+      "town": "Town06",
+      "label": "farm",
+      "label_how": "town",
+      "tier": "high",
+      "utterance": "A calving's gone wrong at the farm and the vet won't start until I'm there to sign.",
+      "kept_original": false,
+      "original_utterance": "I just got called in for an emergency shift and need to get there fast.",
+      "goal": [
+        270.0,
+        52.2,
+        0.0
+      ],
+      "start": [
+        201.33,
+        72.46,
+        0.0
+      ],
+      "vias": []
+    },
+    "r30_town06_hw_merge#veh0": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r30_town06_hw_merge",
+      "veh": 0,
+      "town": "Town06",
+      "label": "farm",
+      "label_how": "town",
+      "tier": "low",
+      "utterance": "Driving out to the farm, nothing urgent.",
+      "kept_original": false,
+      "original_utterance": "Nothing pressing, just cruising on a road trip.",
+      "goal": [
+        270.0,
+        52.2,
+        0.0
+      ],
+      "start": [
+        200.0,
+        52.2,
+        0.0
+      ],
+      "vias": []
+    },
+    "r30_town06_hw_merge#veh1": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r30_town06_hw_merge",
+      "veh": 1,
+      "town": "Town06",
+      "label": "train_station",
+      "label_how": "kept",
+      "tier": "med",
+      "utterance": "Trying to make a connecting train that leaves soon.",
+      "kept_original": true,
+      "original_utterance": "Trying to make a connecting train that leaves soon.",
+      "goal": [
+        270.0,
+        52.2,
+        0.0
+      ],
+      "start": [
+        192.0,
+        52.2,
+        0.0
+      ],
+      "vias": []
+    },
+    "r30_town06_hw_merge#veh2": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r30_town06_hw_merge",
+      "veh": 2,
+      "town": "Town06",
+      "label": "farm",
+      "label_how": "town",
+      "tier": "high",
+      "utterance": "A calving's gone wrong at the farm and the vet won't start until I'm there to sign.",
+      "kept_original": false,
+      "original_utterance": "My phone's about to die and I need to get to a rest stop to call my kid back, he sounded scared.",
+      "goal": [
+        270.0,
+        52.2,
+        0.0
+      ],
+      "start": [
+        180.0,
+        52.2,
+        0.0
+      ],
+      "vias": []
+    },
+    "r30_town06_hw_merge#veh3": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r30_town06_hw_merge",
+      "veh": 3,
+      "town": "Town06",
+      "label": "hospital",
+      "label_how": "kept",
+      "tier": "high",
+      "utterance": "I'm driving my grandfather to the ER, he's having trouble breathing.",
+      "kept_original": true,
+      "original_utterance": "I'm driving my grandfather to the ER, he's having trouble breathing.",
+      "goal": [
+        270.0,
+        52.2,
+        0.0
+      ],
+      "start": [
+        185.0,
+        80.0,
+        0.0
+      ],
+      "vias": []
+    },
+    "r31_town05_ins_oppo#veh0": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r31_town05_ins_oppo",
+      "veh": 0,
+      "town": "Town05",
+      "label": "bus_stop",
+      "label_how": "town",
+      "tier": "high",
+      "utterance": "My mother's stranded at the bus stop in the cold and she's not well, I need to reach her now.",
+      "kept_original": false,
+      "original_utterance": "My father's oxygen tank is running low and I need to get the replacement to him fast.",
+      "goal": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "start": [
+        0.54,
+        2.55,
+        0.0
+      ],
+      "vias": []
+    },
+    "r31_town05_ins_oppo#veh1": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r31_town05_ins_oppo",
+      "veh": 1,
+      "town": "Town05",
+      "label": "store",
+      "label_how": "kept",
+      "tier": "low",
+      "utterance": "Just heading to the store, nothing pressing.",
+      "kept_original": true,
+      "original_utterance": "Just heading to the store, nothing pressing.",
+      "goal": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "start": [
+        8.0,
+        2.55,
+        0.0
+      ],
+      "vias": []
+    },
+    "r31_town05_ins_oppo#veh2": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r31_town05_ins_oppo",
+      "veh": 2,
+      "town": "Town05",
+      "label": "bakery",
+      "label_how": "town",
+      "tier": "med",
+      "utterance": "The bakery holds my order only until closing and I'm cutting it close.",
+      "kept_original": false,
+      "original_utterance": "Running behind for a work call I really can't miss.",
+      "goal": [
+        0.0,
+        -0.99,
+        0.0
+      ],
+      "start": [
+        50.15,
+        -0.99,
+        0.0
+      ],
+      "vias": []
+    },
+    "r31_town05_ins_oppo#veh3": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r31_town05_ins_oppo",
+      "veh": 3,
+      "town": "Town05",
+      "label": "bakery",
+      "label_how": "town",
+      "tier": "high",
+      "utterance": "It's my daughter's wedding cake at the bakery and the ceremony starts in half an hour.",
+      "kept_original": false,
+      "original_utterance": "I just found out my flight got moved up and I'm racing to make it to the airport.",
+      "goal": [
+        0.0,
+        -0.99,
+        0.0
+      ],
+      "start": [
+        65.25,
+        -0.99,
+        0.0
+      ],
+      "vias": []
+    },
+    "r32_town05_ins_oppo#veh0": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r32_town05_ins_oppo",
+      "veh": 0,
+      "town": "Town05",
+      "label": "bus_stop",
+      "label_how": "town",
+      "tier": "low",
+      "utterance": "Just dropping a friend at the bus stop, no rush at all.",
+      "kept_original": false,
+      "original_utterance": "Just taking a leisurely drive, no plans.",
+      "goal": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "start": [
+        0.54,
+        2.55,
+        0.0
+      ],
+      "vias": []
+    },
+    "r32_town05_ins_oppo#veh1": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r32_town05_ins_oppo",
+      "veh": 1,
+      "town": "Town05",
+      "label": "hospital",
+      "label_how": "kept",
+      "tier": "high",
+      "utterance": "My wife just called, she thinks she's in labor and I need to get to her right away.",
+      "kept_original": true,
+      "original_utterance": "My wife just called, she thinks she's in labor and I need to get to her right away.",
+      "goal": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "start": [
+        8.0,
+        2.55,
+        0.0
+      ],
+      "vias": []
+    },
+    "r32_town05_ins_oppo#veh2": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r32_town05_ins_oppo",
+      "veh": 2,
+      "town": "Town05",
+      "label": "bakery",
+      "label_how": "town",
+      "tier": "med",
+      "utterance": "The bakery holds my order only until closing and I'm cutting it close.",
+      "kept_original": false,
+      "original_utterance": "Trying to make an appointment I already rescheduled once.",
+      "goal": [
+        0.0,
+        -0.99,
+        0.0
+      ],
+      "start": [
+        45.15,
+        -0.99,
+        0.0
+      ],
+      "vias": []
+    },
+    "r32_town05_ins_oppo#veh3": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r32_town05_ins_oppo",
+      "veh": 3,
+      "town": "Town05",
+      "label": "park",
+      "label_how": "kept",
+      "tier": "low",
+      "utterance": "Heading out to walk the dog at the park, no hurry.",
+      "kept_original": true,
+      "original_utterance": "Heading out to walk the dog at the park, no hurry.",
+      "goal": [
+        0.0,
+        -0.99,
+        0.0
+      ],
+      "start": [
+        52.25,
+        -0.99,
+        0.0
+      ],
+      "vias": []
+    },
+    "r33_town05_ins_rl#veh0": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r33_town05_ins_rl",
+      "veh": 0,
+      "town": "Town05",
+      "label": "hospital",
+      "label_how": "kept",
+      "tier": "high",
+      "utterance": "My baby's running a dangerously high fever and I'm rushing her to the pediatrician.",
+      "kept_original": true,
+      "original_utterance": "My baby's running a dangerously high fever and I'm rushing her to the pediatrician.",
+      "goal": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "start": [
+        0.54,
+        2.55,
+        0.0
+      ],
+      "vias": []
+    },
+    "r33_town05_ins_rl#veh1": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r33_town05_ins_rl",
+      "veh": 1,
+      "town": "Town05",
+      "label": "store",
+      "label_how": "kept",
+      "tier": "low",
+      "utterance": "Just heading to browse the bookstore, no particular time frame.",
+      "kept_original": true,
+      "original_utterance": "Just heading to browse the bookstore, no particular time frame.",
+      "goal": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "start": [
+        6.0,
+        2.55,
+        0.0
+      ],
+      "vias": []
+    },
+    "r33_town05_ins_rl#veh2": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r33_town05_ins_rl",
+      "veh": 2,
+      "town": "Town05",
+      "label": "bakery",
+      "label_how": "town",
+      "tier": "med",
+      "utterance": "The bakery holds my order only until closing and I'm cutting it close.",
+      "kept_original": false,
+      "original_utterance": "Trying to make it to a rescheduled dentist appointment.",
+      "goal": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "start": [
+        45.15,
+        -0.99,
+        0.0
+      ],
+      "vias": []
+    },
+    "r33_town05_ins_rl#veh3": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r33_town05_ins_rl",
+      "veh": 3,
+      "town": "Town05",
+      "label": "house",
+      "label_how": "kept",
+      "tier": "high",
+      "utterance": "My father collapsed at home and I'm racing to get to him.",
+      "kept_original": true,
+      "original_utterance": "My father collapsed at home and I'm racing to get to him.",
+      "goal": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "start": [
+        54.25,
+        -0.99,
+        0.0
+      ],
+      "vias": []
+    },
+    "r34_town05_ins_rl#veh0": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r34_town05_ins_rl",
+      "veh": 0,
+      "town": "Town05",
+      "label": "house",
+      "label_how": "template_after_llm_feedback",
+      "tier": "high",
+      "utterance": "My smoke alarm is going off at the house and nobody's answering the phone inside.",
+      "kept_original": false,
+      "original_utterance": "My son just texted that he's stuck and scared on the side of the highway, I need to get to him immediately.",
+      "goal": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "start": [
+        0.54,
+        2.55,
+        0.0
+      ],
+      "vias": []
+    },
+    "r34_town05_ins_rl#veh1": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r34_town05_ins_rl",
+      "veh": 1,
+      "town": "Town05",
+      "label": "bakery",
+      "label_how": "town",
+      "tier": "low",
+      "utterance": "Picking something up at the bakery, no rush.",
+      "kept_original": false,
+      "original_utterance": "Just running a low-key errand, nothing urgent.",
+      "goal": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "start": [
+        59.25,
+        -0.99,
+        0.0
+      ],
+      "vias": []
+    },
+    "r34_town05_ins_rl#veh2": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r34_town05_ins_rl",
+      "veh": 2,
+      "town": "Town05",
+      "label": "cinema",
+      "label_how": "template_after_llm_feedback",
+      "tier": "med",
+      "utterance": "The film at the cinema starts shortly and they won't seat latecomers.",
+      "kept_original": false,
+      "original_utterance": "Hoping to catch my kid's recital before it starts.",
+      "goal": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "start": [
+        45.15,
+        -0.99,
+        0.0
+      ],
+      "vias": []
+    },
+    "r34_town05_ins_rl#veh3": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r34_town05_ins_rl",
+      "veh": 3,
+      "town": "Town05",
+      "label": "hospital",
+      "label_how": "kept",
+      "tier": "high",
+      "utterance": "The vet just called, my cat needs surgery today and I have to sign off in person.",
+      "kept_original": true,
+      "original_utterance": "The vet just called, my cat needs surgery today and I have to sign off in person.",
+      "goal": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "start": [
+        52.25,
+        -0.99,
+        0.0
+      ],
+      "vias": []
+    },
+    "r35_town05_ins_crosschange#veh0": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r35_town05_ins_crosschange",
+      "veh": 0,
+      "town": "Town05",
+      "label": "hospital",
+      "label_how": "kept",
+      "tier": "high",
+      "utterance": "My brother's having a severe allergic reaction and I'm the closest one who can get him to the hospital.",
+      "kept_original": true,
+      "original_utterance": "My brother's having a severe allergic reaction and I'm the closest one who can get him to the hospital.",
+      "goal": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "start": [
+        54.25,
+        -0.99,
+        0.0
+      ],
+      "vias": []
+    },
+    "r35_town05_ins_crosschange#veh1": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r35_town05_ins_crosschange",
+      "veh": 1,
+      "town": "Town05",
+      "label": "bus_stop",
+      "label_how": "town",
+      "tier": "low",
+      "utterance": "Just dropping a friend at the bus stop, no rush at all.",
+      "kept_original": false,
+      "original_utterance": "Just out for an evening drive.",
+      "goal": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "start": [
+        47.25,
+        -0.99,
+        0.0
+      ],
+      "vias": []
+    },
+    "r35_town05_ins_crosschange#veh2": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r35_town05_ins_crosschange",
+      "veh": 2,
+      "town": "Town05",
+      "label": "bakery",
+      "label_how": "town",
+      "tier": "med",
+      "utterance": "The bakery holds my order only until closing and I'm cutting it close.",
+      "kept_original": false,
+      "original_utterance": "Trying to catch the last bit of a store's closing hours.",
+      "goal": [
+        0.0,
+        -4.0,
+        0.0
+      ],
+      "start": [
+        50.15,
+        -4.0,
+        0.0
+      ],
+      "vias": []
+    },
+    "r35_town05_ins_crosschange#veh3": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r35_town05_ins_crosschange",
+      "veh": 3,
+      "town": "Town05",
+      "label": "gas_station",
+      "label_how": "template_after_llm_feedback",
+      "tier": "high",
+      "utterance": "I'm running on fumes, the light's been on for miles and I'll stall out if I don't reach that gas station.",
+      "kept_original": false,
+      "original_utterance": "My propane tank at home is leaking and I need to get back to shut it off.",
+      "goal": [
+        0.0,
+        -4.0,
+        0.0
+      ],
+      "start": [
+        57.25,
+        -4.0,
+        0.0
+      ],
+      "vias": []
+    },
+    "r36_town05_ins_crosschange#veh0": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r36_town05_ins_crosschange",
+      "veh": 0,
+      "town": "Town05",
+      "label": "house",
+      "label_how": "kept",
+      "tier": "high",
+      "utterance": "My mother just fell getting out of the shower and I need to get to her fast.",
+      "kept_original": true,
+      "original_utterance": "My mother just fell getting out of the shower and I need to get to her fast.",
+      "goal": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "start": [
+        54.25,
+        -0.99,
+        0.0
+      ],
+      "vias": []
+    },
+    "r36_town05_ins_crosschange#veh1": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r36_town05_ins_crosschange",
+      "veh": 1,
+      "town": "Town05",
+      "label": "restaurant",
+      "label_how": "kept",
+      "tier": "low",
+      "utterance": "Nothing urgent, just heading to grab lunch.",
+      "kept_original": true,
+      "original_utterance": "Nothing urgent, just heading to grab lunch.",
+      "goal": [
+        0.0,
+        -4.0,
+        0.0
+      ],
+      "start": [
+        63.0,
+        -4.0,
+        0.0
+      ],
+      "vias": []
+    },
+    "r36_town05_ins_crosschange#veh2": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r36_town05_ins_crosschange",
+      "veh": 2,
+      "town": "Town05",
+      "label": "bakery",
+      "label_how": "town",
+      "tier": "med",
+      "utterance": "The bakery holds my order only until closing and I'm cutting it close.",
+      "kept_original": false,
+      "original_utterance": "Running late to pick my car up from the shop before it closes.",
+      "goal": [
+        0.0,
+        -4.0,
+        0.0
+      ],
+      "start": [
+        50.15,
+        -4.0,
+        0.0
+      ],
+      "vias": []
+    },
+    "r36_town05_ins_crosschange#veh3": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r36_town05_ins_crosschange",
+      "veh": 3,
+      "town": "Town05",
+      "label": "bakery",
+      "label_how": "town",
+      "tier": "low",
+      "utterance": "Picking something up at the bakery, no rush.",
+      "kept_original": false,
+      "original_utterance": "Just cruising, no particular destination.",
+      "goal": [
+        0.0,
+        -4.0,
+        0.0
+      ],
+      "start": [
+        57.25,
+        -4.0,
+        0.0
+      ],
+      "vias": []
+    },
+    "r37_town05_ins_chaos#veh0": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r37_town05_ins_chaos",
+      "veh": 0,
+      "town": "Town05",
+      "label": "hotel",
+      "label_how": "town",
+      "tier": "high",
+      "utterance": "My elderly mother's alone at the hotel and hasn't answered in hours, I need to get up there.",
+      "kept_original": false,
+      "original_utterance": "My apartment's smoke detector won't stop and I need to get back to check it isn't a real fire.",
+      "goal": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "start": [
+        0.54,
+        2.55,
+        0.0
+      ],
+      "vias": []
+    },
+    "r37_town05_ins_chaos#veh1": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r37_town05_ins_chaos",
+      "veh": 1,
+      "town": "Town05",
+      "label": "cafe",
+      "label_how": "kept",
+      "tier": "low",
+      "utterance": "Just out for coffee, nothing pressing.",
+      "kept_original": true,
+      "original_utterance": "Just out for coffee, nothing pressing.",
+      "goal": [
+        24.58,
+        19.14,
+        0.0
+      ],
+      "start": [
+        6.0,
+        2.55,
+        0.0
+      ],
+      "vias": []
+    },
+    "r37_town05_ins_chaos#veh2": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r37_town05_ins_chaos",
+      "veh": 2,
+      "town": "Town05",
+      "label": "bakery",
+      "label_how": "town",
+      "tier": "high",
+      "utterance": "It's my daughter's wedding cake at the bakery and the ceremony starts in half an hour.",
+      "kept_original": false,
+      "original_utterance": "My daughter just called crying, she's stranded after her car broke down on a dark road.",
+      "goal": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "start": [
+        31.59,
+        30.2,
+        0.0
+      ],
+      "vias": []
+    },
+    "r37_town05_ins_chaos#veh3": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r37_town05_ins_chaos",
+      "veh": 3,
+      "town": "Town05",
+      "label": "bus_stop",
+      "label_how": "town",
+      "tier": "med",
+      "utterance": "My friend's bus leaves in a few minutes and I promised I'd get her to the stop.",
+      "kept_original": false,
+      "original_utterance": "Trying to catch the last available slot at the DMV today.",
+      "goal": [
+        0.0,
+        -0.99,
+        0.0
+      ],
+      "start": [
+        31.59,
+        36.2,
+        0.0
+      ],
+      "vias": []
+    },
+    "r37_town05_ins_chaos#veh4": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r37_town05_ins_chaos",
+      "veh": 4,
+      "town": "Town05",
+      "label": "bus_stop",
+      "label_how": "town",
+      "tier": "low",
+      "utterance": "Just dropping a friend at the bus stop, no rush at all.",
+      "kept_original": false,
+      "original_utterance": "Heading to browse a bookstore, no rush.",
+      "goal": [
+        0.0,
+        -4.0,
+        0.0
+      ],
+      "start": [
+        54.0,
+        -4.0,
+        0.0
+      ],
+      "vias": []
+    },
+    "r37_town05_ins_chaos#veh5": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r37_town05_ins_chaos",
+      "veh": 5,
+      "town": "Town05",
+      "label": "hospital",
+      "label_how": "kept",
+      "tier": "high",
+      "utterance": "I'm behind on getting my father to his dialysis appointment.",
+      "kept_original": true,
+      "original_utterance": "I'm behind on getting my father to his dialysis appointment.",
+      "goal": [
+        31.59,
+        30.2,
+        0.0
+      ],
+      "start": [
+        60.0,
+        -0.99,
+        0.0
+      ],
+      "vias": []
+    },
+    "r37_town05_ins_chaos#veh6": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r37_town05_ins_chaos",
+      "veh": 6,
+      "town": "Town05",
+      "label": "cafe",
+      "label_how": "town",
+      "tier": "med",
+      "utterance": "I'm meeting a client at the cafe and I'm already running behind.",
+      "kept_original": false,
+      "original_utterance": "Running a little late to relieve the babysitter.",
+      "goal": [
+        50.0,
+        2.55,
+        0.0
+      ],
+      "start": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "vias": []
+    },
+    "r37_town05_ins_chaos#veh7": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r37_town05_ins_chaos",
+      "veh": 7,
+      "town": "Town05",
+      "label": "cinema",
+      "label_how": "town",
+      "tier": "low",
+      "utterance": "Going to the cinema, we've got time before the trailers.",
+      "kept_original": false,
+      "original_utterance": "Just cruising, no particular plan.",
+      "goal": [
+        24.58,
+        19.14,
+        0.0
+      ],
+      "start": [
+        31.39,
+        -26.53,
+        0.0
+      ],
+      "vias": []
+    },
+    "r38_town05_ins_chaos#veh0": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r38_town05_ins_chaos",
+      "veh": 0,
+      "town": "Town05",
+      "label": "store",
+      "label_how": "kept",
+      "tier": "low",
+      "utterance": "Heading out to return a package, nothing urgent.",
+      "kept_original": true,
+      "original_utterance": "Heading out to return a package, nothing urgent.",
+      "goal": [
+        50.0,
+        2.55,
+        0.0
+      ],
+      "start": [
+        0.54,
+        2.55,
+        0.0
+      ],
+      "vias": []
+    },
+    "r38_town05_ins_chaos#veh1": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r38_town05_ins_chaos",
+      "veh": 1,
+      "town": "Town05",
+      "label": "factory",
+      "label_how": "template_after_llm_feedback",
+      "tier": "med",
+      "utterance": "My shift at the factory starts soon and I'm behind.",
+      "kept_original": false,
+      "original_utterance": "Trying to make it to a job orientation on time.",
+      "goal": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "start": [
+        6.0,
+        5.55,
+        0.0
+      ],
+      "vias": []
+    },
+    "r38_town05_ins_chaos#veh2": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r38_town05_ins_chaos",
+      "veh": 2,
+      "town": "Town05",
+      "label": "house",
+      "label_how": "template_after_llm_feedback",
+      "tier": "high",
+      "utterance": "My smoke alarm is going off at the house and nobody's answering the phone inside.",
+      "kept_original": false,
+      "original_utterance": "My husband just texted he's having severe chest pains and I need to get to him.",
+      "goal": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "start": [
+        31.59,
+        30.2,
+        0.0
+      ],
+      "vias": []
+    },
+    "r38_town05_ins_chaos#veh3": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r38_town05_ins_chaos",
+      "veh": 3,
+      "town": "Town05",
+      "label": "bakery",
+      "label_how": "town",
+      "tier": "low",
+      "utterance": "Picking something up at the bakery, no rush.",
+      "kept_original": false,
+      "original_utterance": "Just out for a quiet weekend drive.",
+      "goal": [
+        0.0,
+        -0.99,
+        0.0
+      ],
+      "start": [
+        31.59,
+        36.2,
+        0.0
+      ],
+      "vias": []
+    },
+    "r38_town05_ins_chaos#veh4": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r38_town05_ins_chaos",
+      "veh": 4,
+      "town": "Town05",
+      "label": "bakery",
+      "label_how": "town",
+      "tier": "med",
+      "utterance": "The bakery holds my order only until closing and I'm cutting it close.",
+      "kept_original": false,
+      "original_utterance": "The tow truck is waiting on me and I need to get there before they leave.",
+      "goal": [
+        0.0,
+        -4.0,
+        0.0
+      ],
+      "start": [
+        54.0,
+        -4.0,
+        0.0
+      ],
+      "vias": []
+    },
+    "r38_town05_ins_chaos#veh5": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r38_town05_ins_chaos",
+      "veh": 5,
+      "town": "Town05",
+      "label": "bus_stop",
+      "label_how": "town",
+      "tier": "med",
+      "utterance": "My friend's bus leaves in a few minutes and I promised I'd get her to the stop.",
+      "kept_original": false,
+      "original_utterance": "Running behind for a rescheduled flight check-in.",
+      "goal": [
+        31.59,
+        30.2,
+        0.0
+      ],
+      "start": [
+        60.0,
+        -0.99,
+        0.0
+      ],
+      "vias": []
+    },
+    "r38_town05_ins_chaos#veh6": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r38_town05_ins_chaos",
+      "veh": 6,
+      "town": "Town05",
+      "label": "bakery",
+      "label_how": "town",
+      "tier": "high",
+      "utterance": "It's my daughter's wedding cake at the bakery and the ceremony starts in half an hour.",
+      "kept_original": false,
+      "original_utterance": "My son's asthma inhaler is empty and the pharmacy closes in twenty minutes.",
+      "goal": [
+        0.0,
+        -4.0,
+        0.0
+      ],
+      "start": [
+        31.39,
+        -20.53,
+        0.0
+      ],
+      "vias": []
+    },
+    "r38_town05_ins_chaos#veh7": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r38_town05_ins_chaos",
+      "veh": 7,
+      "town": "Town05",
+      "label": "restaurant",
+      "label_how": "kept",
+      "tier": "low",
+      "utterance": "Just heading to grab lunch, no time pressure.",
+      "kept_original": true,
+      "original_utterance": "Just heading to grab lunch, no time pressure.",
+      "goal": [
+        24.58,
+        19.14,
+        0.0
+      ],
+      "start": [
+        31.39,
+        -26.53,
+        0.0
+      ],
+      "vias": []
+    },
+    "r39_town06_hw_c#veh0": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r39_town06_hw_c",
+      "veh": 0,
+      "town": "Town06",
+      "label": "factory",
+      "label_how": "town",
+      "tier": "low",
+      "utterance": "On my way to the factory, normal shift, no rush.",
+      "kept_original": false,
+      "original_utterance": "Just cruising the highway, nothing urgent.",
+      "goal": [
+        180.0,
+        237.06,
+        0.0
+      ],
+      "start": [
+        145.11,
+        237.06,
+        0.0
+      ],
+      "vias": []
+    },
+    "r39_town06_hw_c#veh1": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r39_town06_hw_c",
+      "veh": 1,
+      "town": "Town06",
+      "label": "farm",
+      "label_how": "town",
+      "tier": "med",
+      "utterance": "I'm expected at the farm for the afternoon and running late.",
+      "kept_original": false,
+      "original_utterance": "Running behind on a delivery window.",
+      "goal": [
+        155.0,
+        240.83,
+        0.0
+      ],
+      "start": [
+        138.11,
+        237.06,
+        0.0
+      ],
+      "vias": []
+    },
+    "r39_town06_hw_c#veh2": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r39_town06_hw_c",
+      "veh": 2,
+      "town": "Town06",
+      "label": "hospital",
+      "label_how": "kept",
+      "tier": "high",
+      "utterance": "My father's having a stroke and I'm rushing him to the nearest hospital.",
+      "kept_original": true,
+      "original_utterance": "My father's having a stroke and I'm rushing him to the nearest hospital.",
+      "goal": [
+        155.0,
+        237.06,
+        0.0
+      ],
+      "start": [
+        138.11,
+        240.83,
+        0.0
+      ],
+      "vias": []
+    },
+    "r39_town06_hw_c#veh3": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r39_town06_hw_c",
+      "veh": 3,
+      "town": "Town06",
+      "label": "house",
+      "label_how": "town",
+      "tier": "low",
+      "utterance": "Just heading home, nothing pressing.",
+      "kept_original": false,
+      "original_utterance": "Heading out on a weekend road trip, no schedule.",
+      "goal": [
+        155.0,
+        248.37,
+        0.0
+      ],
+      "start": [
+        138.11,
+        244.6,
+        0.0
+      ],
+      "vias": []
+    },
+    "r39_town06_hw_c#veh4": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r39_town06_hw_c",
+      "veh": 4,
+      "town": "Town06",
+      "label": "university",
+      "label_how": "town",
+      "tier": "med",
+      "utterance": "I've got a lecture at the university starting soon.",
+      "kept_original": false,
+      "original_utterance": "The moving truck is waiting on me and every extra minute costs money I don't have.",
+      "goal": [
+        155.0,
+        252.16,
+        0.0
+      ],
+      "start": [
+        138.11,
+        248.37,
+        0.0
+      ],
+      "vias": []
+    },
+    "r39_town06_hw_c#veh5": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r39_town06_hw_c",
+      "veh": 5,
+      "town": "Town06",
+      "label": "hospital",
+      "label_how": "kept",
+      "tier": "med",
+      "utterance": "Trying to make a rescheduled doctor's appointment.",
+      "kept_original": true,
+      "original_utterance": "Trying to make a rescheduled doctor's appointment.",
+      "goal": [
+        160.0,
+        252.16,
+        0.0
+      ],
+      "start": [
+        138.11,
+        252.16,
+        0.0
+      ],
+      "vias": []
+    },
+    "r39_town06_hw_c#veh6": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r39_town06_hw_c",
+      "veh": 6,
+      "town": "Town06",
+      "label": "warehouse",
+      "label_how": "town",
+      "tier": "low",
+      "utterance": "Heading to the warehouse, nothing on the clock.",
+      "kept_original": false,
+      "original_utterance": "Just passing through, nothing pressing.",
+      "goal": [
+        160.0,
+        244.6,
+        0.0
+      ],
+      "start": [
+        145.0,
+        248.37,
+        0.0
+      ],
+      "vias": []
+    },
+    "r39_town06_hw_c#veh7": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r39_town06_hw_c",
+      "veh": 7,
+      "town": "Town06",
+      "label": "warehouse",
+      "label_how": "town",
+      "tier": "high",
+      "utterance": "There's a chemical spill at the warehouse and I'm the only one on shift who knows the shutoff.",
+      "kept_original": false,
+      "original_utterance": "My baby's running a high fever and we're heading straight to the ER.",
+      "goal": [
+        160.0,
+        244.6,
+        0.0
+      ],
+      "start": [
+        145.0,
+        244.6,
+        0.0
+      ],
+      "vias": []
+    },
+    "r40_town06_hw_c#veh0": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r40_town06_hw_c",
+      "veh": 0,
+      "town": "Town06",
+      "label": "factory",
+      "label_how": "kept",
+      "tier": "med",
+      "utterance": "Trying to make it to a job site before the crew leaves.",
+      "kept_original": true,
+      "original_utterance": "Trying to make it to a job site before the crew leaves.",
+      "goal": [
+        180.0,
+        237.06,
+        0.0
+      ],
+      "start": [
+        145.11,
+        237.06,
+        0.0
+      ],
+      "vias": []
+    },
+    "r40_town06_hw_c#veh1": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r40_town06_hw_c",
+      "veh": 1,
+      "town": "Town06",
+      "label": "factory",
+      "label_how": "town",
+      "tier": "low",
+      "utterance": "On my way to the factory, normal shift, no rush.",
+      "kept_original": false,
+      "original_utterance": "Just a regular commute, nothing time-sensitive.",
+      "goal": [
+        180.0,
+        244.6,
+        0.0
+      ],
+      "start": [
+        155.11,
+        240.83,
+        0.0
+      ],
+      "vias": []
+    },
+    "r40_town06_hw_c#veh2": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r40_town06_hw_c",
+      "veh": 2,
+      "town": "Town06",
+      "label": "farm",
+      "label_how": "town",
+      "tier": "med",
+      "utterance": "I'm expected at the farm for the afternoon and running late.",
+      "kept_original": false,
+      "original_utterance": "My dog got loose and animal control says they can only hold her for another hour.",
+      "goal": [
+        160.0,
+        240.83,
+        0.0
+      ],
+      "start": [
+        145.0,
+        240.83,
+        0.0
+      ],
+      "vias": []
+    },
+    "r40_town06_hw_c#veh3": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r40_town06_hw_c",
+      "veh": 3,
+      "town": "Town06",
+      "label": "house",
+      "label_how": "town",
+      "tier": "low",
+      "utterance": "Just heading home, nothing pressing.",
+      "kept_original": false,
+      "original_utterance": "Heading out for a scenic drive, no destination.",
+      "goal": [
+        155.0,
+        248.37,
+        0.0
+      ],
+      "start": [
+        138.11,
+        240.83,
+        0.0
+      ],
+      "vias": []
+    },
+    "r40_town06_hw_c#veh4": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r40_town06_hw_c",
+      "veh": 4,
+      "town": "Town06",
+      "label": "hospital",
+      "label_how": "kept",
+      "tier": "high",
+      "utterance": "My wife's in early labor and I'm driving her to the hospital.",
+      "kept_original": true,
+      "original_utterance": "My wife's in early labor and I'm driving her to the hospital.",
+      "goal": [
+        165.0,
+        252.16,
+        0.0
+      ],
+      "start": [
+        145.11,
+        244.6,
+        0.0
+      ],
+      "vias": []
+    },
+    "r40_town06_hw_c#veh5": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r40_town06_hw_c",
+      "veh": 5,
+      "town": "Town06",
+      "label": "train_station",
+      "label_how": "kept",
+      "tier": "med",
+      "utterance": "Running late to catch a rescheduled ferry.",
+      "kept_original": true,
+      "original_utterance": "Running late to catch a rescheduled ferry.",
+      "goal": [
+        160.0,
+        244.6,
+        0.0
+      ],
+      "start": [
+        138.11,
+        244.6,
+        0.0
+      ],
+      "vias": []
+    },
+    "r40_town06_hw_c#veh6": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r40_town06_hw_c",
+      "veh": 6,
+      "town": "Town06",
+      "label": "farm",
+      "label_how": "town",
+      "tier": "low",
+      "utterance": "Driving out to the farm, nothing urgent.",
+      "kept_original": false,
+      "original_utterance": "Just on my normal commute, no rush.",
+      "goal": [
+        160.0,
+        252.16,
+        0.0
+      ],
+      "start": [
+        138.11,
+        248.37,
+        0.0
+      ],
+      "vias": []
+    },
+    "r40_town06_hw_c#veh7": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r40_town06_hw_c",
+      "veh": 7,
+      "town": "Town06",
+      "label": "university",
+      "label_how": "town",
+      "tier": "med",
+      "utterance": "I've got a lecture at the university starting soon.",
+      "kept_original": false,
+      "original_utterance": "I need to get to the pharmacy before it closes, my prescription's out.",
+      "goal": [
+        160.0,
+        252.16,
+        0.0
+      ],
+      "start": [
+        138.11,
+        252.16,
+        0.0
+      ],
+      "vias": []
+    },
+    "r41_town05_ins_oppo#veh0": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r41_town05_ins_oppo",
+      "veh": 0,
+      "town": "Town05",
+      "label": "bakery",
+      "label_how": "town",
+      "tier": "low",
+      "utterance": "Picking something up at the bakery, no rush.",
+      "kept_original": false,
+      "original_utterance": "Just out running Saturday errands.",
+      "goal": [
+        -121.51,
+        -25.89,
+        0.0
+      ],
+      "start": [
+        -159.7,
+        6.43,
+        0.0
+      ],
+      "vias": []
+    },
+    "r41_town05_ins_oppo#veh1": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r41_town05_ins_oppo",
+      "veh": 1,
+      "town": "Town05",
+      "label": "factory",
+      "label_how": "template_after_llm_feedback",
+      "tier": "med",
+      "utterance": "My shift at the factory starts soon and I'm behind.",
+      "kept_original": false,
+      "original_utterance": "Trying to get to a job interview with a little buffer left.",
+      "goal": [
+        -151.47,
+        -0.3,
+        0.0
+      ],
+      "start": [
+        -85.57,
+        -0.3,
+        0.0
+      ],
+      "vias": []
+    },
+    "r41_town05_ins_oppo#veh2": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r41_town05_ins_oppo",
+      "veh": 2,
+      "town": "Town05",
+      "label": "house",
+      "label_how": "kept",
+      "tier": "high",
+      "utterance": "My basement sump pump failed and water's rising fast, I need to get home.",
+      "kept_original": true,
+      "original_utterance": "My basement sump pump failed and water's rising fast, I need to get home.",
+      "goal": [
+        -121.51,
+        -25.89,
+        0.0
+      ],
+      "start": [
+        -152.7,
+        6.43,
+        0.0
+      ],
+      "vias": []
+    },
+    "r41_town05_ins_oppo#veh3": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r41_town05_ins_oppo",
+      "veh": 3,
+      "town": "Town05",
+      "label": "restaurant",
+      "label_how": "kept",
+      "tier": "low",
+      "utterance": "No rush, just driving to meet a friend for lunch.",
+      "kept_original": true,
+      "original_utterance": "No rush, just driving to meet a friend for lunch.",
+      "goal": [
+        -151.47,
+        -0.3,
+        0.0
+      ],
+      "start": [
+        -78.57,
+        -0.3,
+        0.0
+      ],
+      "vias": []
+    },
+    "r42_town05_ins_rl#veh0": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r42_town05_ins_rl",
+      "veh": 0,
+      "town": "Town05",
+      "label": "restaurant",
+      "label_how": "kept",
+      "tier": "low",
+      "utterance": "Heading to pick up dinner, no rush.",
+      "kept_original": true,
+      "original_utterance": "Heading to pick up dinner, no rush.",
+      "goal": [
+        134.0,
+        -1.96,
+        0.0
+      ],
+      "start": [
+        151.0,
+        -15.7,
+        0.0
+      ],
+      "vias": []
+    },
+    "r42_town05_ins_rl#veh1": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r42_town05_ins_rl",
+      "veh": 1,
+      "town": "Town05",
+      "label": "bakery",
+      "label_how": "town",
+      "tier": "med",
+      "utterance": "The bakery holds my order only until closing and I'm cutting it close.",
+      "kept_original": false,
+      "original_utterance": "Running a few minutes behind for a haircut appointment.",
+      "goal": [
+        134.0,
+        -1.96,
+        0.0
+      ],
+      "start": [
+        155.0,
+        20.7,
+        0.0
+      ],
+      "vias": []
+    },
+    "r42_town05_ins_rl#veh2": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r42_town05_ins_rl",
+      "veh": 2,
+      "town": "Town05",
+      "label": "hospital",
+      "label_how": "kept",
+      "tier": "high",
+      "utterance": "My elderly neighbor fell and I'm the only one who can drive her to the clinic.",
+      "kept_original": true,
+      "original_utterance": "My elderly neighbor fell and I'm the only one who can drive her to the clinic.",
+      "goal": [
+        134.0,
+        -1.96,
+        0.0
+      ],
+      "start": [
+        151.0,
+        -25.7,
+        0.0
+      ],
+      "vias": []
+    },
+    "r42_town05_ins_rl#veh3": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r42_town05_ins_rl",
+      "veh": 3,
+      "town": "Town05",
+      "label": "bakery",
+      "label_how": "town",
+      "tier": "low",
+      "utterance": "Picking something up at the bakery, no rush.",
+      "kept_original": false,
+      "original_utterance": "Just cruising around, killing time before an evening class.",
+      "goal": [
+        134.0,
+        -1.96,
+        0.0
+      ],
+      "start": [
+        155.0,
+        27.7,
+        0.0
+      ],
+      "vias": []
+    },
+    "r43_town05_ins_crosschange#veh0": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r43_town05_ins_crosschange",
+      "veh": 0,
+      "town": "Town05",
+      "label": "bakery",
+      "label_how": "town",
+      "tier": "low",
+      "utterance": "Picking something up at the bakery, no rush.",
+      "kept_original": false,
+      "original_utterance": "Heading out for a quiet drive, no plans.",
+      "goal": [
+        7.17,
+        -4.56,
+        0.0
+      ],
+      "start": [
+        27.91,
+        -14.97,
+        0.0
+      ],
+      "vias": []
+    },
+    "r43_town05_ins_crosschange#veh1": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r43_town05_ins_crosschange",
+      "veh": 1,
+      "town": "Town05",
+      "label": "bus_stop",
+      "label_how": "town",
+      "tier": "med",
+      "utterance": "My friend's bus leaves in a few minutes and I promised I'd get her to the stop.",
+      "kept_original": false,
+      "original_utterance": "The daycare just called, my toddler has a fever and I need to pick her up now.",
+      "goal": [
+        24.47,
+        13.496,
+        0.0
+      ],
+      "start": [
+        24.41,
+        -15.19,
+        0.0
+      ],
+      "vias": []
+    },
+    "r43_town05_ins_crosschange#veh2": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r43_town05_ins_crosschange",
+      "veh": 2,
+      "town": "Town05",
+      "label": "cafe",
+      "label_how": "town",
+      "tier": "med",
+      "utterance": "I'm meeting a client at the cafe and I'm already running behind.",
+      "kept_original": false,
+      "original_utterance": "Running a bit behind for a haircut I really don't want to lose the slot for.",
+      "goal": [
+        7.04,
+        -4.44,
+        0.0
+      ],
+      "start": [
+        27.98,
+        -21.99,
+        0.0
+      ],
+      "vias": []
+    },
+    "r43_town05_ins_crosschange#veh3": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r43_town05_ins_crosschange",
+      "veh": 3,
+      "town": "Town05",
+      "label": "bus_stop",
+      "label_how": "town",
+      "tier": "low",
+      "utterance": "Just dropping a friend at the bus stop, no rush at all.",
+      "kept_original": false,
+      "original_utterance": "Just going to meet a friend, nothing time-sensitive.",
+      "goal": [
+        24.47,
+        13.496,
+        0.0
+      ],
+      "start": [
+        24.41,
+        -22.19,
+        0.0
+      ],
+      "vias": []
+    },
+    "r44_town05_ins_chaos#veh0": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r44_town05_ins_chaos",
+      "veh": 0,
+      "town": "Town05",
+      "label": "parking",
+      "label_how": "override_after_llm_feedback",
+      "tier": "med",
+      "utterance": "Take me to the parking garage \u2014 my meter's nearly up and I'd rather not get ticketed.",
+      "kept_original": false,
+      "original_utterance": "Trying to get to the car wash before it closes for the day.",
+      "goal": [
+        -68.35,
+        -0.75,
+        0.0
+      ],
+      "start": [
+        -28.25,
+        -0.95,
+        0.0
+      ],
+      "vias": []
+    },
+    "r44_town05_ins_chaos#veh1": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r44_town05_ins_chaos",
+      "veh": 1,
+      "town": "Town05",
+      "label": "hospital",
+      "label_how": "kept",
+      "tier": "high",
+      "utterance": "I just got word my sister is in premature labor and I need to reach her.",
+      "kept_original": true,
+      "original_utterance": "I just got word my sister is in premature labor and I need to reach her.",
+      "goal": [
+        -50.65,
+        35.04,
+        0.0
+      ],
+      "start": [
+        -54.95,
+        -17.15,
+        0.0
+      ],
+      "vias": []
+    },
+    "r44_town05_ins_chaos#veh2": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r44_town05_ins_chaos",
+      "veh": 2,
+      "town": "Town05",
+      "label": "bakery",
+      "label_how": "town",
+      "tier": "low",
+      "utterance": "Picking something up at the bakery, no rush.",
+      "kept_original": false,
+      "original_utterance": "Just meeting a friend for a walk, no time pressure.",
+      "goal": [
+        -19.45,
+        6.14,
+        0.0
+      ],
+      "start": [
+        -66.65,
+        6.04,
+        0.0
+      ],
+      "vias": []
+    },
+    "r44_town05_ins_chaos#veh3": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r44_town05_ins_chaos",
+      "veh": 3,
+      "town": "Town05",
+      "label": "gas_station",
+      "label_how": "template_after_llm_feedback",
+      "tier": "high",
+      "utterance": "I'm running on fumes, the light's been on for miles and I'll stall out if I don't reach that gas station.",
+      "kept_original": false,
+      "original_utterance": "My furnace started smoking and I need to get home to shut off the gas.",
+      "goal": [
+        -48.05,
+        -18.35,
+        0.0
+      ],
+      "start": [
+        -43.85,
+        19.54,
+        0.0
+      ],
+      "vias": []
+    },
+    "r44_town05_ins_chaos#veh4": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r44_town05_ins_chaos",
+      "veh": 4,
+      "town": "Town05",
+      "label": "bus_stop",
+      "label_how": "town",
+      "tier": "low",
+      "utterance": "Just dropping a friend at the bus stop, no rush at all.",
+      "kept_original": false,
+      "original_utterance": "Heading out for a casual bike shop visit.",
+      "goal": [
+        -54.15,
+        34.34,
+        0.0
+      ],
+      "start": [
+        -31.05,
+        -4.25,
+        0.0
+      ],
+      "vias": []
+    },
+    "r44_town05_ins_chaos#veh5": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r44_town05_ins_chaos",
+      "veh": 5,
+      "town": "Town05",
+      "label": "bakery",
+      "label_how": "town",
+      "tier": "med",
+      "utterance": "The bakery holds my order only until closing and I'm cutting it close.",
+      "kept_original": false,
+      "original_utterance": "Running late for a haircut I already rescheduled once.",
+      "goal": [
+        -18.15,
+        2.74,
+        0.0
+      ],
+      "start": [
+        -54.95,
+        -22.15,
+        0.0
+      ],
+      "vias": []
+    },
+    "r44_town05_ins_chaos#veh6": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r44_town05_ins_chaos",
+      "veh": 6,
+      "town": "Town05",
+      "label": "cafe",
+      "label_how": "town",
+      "tier": "high",
+      "utterance": "My father called from the cafe saying he's dizzy and confused, I need to get to him fast.",
+      "kept_original": false,
+      "original_utterance": "My coworker is having a diabetic emergency and I'm the one driving him to get glucose.",
+      "goal": [
+        -75.15,
+        -0.75,
+        0.0
+      ],
+      "start": [
+        -50.0,
+        -22.15,
+        0.0
+      ],
+      "vias": []
+    },
+    "r44_town05_ins_chaos#veh7": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r44_town05_ins_chaos",
+      "veh": 7,
+      "town": "Town05",
+      "label": "cinema",
+      "label_how": "town",
+      "tier": "low",
+      "utterance": "Going to the cinema, we've got time before the trailers.",
+      "kept_original": false,
+      "original_utterance": "Just taking a break, driving with no destination.",
+      "goal": [
+        -45.0,
+        -25.0,
+        0.0
+      ],
+      "start": [
+        -69.95,
+        2.6,
+        0.0
+      ],
+      "vias": []
+    },
+    "r45_town06_hw_merge#veh0": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r45_town06_hw_merge",
+      "veh": 0,
+      "town": "Town06",
+      "label": "farm",
+      "label_how": "town",
+      "tier": "low",
+      "utterance": "Driving out to the farm, nothing urgent.",
+      "kept_original": false,
+      "original_utterance": "Just heading out on a relaxed highway drive.",
+      "goal": [
+        283.09,
+        52.34,
+        0.0
+      ],
+      "start": [
+        187.73,
+        52.2,
+        0.0
+      ],
+      "vias": []
+    },
+    "r45_town06_hw_merge#veh1": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r45_town06_hw_merge",
+      "veh": 1,
+      "town": "Town06",
+      "label": "farm",
+      "label_how": "town",
+      "tier": "high",
+      "utterance": "A calving's gone wrong at the farm and the vet won't start until I'm there to sign.",
+      "kept_original": false,
+      "original_utterance": "My daughter's having a medical emergency at camp and I need to get there as fast as safely possible.",
+      "goal": [
+        283.09,
+        52.34,
+        0.0
+      ],
+      "start": [
+        201.33,
+        72.46,
+        0.0
+      ],
+      "vias": []
+    },
+    "r45_town06_hw_merge#veh2": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r45_town06_hw_merge",
+      "veh": 2,
+      "town": "Town06",
+      "label": "parking",
+      "label_how": "template_after_llm_feedback",
+      "tier": "med",
+      "utterance": "My parking meter runs out shortly and I'd rather not get ticketed.",
+      "kept_original": false,
+      "original_utterance": "Running late to pick up a rental car before the counter closes.",
+      "goal": [
+        283.09,
+        52.34,
+        0.0
+      ],
+      "start": [
+        177.73,
+        52.2,
+        0.0
+      ],
+      "vias": []
+    },
+    "r45_town06_hw_merge#veh3": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r45_town06_hw_merge",
+      "veh": 3,
+      "town": "Town06",
+      "label": "parking",
+      "label_how": "template_after_llm_feedback",
+      "tier": "high",
+      "utterance": "They're towing my car from that lot and I have to get there before it's gone with my documents inside.",
+      "kept_original": false,
+      "original_utterance": "I'm rushing a spare part to a stranded coworker before the tow truck gives up waiting.",
+      "goal": [
+        283.09,
+        52.34,
+        0.0
+      ],
+      "start": [
+        210.33,
+        58.46,
+        0.0
+      ],
+      "vias": []
+    },
+    "r46_town06_hw_c#veh0": {
+      "stops": [],
+      "shape_vias": [
+        [
+          154.41,
+          237.06,
+          0.0
+        ],
+        [
+          178.11,
+          244.6,
+          0.0
+        ],
+        [
+          190.11,
+          240.83,
+          0.0
+        ],
+        [
+          203.11,
+          244.6,
+          0.0
+        ],
+        [
+          245.11,
+          248.37,
+          0.0
+        ]
+      ],
+      "via_mode": "manoeuvre",
+      "scenario": "r46_town06_hw_c",
+      "veh": 0,
+      "town": "Town06",
+      "label": "factory",
+      "label_how": "town",
+      "tier": "low",
+      "utterance": "On my way to the factory, normal shift, no rush.",
+      "kept_original": false,
+      "original_utterance": "Just a long stretch of highway, nothing urgent.",
+      "goal": [
+        280.11,
+        252.16,
+        0.0
+      ],
+      "start": [
+        138.11,
+        237.06,
+        0.0
+      ],
+      "vias": [
+        [
+          154.41,
+          237.06,
+          0.0
+        ],
+        [
+          178.11,
+          244.6,
+          0.0
+        ],
+        [
+          190.11,
+          240.83,
+          0.0
+        ],
+        [
+          203.11,
+          244.6,
+          0.0
+        ],
+        [
+          220.11,
+          248.37,
+          0.0
+        ],
+        [
+          245.11,
+          248.37,
+          0.0
+        ],
+        [
+          261.11,
+          252.16,
+          0.0
+        ]
+      ]
+    },
+    "r46_town06_hw_c#veh1": {
+      "stops": [
+        {
+          "label": "house",
+          "point": [
+            150.41,
+            240.83,
+            0.0
+          ]
+        }
+      ],
+      "shape_vias": [],
+      "via_mode": "stop",
+      "scenario": "r46_town06_hw_c",
+      "veh": 1,
+      "town": "Town06",
+      "label": "university",
+      "label_how": "town",
+      "tier": "med",
+      "utterance": "Stop at the house on the way, then I've got a lecture at the university starting soon.",
+      "kept_original": false,
+      "original_utterance": "Trying to make it to a work shift with some buffer left.",
+      "goal": [
+        191.11,
+        237.06,
+        0.0
+      ],
+      "start": [
+        133.11,
+        240.83,
+        0.0
+      ],
+      "vias": [
+        [
+          150.41,
+          240.83,
+          0.0
+        ],
+        [
+          173.11,
+          237.06,
+          0.0
+        ]
+      ]
+    },
+    "r46_town06_hw_c#veh2": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r46_town06_hw_c",
+      "veh": 2,
+      "town": "Town06",
+      "label": "farm",
+      "label_how": "town",
+      "tier": "high",
+      "utterance": "A calving's gone wrong at the farm and the vet won't start until I'm there to sign.",
+      "kept_original": false,
+      "original_utterance": "My mother collapsed at home and I'm the closest one who can get to her.",
+      "goal": [
+        290.11,
+        244.6,
+        0.0
+      ],
+      "start": [
+        132.11,
+        244.6,
+        0.0
+      ],
+      "vias": []
+    },
+    "r46_town06_hw_c#veh3": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r46_town06_hw_c",
+      "veh": 3,
+      "town": "Town06",
+      "label": "warehouse",
+      "label_how": "town",
+      "tier": "high",
+      "utterance": "There's a chemical spill at the warehouse and I'm the only one on shift who knows the shutoff.",
+      "kept_original": false,
+      "original_utterance": "I'm rushing spare parts to a stranded coworker on the shoulder up ahead.",
+      "goal": [
+        290.11,
+        244.6,
+        0.0
+      ],
+      "start": [
+        126.11,
+        244.6,
+        0.0
+      ],
+      "vias": []
+    },
+    "r46_town06_hw_c#veh4": {
+      "stops": [],
+      "shape_vias": [
+        [
+          150.41,
+          252.16,
+          0.0
+        ],
+        [
+          191.11,
+          248.37,
+          0.0
+        ],
+        [
+          210.11,
+          244.37,
+          0.0
+        ],
+        [
+          234.11,
+          240.37,
+          0.0
+        ]
+      ],
+      "via_mode": "manoeuvre",
+      "scenario": "r46_town06_hw_c",
+      "veh": 4,
+      "town": "Town06",
+      "label": "woods",
+      "label_how": "town",
+      "tier": "low",
+      "utterance": "Driving out to the woods for a hike, no timetable.",
+      "kept_original": false,
+      "original_utterance": "Just driving through, no particular timeline.",
+      "goal": [
+        289.11,
+        237.37,
+        0.0
+      ],
+      "start": [
+        128.11,
+        252.16,
+        0.0
+      ],
+      "vias": [
+        [
+          150.41,
+          252.16,
+          0.0
+        ],
+        [
+          173.11,
+          248.37,
+          0.0
+        ],
+        [
+          191.11,
+          248.37,
+          0.0
+        ],
+        [
+          210.11,
+          244.37,
+          0.0
+        ],
+        [
+          222.11,
+          240.37,
+          0.0
+        ],
+        [
+          234.11,
+          240.37,
+          0.0
+        ],
+        [
+          259.11,
+          237.37,
+          0.0
+        ]
+      ]
+    },
+    "r46_town06_hw_c#veh5": {
+      "stops": [],
+      "shape_vias": [],
+      "via_mode": "none",
+      "scenario": "r46_town06_hw_c",
+      "veh": 5,
+      "town": "Town06",
+      "label": "farm",
+      "label_how": "town",
+      "tier": "med",
+      "utterance": "I'm expected at the farm for the afternoon and running late.",
+      "kept_original": false,
+      "original_utterance": "Trying to make it to a hotel check-in before the desk closes.",
+      "goal": [
+        290.11,
+        248.37,
+        0.0
+      ],
+      "start": [
+        118.11,
+        248.37,
+        0.0
+      ],
+      "vias": []
+    },
+    "r46_town06_hw_c#veh6": {
+      "stops": [],
+      "shape_vias": [
+        [
+          154.41,
+          237.06,
+          0.0
+        ],
+        [
+          178.11,
+          244.6,
+          0.0
+        ],
+        [
+          190.11,
+          240.83,
+          0.0
+        ],
+        [
+          203.11,
+          244.6,
+          0.0
+        ],
+        [
+          245.11,
+          248.37,
+          0.0
+        ]
+      ],
+      "via_mode": "manoeuvre",
+      "scenario": "r46_town06_hw_c",
+      "veh": 6,
+      "town": "Town06",
+      "label": "factory",
+      "label_how": "town",
+      "tier": "high",
+      "utterance": "A line worker at the factory got his arm caught and I'm the one with the key to the safety cage.",
+      "kept_original": false,
+      "original_utterance": "My son's school just called, he's having a severe allergic reaction and I need to get there.",
+      "goal": [
+        280.11,
+        252.16,
+        0.0
+      ],
+      "start": [
+        130.11,
+        237.06,
+        0.0
+      ],
+      "vias": [
+        [
+          154.41,
+          237.06,
+          0.0
+        ],
+        [
+          178.11,
+          244.6,
+          0.0
+        ],
+        [
+          190.11,
+          240.83,
+          0.0
+        ],
+        [
+          203.11,
+          244.6,
+          0.0
+        ],
+        [
+          220.11,
+          248.37,
+          0.0
+        ],
+        [
+          245.11,
+          248.37,
+          0.0
+        ],
+        [
+          261.11,
+          252.16,
+          0.0
+        ]
+      ]
+    }
+  }
+}

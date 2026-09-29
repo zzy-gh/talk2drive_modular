@@ -1,0 +1,12 @@
+# Your machine's paths, not the project's. Copy config.example.yaml to start.
+config.yaml
+
+# Upstream AD stacks (TCP, SimLingo). ~814 MB of other people's repositories,
+# each with its own .git. Clone them from upstream and point config.yaml at
+# wherever they live -- nothing here is ours to redistribute.
+AD software/
+
+__pycache__/
+*.pyc
+
+.DS_Store

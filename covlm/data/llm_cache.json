@@ -1,0 +1,1713 @@
+{
+ "c26d3182824e7c18b4bcc99c1109c4a3": {
+  "command_type": "plan_route",
+  "destination": "house",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.98
+ },
+ "416a3c71a031c419c2f7c83f1658cfac": {
+  "command_type": "plan_route",
+  "destination": "supermarket",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.9
+ },
+ "f4aa18146835303593c87eccb039b3e3": {
+  "command_type": "plan_route",
+  "destination": "bakery",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "908a87b157a7f5184fa2bfd27fa33e07": {
+  "command_type": "plan_route",
+  "destination": "bus_stop",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.95
+ },
+ "29eac4453dbcc30ba4d41eb0f3dd8833": {
+  "command_type": "plan_route",
+  "destination": "supermarket",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.9
+ },
+ "061008fb91ed4ea5180c025f6a806311": {
+  "command_type": "plan_route",
+  "destination": "bakery",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.98
+ },
+ "4d00b62118bdc440510a1c4ce0fc064f": {
+  "command_type": "plan_route",
+  "destination": "house",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "53484f1fbdecf8abd03b38c0f2a87ba1": {
+  "command_type": "plan_route",
+  "destination": "hospital",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.98
+ },
+ "7b80d7a2703297c97324220d4b2dac9f": {
+  "command_type": "plan_route",
+  "destination": "factory",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "4b3c9cff3d01b958a77080a9a9a14375": {
+  "command_type": "plan_route",
+  "destination": "parking",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.95
+ },
+ "4dc81f48449dea88c35d4f023c8302ce": {
+  "command_type": "plan_route",
+  "destination": "house",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "1ee44dd32fe7f7c84693d964a565303e": {
+  "command_type": "plan_route",
+  "destination": "hospital",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.98
+ },
+ "547ca43f7d75b016879c9d46152087cd": {
+  "command_type": "plan_route",
+  "destination": "bakery",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "554f2574726ae5bed2ea44e0dacbe0bf": {
+  "command_type": "plan_route",
+  "destination": "hospital",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.9
+ },
+ "66b6ce0dc251ddb216e5fcb5957ebdd1": {
+  "command_type": "plan_route",
+  "destination": "store",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.1
+ },
+ "25708d8bcf4787904286d11f40187620": {
+  "command_type": "plan_route",
+  "destination": "hospital",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.98
+ },
+ "d7b75872b9a6bfc3cd453b7123d94165": {
+  "command_type": "plan_route",
+  "destination": "factory",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "520f6755541a42ffdb61c44ecee761dc": {
+  "command_type": "plan_route",
+  "destination": "farm",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.98
+ },
+ "89b3e487565c2a7133aeca27868fce52": {
+  "command_type": "plan_route",
+  "destination": "factory",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.95
+ },
+ "0676c8f8675f04fb58eb1881a6a35fec": {
+  "command_type": "plan_route",
+  "destination": "house",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "1be773b82d9cbcdf0e1db81082717cc2": {
+  "command_type": "plan_route",
+  "destination": "bus_stop",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.98
+ },
+ "780f263f63c97b6b07f5e3acd6385634": {
+  "command_type": "plan_route",
+  "destination": "farm",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "1dd82dd5d67a8998d6c8683e01229772": {
+  "command_type": "plan_route",
+  "destination": "bakery",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "ea1b4cbdfa137f75ea47c98dae0873da": {
+  "command_type": "plan_route",
+  "destination": "bus_stop",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "5358077d4c5252d4990820f03e1ef6af": {
+  "command_type": "plan_route",
+  "destination": "bus_stop",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.98
+ },
+ "3b42e5638871569bead8008eb14fcaa8": {
+  "command_type": "plan_route",
+  "destination": "library",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "8d36ef4d596e5dc2c8407161fe25faef": {
+  "command_type": "plan_route",
+  "destination": "factory",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.98
+ },
+ "0e5c042a5dabc0d0a0a3185ef78e4401": {
+  "command_type": "plan_route",
+  "destination": "cinema",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.9
+ },
+ "c8d3b062c59e0957f37b047027073196": {
+  "command_type": "plan_route",
+  "destination": "bakery",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.95
+ },
+ "02754b2cbdd32972e3555dd708db0944": null,
+ "c1014ce035d3d1bb95879e0bb57fa910": {
+  "command_type": "plan_route",
+  "destination": "house",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "cff9a3888f105b0865e056c620db3a1a": {
+  "command_type": "plan_route",
+  "destination": "hospital",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.98
+ },
+ "3ab894cd3d06c61d458986cd4301687b": {
+  "command_type": "plan_route",
+  "destination": "bus_stop",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.95
+ },
+ "987a0f5c75225614810ea963667afd8c": {
+  "command_type": "plan_route",
+  "destination": "bus_stop",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "35e23e62292523ce3d7fc5734a1a77cc": {
+  "command_type": "plan_route",
+  "destination": "hospital",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.98
+ },
+ "bce4eee9b85ac23316b52bd9f13c606a": {
+  "command_type": "plan_route",
+  "destination": "bakery",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.98
+ },
+ "77b123e514d113c9154bd553875a1241": {
+  "command_type": "plan_route",
+  "destination": "shopping_mall",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.7
+ },
+ "02aaed8d555ad63dd9da354595663246": {
+  "command_type": "plan_route",
+  "destination": "hospital",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.95
+ },
+ "5220c1cc59765843b03d694038d45812": {
+  "command_type": "plan_route",
+  "destination": "house",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": "scenic",
+  "confidence": 0.95
+ },
+ "f5d6c3a1a7d561d86dc903ca7759349b": {
+  "command_type": "plan_route",
+  "destination": "store",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.8
+ },
+ "2ec40632a5602e3d83f9a2c463b10ff8": {
+  "command_type": "plan_route",
+  "destination": "house",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.9
+ },
+ "388630f05480438abe07a60a9d583913": {
+  "command_type": "plan_route",
+  "destination": "hospital",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.95
+ },
+ "0923f7bd14b2122975d6ecfa72940696": {
+  "command_type": "plan_route",
+  "destination": "farm",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "979c2f1df451c787edabc0e1cc0ea7d0": {
+  "command_type": "plan_route",
+  "destination": "house",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.98
+ },
+ "0736eb96a9e08613263856e3c522d1ce": {
+  "command_type": "plan_route",
+  "destination": "hospital",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.98
+ },
+ "54b77b349e8a37e9c158f6446097fe3b": {
+  "command_type": "plan_route",
+  "destination": "bus_stop",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "c638e11c583ae00b46e2ae9310d2de35": null,
+ "01296fdc1f791f694310bd6e440b2ebf": {
+  "command_type": "plan_route",
+  "destination": "cafe",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.9
+ },
+ "21f323b09ff38c84794f2c49c1056291": {
+  "command_type": "plan_route",
+  "destination": "parking",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.85
+ },
+ "fe358223df7668d5f214b22197cf6a50": {
+  "command_type": "plan_route",
+  "destination": "hospital",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.95
+ },
+ "96e0124190780c0097776cf1f987eb01": {
+  "command_type": "plan_route",
+  "destination": "bakery",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.95
+ },
+ "d6db9b2325387bbe9f30350b422952cb": {
+  "command_type": "plan_route",
+  "destination": "cafe",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.9
+ },
+ "971718646e9e447bcb5b8f28b03e5e90": {
+  "command_type": "plan_route",
+  "destination": "house",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.98
+ },
+ "c286b944000b6babf15575b677f20a40": {
+  "command_type": "plan_route",
+  "destination": "bakery",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "0cc07abf18609f19a43242a23125ae7b": {
+  "command_type": "plan_route",
+  "destination": "bus_stop",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.95
+ },
+ "a44f736f7fb07282d650723fa6b8187e": {
+  "command_type": "plan_route",
+  "destination": "house",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "cc511e75df61fce758199cc3d7cf1660": {
+  "command_type": "plan_route",
+  "destination": "park",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "95c8f678f4a4711e1f4ce50e8b844583": {
+  "command_type": "plan_route",
+  "destination": "cafe",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "e0c2317428bf8b0225110590b1ee052e": {
+  "command_type": "plan_route",
+  "destination": "store",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.85
+ },
+ "2c67439c68e1c0a197235ed015048057": {
+  "command_type": "plan_route",
+  "destination": "farm",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.95
+ },
+ "594c8e3710cd0e56f7cd1660d2202fb4": {
+  "command_type": "plan_route",
+  "destination": "house",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "4d6a30f0dbcb170cbe9913b5241e4a9c": {
+  "command_type": "plan_route",
+  "destination": "university",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.95
+ },
+ "1a203f3238e9eb32dfaced6eaef3c1bb": {
+  "command_type": "plan_route",
+  "destination": "factory",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.95
+ },
+ "ca001f79cf9be4855bda9cfe2912c36f": {
+  "command_type": "plan_route",
+  "destination": "farm",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "e42f453e62564d7b79188cee2a2a22d4": {
+  "command_type": "plan_route",
+  "destination": "hospital",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.98
+ },
+ "73f707f46958e138338f37e4e6afc93a": {
+  "command_type": "plan_route",
+  "destination": "warehouse",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.95
+ },
+ "1c4cb5a08e74da2259d2128bde689722": {
+  "command_type": "plan_route",
+  "destination": "woods",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "eb1a844bc0ac0a5c3d50d21f9462459e": {
+  "command_type": "plan_route",
+  "destination": "bakery",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.9
+ },
+ "5ca0aa8d132cb6ceee1f65ae690cbad5": {
+  "command_type": "plan_route",
+  "destination": "farm",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.95
+ },
+ "a3db50ae67aa275b5a3e06e15a0fcf7a": {
+  "command_type": "plan_route",
+  "destination": "house",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "945ecddc0a9486924b6ebdf4d04a7bf8": {
+  "command_type": "plan_route",
+  "destination": "hospital",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.98
+ },
+ "524076cc557f795bbb62a53de79fabef": {
+  "command_type": "plan_route",
+  "destination": "farm",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "1810c3b4f61c1a47b6207ca66bd308fa": {
+  "command_type": "plan_route",
+  "destination": "farm",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "2005453435bfc2198fa5272e46735c09": {
+  "command_type": "plan_route",
+  "destination": "train_station",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "aad1aa6359dbb35cf93ea240fdc3d77d": {
+  "command_type": "plan_route",
+  "destination": "farm",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "3829fe1b9b82c2dcacb7a2f0d9f5d407": {
+  "command_type": "plan_route",
+  "destination": "hospital",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.98
+ },
+ "33ba7c44e1af1e5aa65f11a1dd2f9cea": {
+  "command_type": "plan_route",
+  "destination": "store",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "4677da5068002051c41c0512b128e73f": {
+  "command_type": "plan_route",
+  "destination": "bus_stop",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "0205c3a60781ad03df6827ac3907a1f2": {
+  "command_type": "plan_route",
+  "destination": "hospital",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.98
+ },
+ "4fd8a021739e07b2776c6b6cc414c601": {
+  "command_type": "plan_route",
+  "destination": "bakery",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.95
+ },
+ "5ceb1544d9633f8721638ba9bf1c2824": {
+  "command_type": "plan_route",
+  "destination": "park",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "14b49502af90dafbd216623a8944aafc": {
+  "command_type": "plan_route",
+  "destination": "hospital",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.9
+ },
+ "646456082b3ee39d320b4806fc38d86d": {
+  "command_type": "plan_route",
+  "destination": "store",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.9
+ },
+ "444d7dd37b709c102ed2c9fbabed3e80": {
+  "command_type": "plan_route",
+  "destination": "bakery",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.95
+ },
+ "5d538d87d9b348cdea49e3526a557008": {
+  "command_type": "plan_route",
+  "destination": "house",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.98
+ },
+ "7f06bb88d960c895b468e7ad1af13e1d": {
+  "command_type": "plan_route",
+  "destination": null,
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.7
+ },
+ "c06568440922fc85fbebe5b921cdb8e7": {
+  "command_type": "plan_route",
+  "destination": "bakery",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "67279f321500e8999929085185c5f275": {
+  "command_type": "plan_route",
+  "destination": null,
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.3
+ },
+ "4c3b48fa55443c47eb5f7f00f8ecdf6c": {
+  "command_type": "plan_route",
+  "destination": "hospital",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.7
+ },
+ "ec29af0f1087d6820483e62f52d92d78": {
+  "command_type": "plan_route",
+  "destination": "hospital",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.98
+ },
+ "4e9481bb0e811d4a927c0cd0ae058bff": {
+  "command_type": "plan_route",
+  "destination": "bus_stop",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "e0b68733feedd15ed56926eab4eb9c8a": {
+  "command_type": "plan_route",
+  "destination": "bakery",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.95
+ },
+ "0b5e7ffbe4337e2fb6f0f2b0ae9470bd": null,
+ "452a6f9b87bebf7906b22fb6a1f3e3e0": {
+  "command_type": "plan_route",
+  "destination": "house",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.95
+ },
+ "effd6dbd2559088a034b121cef91b285": {
+  "command_type": "plan_route",
+  "destination": "restaurant",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.85
+ },
+ "6cda81d11947ddbdc82c4abd284b719e": {
+  "command_type": "plan_route",
+  "destination": "hotel",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.98
+ },
+ "830e143f27e89346d16dc4a83a267bd5": {
+  "command_type": "plan_route",
+  "destination": "cafe",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "82430c8d1bc55f06f15a184ec552a633": {
+  "command_type": "plan_route",
+  "destination": "bakery",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.98
+ },
+ "755a12d9248d906500cd9405cb3080bb": {
+  "command_type": "plan_route",
+  "destination": "bus_stop",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.98
+ },
+ "47ab09fc4093d76499597da96a895278": {
+  "command_type": "plan_route",
+  "destination": "hospital",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.95
+ },
+ "9a1ea6041e497f63bbb28c28721a8b84": {
+  "command_type": "plan_route",
+  "destination": "cafe",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.95
+ },
+ "ea90dc20b13bf9dd3aa6e811b5d8370d": {
+  "command_type": "plan_route",
+  "destination": "cinema",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "c62fd9d028aeeffdf959f3f26d4fcc4f": {
+  "command_type": "plan_route",
+  "destination": "store",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.7
+ },
+ "e7fef2c182355cc6dab08d5013f6340b": {
+  "command_type": "plan_route",
+  "destination": null,
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.2
+ },
+ "210a60e659595515bd25b852b265dbab": null,
+ "aaeae50dbb18f713f6544d5c729a1a44": {
+  "command_type": "plan_route",
+  "destination": "bakery",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "788791fc0c7cb9d7a88629f8528ec2ea": {
+  "command_type": "plan_route",
+  "destination": "bakery",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.95
+ },
+ "f6e2d17d6dc9b7e6766e607375a6dab3": {
+  "command_type": "plan_route",
+  "destination": "bus_stop",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.95
+ },
+ "78e92a101225383a3962a40867eebc3a": {
+  "command_type": "plan_route",
+  "destination": "bakery",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.95
+ },
+ "b894294751123acebd5f30e7864db449": {
+  "command_type": "plan_route",
+  "destination": "restaurant",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.8
+ },
+ "54914e11236612ef60d176c73ba12d06": {
+  "command_type": "plan_route",
+  "destination": "factory",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "0c3ce4f7b7ad2a935c2ce31111b9b0ec": {
+  "command_type": "plan_route",
+  "destination": "hospital",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.98
+ },
+ "f4e6e0b95cd6dfabc3b0a060332f799b": {
+  "command_type": "plan_route",
+  "destination": "house",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "bf3c1323d20ba90098f2a0e2e0fe29a3": {
+  "command_type": "plan_route",
+  "destination": "university",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "9ae9b82db4d95e97a20876b5560c5425": {
+  "command_type": "plan_route",
+  "destination": "hospital",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.1
+ },
+ "6347286e2b3d64029ff1696bb615e405": {
+  "command_type": "plan_route",
+  "destination": "warehouse",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "1c7dbf8525e8c648cfb822186f6d1482": {
+  "command_type": "plan_route",
+  "destination": "warehouse",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.98
+ },
+ "d710f3706646299aa53d19aac5cb4153": {
+  "command_type": "plan_route",
+  "destination": "factory",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.6
+ },
+ "ffad4b04a50f83a1e99cb42e2a1e9eb4": {
+  "command_type": "plan_route",
+  "destination": "factory",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "6ac1f5dcfa9ae326caa6b1a444ec199a": {
+  "command_type": "plan_route",
+  "destination": "farm",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "a63b8e69b5e27559169a4e1b2ac17e44": {
+  "command_type": "plan_route",
+  "destination": "house",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "db31f43e23d81c03ebfa1a0f97680f4f": {
+  "command_type": "plan_route",
+  "destination": "hospital",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.98
+ },
+ "7e522cf80f0cd4e0c0a842d8926c654d": {
+  "command_type": "plan_route",
+  "destination": "train_station",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.7
+ },
+ "4a0d4acd480c8083e0cfbcae0454124c": {
+  "command_type": "plan_route",
+  "destination": "university",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.95
+ },
+ "710f442b696fb4da135aa0c37081a5c9": {
+  "command_type": "plan_route",
+  "destination": "store",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.1
+ },
+ "2c6b95825a3c9c02f5ba42795240eb79": {
+  "command_type": "plan_route",
+  "destination": "house",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.98
+ },
+ "8d2c5830a96e2b07cfa0695d378a0363": {
+  "command_type": "plan_route",
+  "destination": "restaurant",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.7
+ },
+ "4dfda60297ceee958d8ddf4a349948da": {
+  "command_type": "plan_route",
+  "destination": "restaurant",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.85
+ },
+ "ba4e13663cddcb030bc85274d07f2fb5": {
+  "command_type": "plan_route",
+  "destination": "hospital",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.85
+ },
+ "40837772083f1c57a05a43a4f32a7431": {
+  "command_type": "plan_route",
+  "destination": "cafe",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "1ab5ba7bd3262e40e9fba22bbcda3ff2": {
+  "command_type": "plan_route",
+  "destination": "store",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.7
+ },
+ "f292fd4f2798ae6e84670c054509559a": {
+  "command_type": "plan_route",
+  "destination": "hospital",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.98
+ },
+ "da06d4f8253a23966e1550cbcaca8f8b": {
+  "command_type": "plan_route",
+  "destination": "bakery",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "f50be39724b1f97ea9f98468855631f0": null,
+ "57b5ef2ba76cf7e3e94b37cc38e0154c": {
+  "command_type": "plan_route",
+  "destination": "cafe",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.98
+ },
+ "f9cfde3a67fef75d006a39a2639d498e": {
+  "command_type": "plan_route",
+  "destination": "cinema",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "0f878f1bf51f4d5e4dcade4243db9edf": {
+  "command_type": "plan_route",
+  "destination": "farm",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "8fb23f23095b30d247b871f52a9f2b38": {
+  "command_type": "plan_route",
+  "destination": "farm",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.98
+ },
+ "188b02194fdb02c569f4dc89d71e7fb8": null,
+ "0af8a5801eafd034fa624e0512c40c5d": {
+  "command_type": "plan_route",
+  "destination": null,
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.5
+ },
+ "c2b3e499d72fe7b0309213d78abe3fb1": {
+  "command_type": "plan_route",
+  "destination": "warehouse",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.98
+ },
+ "5db46615f1a9240131f95807a0f5c016": {
+  "command_type": "plan_route",
+  "destination": "woods",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "593e322b4b5e6d7d48b3a82fe19b24cf": {
+  "command_type": "plan_route",
+  "destination": "factory",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.98
+ },
+ "470d4018405f838bfd202a263b6847dd": {
+  "command_type": "plan_route",
+  "destination": "factory",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.95
+ },
+ "8d5baae510bd2f15eab0be174e6bd6b0": {
+  "command_type": "plan_route",
+  "destination": "gas_station",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.98
+ },
+ "caa0327d916de84adc1d1814a66184c8": {
+  "command_type": "plan_route",
+  "destination": "store",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "8a27a1e9a4082f3dd285d822600376ee": {
+  "command_type": "plan_route",
+  "destination": "parking",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.95
+ },
+ "ba9b65d3e714d1121ad88c14b72c6e23": {
+  "command_type": "plan_route",
+  "destination": "house",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.98
+ },
+ "ee0919ce68706ebb367914d03875c85d": {
+  "command_type": "plan_route",
+  "destination": "cinema",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.95
+ },
+ "0719074af56cf4191f10c73907a5f052": {
+  "command_type": "plan_route",
+  "destination": "gas_station",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.98
+ },
+ "bdfce15b2d4d52961c370ee63f64ba3a": {
+  "command_type": "plan_route",
+  "destination": "factory",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.95
+ },
+ "307241758f2d3e80b750b367a29565c1": {
+  "command_type": "plan_route",
+  "destination": "house",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.98
+ },
+ "aec3950fe048337720f3e13cbfe51f23": {
+  "command_type": "cancel_route",
+  "pull_over": true
+ },
+ "5329f83f6404db34813a9691da682e33": {
+  "command_type": "new_destination",
+  "destination": "parking",
+  "destination_index": null,
+  "keep_waypoints": false,
+  "urgency": "high"
+ },
+ "bc50c44bad25be52aee51bedc0c64a44": {
+  "command_type": "new_destination",
+  "destination": "parking",
+  "destination_index": null,
+  "keep_waypoints": false,
+  "urgency": "high"
+ },
+ "3b77ae80ac1297f68f3b8574000ff0e1": {
+  "command_type": "plan_route",
+  "destination": "parking",
+  "destination_index": null,
+  "waypoints": [],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "ca5338328c3fdf08f33032c84ba536c5": {
+  "command_type": "plan_route",
+  "destination": "hospital",
+  "destination_index": null,
+  "waypoints": [
+   {
+    "type": "factory",
+    "order": 1,
+    "confidence": 0.95,
+    "index": null
+   }
+  ],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.85
+ },
+ "33078b9bb06db9658b272091a8aedfdf": {
+  "command_type": "plan_route",
+  "destination": "parking",
+  "destination_index": null,
+  "waypoints": [
+   {
+    "type": "farm",
+    "order": 1,
+    "confidence": 0.95,
+    "index": null
+   }
+  ],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.9
+ },
+ "53d4146da68c70d8113e5a2db3fdbb73": {
+  "command_type": "plan_route",
+  "destination": "house",
+  "destination_index": null,
+  "waypoints": [
+   {
+    "type": "bus_stop",
+    "order": 1,
+    "confidence": 0.95,
+    "index": null
+   }
+  ],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.9
+ },
+ "562caf42a83d8b6b40f0fff233fcc8f8": {
+  "command_type": "plan_route",
+  "destination": "hospital",
+  "destination_index": null,
+  "waypoints": [
+   {
+    "type": "bus_stop",
+    "order": 1,
+    "confidence": 0.95,
+    "index": null
+   },
+   {
+    "type": "farm",
+    "order": 2,
+    "confidence": 0.95,
+    "index": null
+   }
+  ],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.95
+ },
+ "42c78c05b3f2aecc4f9b03d661c22f2b": {
+  "command_type": "plan_route",
+  "destination": "hospital",
+  "destination_index": null,
+  "waypoints": [
+   {
+    "type": "bakery",
+    "order": 1,
+    "confidence": 0.95,
+    "index": null
+   }
+  ],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "a1eeb392242609e7a98143c76e037a0a": {
+  "command_type": "plan_route",
+  "destination": "factory",
+  "destination_index": null,
+  "waypoints": [
+   {
+    "type": "house",
+    "order": 1,
+    "confidence": 0.95,
+    "index": null
+   }
+  ],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "fe00c5253773ae5805c57b09033ec7b9": {
+  "command_type": "plan_route",
+  "destination": "house",
+  "destination_index": null,
+  "waypoints": [
+   {
+    "type": "lake",
+    "order": 1,
+    "confidence": 0.95,
+    "index": null
+   }
+  ],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.92
+ },
+ "3e1358e33ba1d107ac92410ec1ded325": {
+  "command_type": "plan_route",
+  "destination": "bakery",
+  "destination_index": null,
+  "waypoints": [
+   {
+    "type": "cafe",
+    "order": 1,
+    "confidence": 0.95,
+    "index": null
+   }
+  ],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": "fastest",
+  "confidence": 0.7
+ },
+ "83c934149a27adba8c3156f2c061dfcf": {
+  "command_type": "plan_route",
+  "destination": "library",
+  "destination_index": null,
+  "waypoints": [
+   {
+    "type": "farm",
+    "order": 1,
+    "confidence": 0.95,
+    "index": null
+   }
+  ],
+  "urgency": "normal",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.93
+ },
+ "053bfe3f8b0e38eda219d86d62ecea19": null,
+ "375a1f614db91c662e4ff9248fe6ac51": {
+  "command_type": "plan_route",
+  "destination": "university",
+  "destination_index": null,
+  "waypoints": [
+   {
+    "type": "house",
+    "order": 1,
+    "confidence": 0.95,
+    "index": null
+   }
+  ],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.93
+ },
+ "3119155afabe6ebaf66202ac0b9c9337": {
+  "command_type": "plan_route",
+  "destination": "hospital",
+  "destination_index": null,
+  "waypoints": [
+   {
+    "type": "farm",
+    "order": 1,
+    "confidence": 0.95,
+    "index": null
+   },
+   {
+    "type": "bus_stop",
+    "order": 2,
+    "confidence": 0.95,
+    "index": null
+   }
+  ],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ },
+ "0eee22b47af0443acaedd39cac581bf4": {
+  "command_type": "plan_route",
+  "destination": "house",
+  "destination_index": null,
+  "waypoints": [
+   {
+    "type": "factory",
+    "order": 1,
+    "confidence": 0.95,
+    "index": null
+   }
+  ],
+  "urgency": "high",
+  "avoid": [],
+  "route_preference": null,
+  "confidence": 0.95
+ }
+}

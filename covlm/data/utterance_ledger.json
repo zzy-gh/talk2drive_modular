@@ -1,0 +1,48 @@
+{
+ "r44_town05_ins_chaos#veh0": [
+  "My parking meter runs out shortly and I'd rather not get ticketed.",
+  "Trying to get to the car wash before it closes for the day."
+ ],
+ "r8_town05_ins_ss#veh0": [
+  "I'm a few minutes late clocking in for my shift."
+ ],
+ "r13_town05_ins_sl#veh1": [
+  "There's been a gas leak reported near my elderly neighbor's house and I need to check on her."
+ ],
+ "r17_town05_ins_sr#veh0": [
+  "Hoping to catch the tail end of a sale before it closes."
+ ],
+ "r22_town07_ins_sr#veh1": [
+  "My tire's losing air fast and I need to reach the repair shop before it goes flat."
+ ],
+ "r34_town05_ins_rl#veh0": [
+  "My son just texted that he's stuck and scared on the side of the highway, I need to get to him immediately."
+ ],
+ "r34_town05_ins_rl#veh2": [
+  "Hoping to catch my kid's recital before it starts."
+ ],
+ "r35_town05_ins_crosschange#veh3": [
+  "My propane tank at home is leaking and I need to get back to shut it off."
+ ],
+ "r38_town05_ins_chaos#veh1": [
+  "Trying to make it to a job orientation on time."
+ ],
+ "r38_town05_ins_chaos#veh2": [
+  "My husband just texted he's having severe chest pains and I need to get to him."
+ ],
+ "r41_town05_ins_oppo#veh1": [
+  "Trying to get to a job interview with a little buffer left."
+ ],
+ "r44_town05_ins_chaos#veh3": [
+  "My furnace started smoking and I need to get home to shut off the gas."
+ ],
+ "r45_town06_hw_merge#veh2": [
+  "Running late to pick up a rental car before the counter closes."
+ ],
+ "r45_town06_hw_merge#veh3": [
+  "I'm rushing a spare part to a stranded coworker before the tow truck gives up waiting."
+ ],
+ "r20_town06_ins_sr#veh2": [
+  "Stop at the factory on the way, then my daughter just texted she locked herself out in the rain, I need to get home."
+ ]
+}
