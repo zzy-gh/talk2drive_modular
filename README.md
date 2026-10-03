@@ -259,9 +259,9 @@ backends were checked against. What the check settled:
 | sparse tracker pop rule | `simlingo/team_code/nav_planner.py::RoutePlanner.run_step` | **identical** |
 | tracker bounds 7.5 / 50 m | `simlingo/team_code/agent_simlingo.py:141-145` | **match** |
 | target points are route[1], route[2] | `agent_simlingo.py:442-443` | **match** |
-| route sparsity | `simlingo/leaderboard/.../autonomous_agent.py:130` | **was wrong** — SimLingo's fork downsamples at **200 m**, not the usual 50. Fixed. |
-| leaderboard agent construction | `TCP/leaderboard/.../autonomous_agent.py:35-45` | **was wrong** — leaderboard 1.0 takes `__init__(path_to_conf_file)` and calls `setup()` itself; only 2.0/Bench2Drive/SimLingo take `(host, port, debug)`. Fixed, dispatched by signature. |
-| who downsamples the global plan | all three base classes | **was wrong** — every base class downsamples inside `set_global_plan`, so pre-downsampling compounded it. `sample_factor` now defaults to `None`. |
+| route sparsity | `simlingo/leaderboard/.../autonomous_agent.py:130` | SimLingo's fork downsamples at **200 m**, not the usual 50; the simlingo backend uses 200 |
+| leaderboard agent construction | `TCP/leaderboard/.../autonomous_agent.py:35-45` | leaderboard 1.0 takes `__init__(path_to_conf_file)` and calls `setup()` itself; 2.0/Bench2Drive/SimLingo take `(host, port, debug)`. The backend picks by signature |
+| who downsamples the global plan | all three base classes | each base class, inside `set_global_plan`; the backend hands it the plan as is (`sample_factor=None`) |
 
 Two ways to run SimLingo, both valid:
 
@@ -321,19 +321,6 @@ selftest and its own `[covlm]` config section. The dependency rule is one-way
 and `tools/selftest.py` enforces it: **`covlm/` may import `core/`; `core/` may
 never import `covlm/`.** Delete the directory and everything here still runs.
 
-Two fixes that came out of that work did stay, because neither is
-benchmark-specific: `CarlaRouteProvider.reset()` / `.trace_chain()` (a CARLA
+Two pieces it relies on live in `core/` because neither is benchmark-specific:
+`CarlaRouteProvider.reset()` / `.trace_chain()` (clears a CARLA
 `GlobalRoutePlanner` state leak that affects every re-plan) and `Place.source`.
-
-## Parity with `talk2drive_1/`
-
-Same behaviour, same knowledge base, same intent schema, same prompts — the
-Gemini parsing path is copied verbatim into `core/`. Behavioural differences
-are deliberate:
-
-* disambiguation is a policy rather than a hard-coded `input()`;
-* the planner returns a `GlobalPlan` instead of a CARLA waypoint list;
-* drawing moved out of the planner into `runtime/viz.py`;
-* `--auto` and headless operation are now possible at all.
-
-`talk2drive_1/` is untouched and still runs.
