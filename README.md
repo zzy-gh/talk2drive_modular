@@ -31,8 +31,14 @@ utterance ──► GeminiCommandParser ──► intent ──► MissionPlanne
 | `backends/` | one adapter per driving stack, plus a registry |
 | `runtime/session.py` | loop shape **A** — talk2drive owns the loop |
 | `runtime/passenger.py` | loop shape **B** — an evaluation harness owns the loop |
-| `runtime/viz.py` | all CARLA debug drawing |
+| `runtime/cli.py` | the interactive entry point |
+| `runtime/viz.py` | all CARLA debug drawing, plus plan/landmark state for the BEV |
+| `runtime/camera.py` | spectator: top-down on the ego, pulls back to the whole town |
+| `runtime/bev.py` | `--bev` window: roads, route, landmarks, ego — drawn outside CARLA |
+| `runtime/fpv.py` | `--fpv` window: the frame SimLingo last saw |
+| `runtime/gui.py` | the one thread all OpenCV windows run on |
 | `runtime/sensors.py` | sensor rig, leaderboard-shaped `input_data` |
+| `logs/` | `--debug` per-step logs (git-ignored) |
 | `config.yaml` | machine-specific paths |
 | `core/paths.py` | reads `config.yaml` (~60 lines) |
 | `data/` | bundled data — the knowledge base CSV |
@@ -50,17 +56,21 @@ it is yours, not the project's. Copy
 ```yaml
 paths:
   kb_csv: data/special_buildings_en.csv       # ships with the repo
-  opendrive_dir: /path/to/CARLA/.../OpenDrive
 
 simlingo:
-  repo: /path/to/simlingo                     # must contain simlingo_inference/
-  python: /path/to/conda/envs/simlingo/bin/python
-  checkpoint: ""
+  repo: /path/to/covlm-agent-main/simlingo-main            # must contain simlingo_inference/
+  python: /path/to/miniconda3/envs/zhiyuan_simlingo/bin/python
+  checkpoint: /path/to/simlingo/checkpoints/epoch=013.ckpt/pytorch_model.pt
 
 leaderboard:
   agent_module: AD software/TCP/leaderboard/team_code/tcp_agent.py
-  agent_config: ""
+  agent_config: /path/to/TCP/new.ckpt                       # TCP: its checkpoint
 ```
+
+The SimLingo checkpoint's Hydra config is found automatically at
+`<ckpt>/../../../.hydra/config.yaml`. SimLingo's worker looks for InternVL2 under
+`<simlingo repo>/pretrained/InternVL2-1B`; a symlink to the HuggingFace cache
+snapshot avoids a 1.8 GB download.
 
 It is YAML, not TOML — `section:` then two-space-indented `key: value`, no
 `[brackets]` and no `=`. `core/paths.py` reads it with pyyaml when that is
@@ -69,7 +79,7 @@ runs across several conda environments and not all of them have pyyaml.
 
 Relative paths resolve from the repo root, so the folder can be moved or
 copied anywhere without editing anything. Command-line flags override the
-config for one-off runs. `python -m runtime.cli --paths` prints what the
+config for one-off runs. `python3 runtime/cli.py --paths` prints what the
 config resolved to and flags anything missing.
 
 Two notes on what is not in the repo:
@@ -78,30 +88,103 @@ Two notes on what is not in the repo:
   worker the subprocess backend talks to — is not in the official SimLingo
   release under `AD software/`. Point `[simlingo] repo` at a checkout that has it.
 * **`--backend leaderboard` loads the policy in-process**, so the whole process
-  (Gemini SDK included) has to run in that stack's conda environment. The
-  SimLingo backend avoids this by using a subprocess. An agent's own import
-  roots are derived from its module path, so `PYTHONPATH` needs no setting.
+  has to run in an environment with that stack's dependencies (for TCP:
+  `zhiyuan_tcp`, below). The SimLingo backend avoids this by using a
+  subprocess. An agent's own import roots are derived from its module path,
+  so `PYTHONPATH` needs no setting. `--llm-python` can move just the Gemini
+  call to another interpreter if the driving env cannot carry google-genai.
 
 ## Run
 
+### Environments
+
+| env | used for | holds |
+|---|---|---|
+| `zhiyuan_gemini` | `basic_agent`, `simlingo` | carla 0.9.15, google-genai, OpenCV (GUI) |
+| `zhiyuan_simlingo` | SimLingo's worker only — started for you, never activated | torch 2.2, SimLingo |
+| `zhiyuan_tcp` | `leaderboard` with TCP | torch 2.5, carla 0.9.15, google-genai, py_trees, pytorch-lightning |
+
+Gemini credentials live in each activated env's conda hook
+(`etc/conda/activate.d/gemini.sh`): `GEMINI_API_KEY` and `GEMINI_MODEL`
+(currently `gemini-3.5-flash-lite`; the 2.5 models are closed to this key).
+The hook also sets `PYTHONNOUSERSITE=1` so `~/.local` packages stay out.
+CARLA's `agents/` package is put on the path by a `carla_agents.pth` in each env.
+
+### Steps
+
 ```bash
-conda activate zhiyuan_gemini
+# 1. CARLA server, in its own terminal
+cd /path/to/carla_0.9.15 && ./CarlaUE4.sh
 
-# offline checks first — they need nothing running
-python tools/selftest.py
+# 2. talk2drive, from the repo root
+conda activate zhiyuan_gemini            # zhiyuan_tcp for TCP
+cd /path/to/talk2drive_modular
 
-# the original demo, now with a --backend flag
-python -m runtime.cli --backend basic_agent --town 1
+python3 tools/selftest.py                # offline checks, nothing else running
 
-# SimLingo (runs in its own conda env, over a pipe)
-python -m runtime.cli --backend simlingo \
-    --simlingo-ckpt /path/to/checkpoint \
-    --simlingo-python /home/dellpro2/miniconda3/envs/simlingo-inference/bin/python
+# PID waypoint follower
+python3 runtime/cli.py --backend basic_agent --town 1 --bev
 
-# any leaderboard AutonomousAgent (TCP, Bench2Drive baselines, ...)
-python -m runtime.cli --backend leaderboard \
-    --agent-module /path/to/tcp_agent.py --agent-config /path/to/tcp_config.py
+# SimLingo (VLA, runs in zhiyuan_simlingo over a pipe)
+python3 runtime/cli.py --backend simlingo --town 1 --bev --fpv
 
+# TCP (leaderboard agent, in-process) -- needs `conda activate zhiyuan_tcp`
+python3 runtime/cli.py --backend leaderboard --town 1 --sync --bev
+```
+
+Then type instructions at the `>` prompt, in English or Chinese ("take me to
+the second cafe", "顺路去一下ATM", "在这之后我们去公园"). Built-in commands:
+
+| command | effect |
+|---|---|
+| `view` | toggle the spectator between the ego and the whole town |
+| `plan` | print the current mission state |
+| `clear` | cancel the route and reset every landmark to unused |
+| `quit` / `exit` | leave (restores CARLA to asynchronous mode) |
+
+### Flags
+
+| flag | effect |
+|---|---|
+| `--bev` | bird's-eye-view window: roads, route, landmark states, ego |
+| `--fpv` | the exact camera frame SimLingo last saw (simlingo only); the dimmed band at the bottom is cropped off before the model |
+| `--debug` | per-step model output to `logs/simlingo_debug.log` or `logs/leaderboard_debug.log`, not the terminal |
+| `--sync` / `--no-sync` | synchronous 20 Hz stepping; on by default for simlingo, pass `--sync` for TCP |
+| `--simlingo-camera X,Y,Z[,PITCH]` | SimLingo camera mount; default `-0.5,0,2.0`, training mount is `-1.5,0,2.0` |
+| `--simlingo-interval N` | control steps per SimLingo inference (default 1 in sync mode) |
+| `--vehicle BP` | ego blueprint; default Lincoln MKZ 2020 for simlingo, Tesla Model 3 otherwise |
+| `--world-viz` | draw points and lines in CARLA even for a camera backend (its camera sees them) |
+| `--no-viz` | no drawing, no spectator control |
+| `--auto` | never prompt: nearest landmark, unordered stops appended last |
+| `--no-reload` | keep the running map (and any old drawings) instead of reloading |
+
+Watch a debug log from another terminal:
+
+```bash
+tail -F logs/simlingo_debug.log        # or logs/leaderboard_debug.log
+```
+
+### What you see
+
+* **BEV window** — the reference view. Landmarks: grey unused, red
+  destination, orange stop (numbered), green reached, purple cancelled, yellow
+  `[n]` a candidate to pick.
+* **CARLA window** — for `basic_agent`, route, start and landmarks as points
+  and lines. For camera backends only the route (a dotted line of `o`) and an
+  `EGO` label, all drawn with `draw_string`, which camera sensors do not
+  capture; a cancelled route is painted grey.
+* **Spectator** — top-down 50 m above the ego; pulls back to the whole town
+  when a route is planned or candidates are offered, returns on arrival.
+
+When a stop is left unordered ("I also want to go to X"), you are asked where
+in the route it goes. When the passenger says where (first, last, after the
+bakery, after the destination) it is placed without asking.
+
+If talk2drive is killed hard in sync mode, CARLA waits forever for a tick.
+Restore it with:
+
+```bash
+python3 -c "import carla; c=carla.Client('localhost',2000); c.set_timeout(10); w=c.get_world(); s=w.get_settings(); s.synchronous_mode=False; s.fixed_delta_seconds=None; w.apply_settings(s)"
 ```
 
 **One backend per run.** There is deliberately no way to compose two stacks
@@ -161,7 +244,7 @@ and a missing dependency never breaks the other backends.
 |---|---|---|---|
 | plan | dense `(Waypoint, RoadOption)` | `target_points_ego` `[2,2]` | `set_global_plan(gps, world)` |
 | also | — | front RGB, speed, **language** | sensor dict |
-| rate | 20 Hz | ~1.3 Hz, control cached between | 20 Hz |
+| rate | 20 Hz | every step in sync mode (sim waits for it) | 20 Hz |
 | process | in-process | separate conda env, JSON over a pipe | in-process |
 | knows it arrived | yes | no — mission layer decides | no |
 
@@ -213,6 +296,23 @@ Two ways to run SimLingo, both valid:
   policy outright rather than deadlocking a simulation later.
 * **Arrival.** Only `basic_agent` knows when the route is finished. For
   everything else `MissionPlanner.is_arrived` (goal radius) is authoritative.
+* **Sensor specs are not blueprint attributes.** A leaderboard spec says
+  `width`/`height`; the CARLA camera calls them `image_size_x`/`image_size_y`.
+  `runtime/sensors.py::blueprint_attributes` mirrors the leaderboard's
+  `agent_wrapper.py`, lens and noise settings included. Setting `width`
+  directly is a silent no-op that leaves every camera at 800x600, FOV 90.
+* **Debug drawing is in the camera image.** `draw_point`/`draw_line`/`draw_arrow`
+  are scene geometry a camera sensor renders. `draw_string` is server-side
+  only, but expires in *wall-clock* time and `life_time=0` is not permanent
+  for it (`CarlaHUD.cpp`).
+* **Copy sensor buffers.** `image.raw_data` points at memory CARLA frees when
+  the callback returns; a `np.frombuffer` view read later is all zeros.
+* **A drifted ego re-plans from the oncoming lane** with a plain nearest-lane
+  snap. Re-plans start from `CarlaRouteProvider.snap_heading`, which keeps the
+  lane running the ego's way.
+* **Leaderboard agents build their route planner once.** `set_global_plan`
+  alone does not reach TCP's `_route_planner`; the backend resets
+  `initialized` on every re-plan.
 
 ## CoVLM / InterDrive
 

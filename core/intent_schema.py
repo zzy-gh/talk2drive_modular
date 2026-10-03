@@ -189,10 +189,19 @@ EXAMPLES: list[dict] = [
         },
     },
     {
-        "command": "Stop at the pharmacy before we get to the hospital.",
+        "command": "Make the pharmacy the last stop before the hospital.",
         "intent": {
             "command_type": "insert_stop",
-            "insert": {"type": "pharmacy", "position": "last", "confidence": 0.91},
+            "insert": {"type": "pharmacy", "position": "last", "confidence": 0.91,
+                       "index": None, "after": None},
+        },
+    },
+    {
+        "command": "I also want to go to the supermarket.",
+        "intent": {
+            "command_type": "insert_stop",
+            "insert": {"type": "supermarket", "position": "enroute", "confidence": 0.9,
+                       "index": None, "after": None},
         },
     },
     {
@@ -249,6 +258,15 @@ EXAMPLES: list[dict] = [
         },
     },
     {
+        "command": "Afterwards I want to go to the lake.",
+        "intent": {
+            "command_type":   "new_destination",
+            "destination":    "lake",
+            "keep_waypoints": True,
+            "urgency":        "normal",
+        },
+    },
+    {
         "command": "Then go to the museum.",
         "intent": {
             "command_type":   "new_destination",
@@ -299,11 +317,19 @@ The JSON must match one of the following five structures based on the passenger'
     "after":      "<BuildingType>" | null
   }
 }
-  after: set if the passenger says "after the X" or "following the X" — insert this stop immediately after that existing stop type.
-  position:
-    "next"    — go there immediately (highest priority)
-    "enroute" — stop if it is on the way
-    "last"    — stop just before the final destination
+  after: ONLY when the passenger explicitly names the stop this one follows
+         ("after the X", "following the X"). Never infer it; otherwise null.
+  position — pick from the passenger's words only, never guess an order:
+    "next"    — they explicitly want it FIRST / right now ("first", "right now",
+                "immediately", "先", "马上")
+    "last"    — they explicitly want it as the LAST stop ("last", "最后")
+    "enroute" — the DEFAULT: they did not say where in the order it goes
+                ("also stop at X", "add X", "I want to go to X too", "顺路").
+                The passenger will be asked where to put it, so do not guess.
+  insert_stop is ONLY for places visited BEFORE the current destination.
+  If the passenger wants to go somewhere AFTER the current destination
+  ("after that", "afterwards", "then go to", "and then", "later"), use
+  new_destination with keep_waypoints=true instead.
 
 3. remove_stop — cancel an intermediate stop while driving
 {
@@ -322,6 +348,11 @@ The JSON must match one of the following five structures based on the passenger'
   "keep_waypoints":    true | false,
   "urgency":           "high" | "normal"
 }
+  keep_waypoints:
+    true  — the new place comes AFTER the current route ("after that, go to X",
+            "then X", "afterwards X"): the current destination becomes a stop.
+    false — the new place REPLACES the current route ("instead", "forget the X",
+            "change of plans").
 
 5. cancel_route — abort all navigation
 {

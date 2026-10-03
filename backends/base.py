@@ -93,3 +93,21 @@ def build(name: str, **kwargs) -> DrivingBackend:
 def brake_control():
     import carla
     return carla.VehicleControl(throttle=0.0, brake=1.0, steer=0.0)
+
+
+_last_print: dict[str, list] = {}
+
+
+def print_throttled(key: str, message: str, period_s: float = 5.0) -> None:
+    """Print a message that may repeat every control tick at most once per
+    ``period_s`` (with how many were skipped), so it cannot bury the CLI prompt."""
+    import time
+
+    now = time.time()
+    last = _last_print.get(key)
+    if last is not None and now - last[0] < period_s:
+        last[1] += 1
+        return
+    skipped = last[1] if last else 0
+    print(message + (f"  (+{skipped} more in the last {period_s:.0f} s)" if skipped else ""))
+    _last_print[key] = [now, 0]

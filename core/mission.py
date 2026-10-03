@@ -71,6 +71,7 @@ class MissionPlanner:
 
         self._place_cache: dict[str, Place] = {}
         self._revision = 0
+        self._next_stop = 0          # index into plan.stops of the next one to reach
 
     # ─────────────────────────────────────────
     # State machine — non-blocking
@@ -94,13 +95,14 @@ class MissionPlanner:
                                message=f"route to {self.destination}")
 
         if cmd == "new_destination":
-            old = self.destination
+            old, old_index = self.destination, self.destination_index
             self._place_cache.pop(intent.get("destination"), None)
             self.destination = intent.get("destination")
             self.destination_index = intent.get("destination_index")
             if intent.get("keep_waypoints", False):
                 if old:
-                    self.stops.append(Stop(label=old, order=len(self.stops) + 1))
+                    self.stops.append(Stop(label=old, order=len(self.stops) + 1,
+                                           index=old_index))
             else:
                 self.stops = []
             self.directive = _directive_from(intent, self.directive)
@@ -123,6 +125,16 @@ class MissionPlanner:
             if self.destination is None:
                 return ApplyResult(ok=False, message="no active route")
             ins = intent.get("insert") or {}
+            if ins.get("after") and ins["after"] == self.destination:
+                # "after the <destination>" is past the end of the route: the
+                # new place becomes the destination, the old one its last stop.
+                return self.apply({"command_type": "new_destination",
+                                   "destination": ins["type"],
+                                   "destination_index": ins.get("index"),
+                                   "keep_waypoints": True,
+                                   "urgency": self.directive.urgency,
+                                   "_utterance": intent.get("_utterance",
+                                                            self.directive.utterance)})
             stop = Stop(label=ins["type"], confidence=ins.get("confidence", 1.0),
                         index=ins.get("index"))
             position = ins.get("position")
@@ -156,6 +168,14 @@ class MissionPlanner:
         self.plan = None
         self.directive = Directive()
         self._place_cache.clear()
+        self._next_stop = 0
+
+    def route_summary(self) -> dict:
+        """The active route as the parser needs it -- what "after that" or
+        "skip the cafe" refers to. ``destination`` is None when idle."""
+        return {"destination": self.destination,
+                "destination_index": self.destination_index,
+                "stops": [{"type": s.label, "index": s.index} for s in list(self.stops)]}
 
     @property
     def has_mission(self) -> bool:
@@ -231,6 +251,7 @@ class MissionPlanner:
         self.plan = GlobalPlan(points=points, goal=dest,
                                stops=[p for _, p in fixed],
                                revision=self._revision, start=start)
+        self._next_stop = 0
         # Keep mission state consistent with what was actually planned
         self.stops = [s for s, _ in fixed]
         self._renumber()
@@ -238,6 +259,28 @@ class MissionPlanner:
 
     def is_arrived(self, x: float, y: float) -> bool:
         return bool(self.plan) and self.plan.distance_to_goal(x, y) <= self.arrival_radius
+
+    def reached_stop(self, x: float, y: float) -> Place | None:
+        """The next planned stop, once the car is within ``arrival_radius`` of
+        it. Stops are reached in plan order, and a reached one is dropped from
+        the mission so a later re-plan does not route back to it."""
+        if not self.plan or self._next_stop >= len(self.plan.stops):
+            return None
+        place = self.plan.stops[self._next_stop]
+        if place.distance_to(x, y) > self.arrival_radius:
+            return None
+        self._next_stop += 1
+        at = next((i for i, s in enumerate(self.stops) if s.label == place.label), None)
+        if at is not None:
+            del self.stops[at]
+            self._renumber()
+        return place
+
+    def all_places(self) -> list[Place]:
+        """Every landmark in the town, road-snapped exactly as
+        :meth:`build_plan` resolves them."""
+        return [p for label in self.kb.get_landmark_types(self.town)
+                for p in self._candidates(label)]
 
     # ─────────────────────────────────────────
     # Landmark resolution

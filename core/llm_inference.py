@@ -6,8 +6,10 @@ using Google Gemini Enterprise.
 
 Prerequisites:
   1. conda activate zhiyuan_gemini
-  2. Environment variables set via activate hook:
+  2. Environment variables set via activate hook, either
+       GEMINI_API_KEY (AI Studio), or
        GOOGLE_CLOUD_PROJECT, GOOGLE_CLOUD_LOCATION, GOOGLE_GENAI_USE_ENTERPRISE
+     plus optionally GEMINI_MODEL to override MODEL below.
 
 Usage:
   parser = GeminiCommandParser(kb)
@@ -33,15 +35,52 @@ CSV_PATH = str(KB_CSV)
 # Config
 # ─────────────────────────────────────────────
 
-MODEL        = "gemini-2.5-flash"
-NUM_EXAMPLES = 12
+# GEMINI_MODEL overrides: gemini-2.5-flash is closed to new AI Studio keys.
+MODEL        = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
+# All of them: the "After that, go to X" -> new_destination examples sit at
+# the end, and cutting them off taught the model to answer insert_stop.
+NUM_EXAMPLES = len(EXAMPLES)
 
 
 # ─────────────────────────────────────────────
 # System prompt builder
 # ─────────────────────────────────────────────
 
-def _build_system_prompt(town: str, landmark_types: list[str]) -> str:
+def _route_section(route: Optional[dict]) -> str:
+    """What the car is doing right now, so edits resolve against it."""
+    if route is None:                       # caller does not track a route
+        return ""
+    dest = route.get("destination")
+    if not dest:
+        return """
+Current route: none, the car is idle.
+- Any request to go somewhere is a plan_route (even "then go to X").
+"""
+
+    def name(t, i):
+        return f"{t} (#{i})" if i else t
+
+    lines = [f"  {n}. stop: {name(s['type'], s.get('index'))}"
+             for n, s in enumerate(route.get("stops") or [], start=1)]
+    lines.append(f"  -> destination: {name(dest, route.get('destination_index'))}")
+    stop_types = sorted({s["type"] for s in route.get("stops") or []})
+    return f"""
+Current route, in driving order:
+{chr(10).join(lines)}
+
+Resolve the instruction against this route:
+- Going somewhere AFTER the destination ("after that", "then", "afterwards",
+  "after the {dest}") -> new_destination with keep_waypoints=true.
+- "after the X" where X is one of the stops ({", ".join(stop_types) or "none"})
+  -> insert_stop with after=X.
+- remove_stop only names a type that is one of the stops above.
+- A brand-new trip that ignores this route ("forget all that", "instead")
+  -> new_destination with keep_waypoints=false, or plan_route if it lists stops.
+"""
+
+
+def _build_system_prompt(town: str, landmark_types: list[str],
+                         route: Optional[dict] = None) -> str:
     examples_str = ""
     for ex in EXAMPLES[:NUM_EXAMPLES]:
         examples_str += f'\nInput:  "{ex["command"]}"\n'
@@ -52,7 +91,7 @@ Convert the passenger's spoken instruction into a structured JSON object.
 
 Current map: {town}
 Known building types available in this map: {", ".join(landmark_types)}
-
+{_route_section(route)}
 Rules:
 - building_type must be exactly one of the known types listed above, or null if unknown.
 - Do not invent or guess building types not in the list.
@@ -75,13 +114,18 @@ class GeminiCommandParser:
     def __init__(self, kb: LandmarkKnowledgeBase, model: str = MODEL):
         self.kb = kb
         self.model = model
-        # Gemini Enterprise: reads GOOGLE_CLOUD_PROJECT, GOOGLE_CLOUD_LOCATION,
-        # and GOOGLE_GENAI_USE_ENTERPRISE from environment automatically
+        # Reads GEMINI_API_KEY (AI Studio) or GOOGLE_CLOUD_PROJECT,
+        # GOOGLE_CLOUD_LOCATION and GOOGLE_GENAI_USE_ENTERPRISE (Enterprise)
+        # from environment automatically
         self.client = genai.Client()
 
-    def parse(self, text: str, town: str) -> Optional[DrivingIntent]:
+    def parse(self, text: str, town: str,
+              route: Optional[dict] = None) -> Optional[DrivingIntent]:
+        """``route`` is ``MissionPlanner.route_summary()``: with it the model
+        knows what "after that" or "the cafe" refers to. Leave it None for a
+        stand-alone utterance -- the prompt is then exactly as before."""
         landmark_types = self.kb.get_landmark_types(town)
-        system_prompt  = _build_system_prompt(town, landmark_types)
+        system_prompt  = _build_system_prompt(town, landmark_types, route)
 
         response = self.client.models.generate_content(
             model=self.model,

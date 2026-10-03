@@ -24,7 +24,6 @@ import base64
 import json
 import os
 import select
-import shutil
 import subprocess
 import time
 from pathlib import Path
@@ -61,7 +60,12 @@ class SimLingoWorker:
                 f"in config.yaml at "
                 f"a checkout that has it.")
         python_bin = str(python_bin or SIMLINGO_PYTHON or "python3")
-        python_bin = python_bin if os.path.exists(python_bin) else (shutil.which("python3") or "python3")
+        if os.sep in python_bin and not os.path.exists(python_bin):
+            # Falling back to whatever python3 is on PATH would start the
+            # worker in talk2drive's own env, which has no torch.
+            raise FileNotFoundError(
+                f"SimLingo python {python_bin} does not exist -- fix "
+                f"--simlingo-python or [simlingo] python in config.yaml")
 
         env = os.environ.copy()
         env["PYTHONPATH"] = os.pathsep.join(
@@ -145,11 +149,23 @@ class SimLingoBackend(DrivingBackend):
                  route_sample_factor: float = 200.0,
                  pass_language: bool = True, debug: bool = False) -> None:
         self.inference_interval = max(1, int(inference_interval))
-        self.camera = {"x": -1.5, "y": 0.0, "z": 2.0, "roll": 0.0, "pitch": 0.0,
+        # 1 m ahead of SimLingo's training mount (-1.5, 0, 2.0), to keep more of
+        # the ego out of frame. The model is still handed the training
+        # extrinsics (simlingo_utils.get_camera_extrinsics); pass
+        # --simlingo-camera -1.5,0,2.0 to restore the exact training setup.
+        self.camera = {"x": -0.5, "y": 0.0, "z": 2.0, "roll": 0.0, "pitch": 0.0,
                        "yaw": 0.0, "width": 1024, "height": 512, "fov": 110.0,
                        **(camera or {})}
         self.pass_language = pass_language
         self.debug = debug
+        # Per-inference debug lines go to a file, not the terminal: at ~1 Hz
+        # they would bury the passenger's input prompt. `tail -F` it instead.
+        self._debug_log = None
+        if debug:
+            log_path = Path(__file__).resolve().parents[1] / "logs" / "simlingo_debug.log"
+            log_path.parent.mkdir(exist_ok=True)
+            self._debug_log = open(log_path, "a", buffering=1, encoding="utf-8")
+            print(f"[simlingo] per-inference debug -> {log_path}  (tail -F it)")
 
         # 200 m, not the usual 50: SimLingo's leaderboard fork calls
         # downsample_route(plan, 200) in set_global_plan, so that is the
@@ -163,6 +179,10 @@ class SimLingoBackend(DrivingBackend):
         self._cached = None
         self._step = 0
         self.last_language: str | None = None
+        # (rgb sent, target points sent, worker response, instruction, speed)
+        # of the latest inference, for runtime/fpv.py. Replaced whole, never
+        # mutated, so a reader on another thread always sees one consistent frame.
+        self.last_frame: tuple | None = None
 
         self.worker = SimLingoWorker(checkpoint_path=checkpoint_path,
                                      repo_path=repo_path, python_bin=python_bin,
@@ -216,9 +236,12 @@ class SimLingoBackend(DrivingBackend):
 
         self._cached = response["control"]
         self.last_language = response.get("language")
-        if self.debug:
-            print(f"[simlingo] tp={np.array2string(target_points, precision=1)} "
-                  f"ctrl={self._cached} lang={str(self.last_language)[:80]!r}")
+        self.last_frame = (rgb, target_points, response, self._instruction, obs.speed_mps)
+        if self._debug_log:
+            self._debug_log.write(
+                f"{time.strftime('%H:%M:%S')} speed={obs.speed_mps * 3.6:.1f}km/h "
+                f"tp={np.array2string(target_points, precision=1)} "
+                f"ctrl={self._cached} lang={self.last_language!r}\n")
         return self._to_control(self._cached)
 
     def cancel(self) -> None:
@@ -228,6 +251,8 @@ class SimLingoBackend(DrivingBackend):
 
     def destroy(self) -> None:
         self.worker.close()
+        if self._debug_log:
+            self._debug_log.close()
 
     # ── helpers ─────────────────────────────────────────────────────────
     def _front_rgb(self, obs: Observation):

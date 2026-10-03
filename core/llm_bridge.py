@@ -3,7 +3,7 @@ core/llm_bridge.py
 ===================
 Runs ``core/llm_worker.py`` in a subprocess -- its own Python environment,
 its own ``google-genai`` install -- and exposes the exact same
-``.parse(text, town) -> dict | None`` method as ``GeminiCommandParser``
+``.parse(text, town, route=None) -> dict | None`` method as ``GeminiCommandParser``
 itself (``core/llm_inference.py``). Callers (``runtime/cli.py``,
 ``runtime/passenger.py``, ...) construct one or the other and never see
 the difference.
@@ -52,9 +52,12 @@ class LLMBridge:
         print("[llm_bridge] worker ready")
 
     # ── public interface: matches GeminiCommandParser.parse() ─────────────
-    def parse(self, text: str, town: str) -> Optional[dict]:
+    def parse(self, text: str, town: str, route: Optional[dict] = None) -> Optional[dict]:
+        req = {"type": "parse", "text": text, "town": town}
+        if route is not None:
+            req["route"] = route
         try:
-            response = self._request({"type": "parse", "text": text, "town": town})
+            response = self._request(req)
         except Exception as exc:
             print(f"[llm_bridge] request failed: {exc}")
             return None

@@ -96,7 +96,8 @@ class Talk2DrivePassenger:
             if self.parser is None:
                 print("[passenger] no parser configured", flush=True)
                 return
-            intent = self.parser.parse(payload, town=self.town)
+            intent = self.parser.parse(payload, town=self.town,
+                                       route=self.mission.route_summary())
             if not intent:
                 print("[passenger] could not parse command", flush=True)
                 return

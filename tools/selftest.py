@@ -186,6 +186,25 @@ def test_enroute_position():
           str([s.label for s in plan.stops]))
     check("flag cleared once committed", not any(s.enroute for s in m.stops))
 
+    class Ask(AutoInteraction):
+        asked = []
+
+        def choose_insert_position(self, req):
+            self.asked.append(req)
+            return 0                              # passenger: "put it first"
+
+    m = planner(Ask())
+    m.apply({"command_type": "plan_route", "destination": "hospital",
+             "waypoints": [{"type": "cafe", "order": 1, "confidence": 1.0}]})
+    m.build_plan((0.0, 0.0, 0.0))
+    m.apply({"command_type": "insert_stop",
+             "insert": {"type": "museum", "position": "enroute", "after": None}})
+    plan = m.build_plan((0.0, 0.0, 0.0))
+    check("unordered stop asks the passenger",
+          [(r.label, r.stop_labels) for r in Ask.asked] == [("museum", ["cafe"])])
+    check("passenger's answer decides the order",
+          [s.label for s in plan.stops] == ["museum", "cafe"])
+
 
 def test_interaction_policies():
     print("\n[interaction] policies")
@@ -348,6 +367,262 @@ def test_arrival():
           plan.remaining_distance(90.0, 0.0) < plan.remaining_distance(10.0, 0.0))
 
 
+def test_stop_progress():
+    print("\n[mission] reaching stops")
+    m = planner()
+    m.apply({"command_type": "plan_route", "destination": "hospital",
+             "waypoints": [{"type": "gas_station", "order": 1},
+                           {"type": "cafe", "order": 2, "index": 1}]})
+    plan = m.build_plan((0.0, 0.0, 0.0))
+    gas, cafe = plan.stops
+    check("stops planned in order", [p.label for p in plan.stops] == ["gas_station", "cafe"])
+    check("nothing reached at the start", m.reached_stop(0.0, 0.0) is None)
+    check("a later stop is not reached out of order", m.reached_stop(cafe.x, cafe.y) is None)
+    check("first stop reached", m.reached_stop(gas.x, gas.y) is gas)
+    check("reached stop leaves the mission", [s.label for s in m.stops] == ["cafe"])
+    check("reached only once", m.reached_stop(gas.x, gas.y) is None)
+    check("second stop reached", m.reached_stop(cafe.x, cafe.y) is cafe)
+    check("re-plan does not route back", m.build_plan((cafe.x, cafe.y, 0.0)).stops == [])
+    check("all_places covers the town", len(m.all_places()) == 7)
+
+
+def test_extend_destination():
+    print("\n[mission] going somewhere after the destination")
+    m = planner()
+    m.apply({"command_type": "plan_route", "destination": "hospital",
+             "destination_index": 2, "waypoints": []})
+    m.apply({"command_type": "new_destination", "destination": "museum",
+             "keep_waypoints": True})
+    check("old destination kept as the last stop",
+          [(s.label, s.index) for s in m.stops] == [("hospital", 2)])
+    plan = m.build_plan((0.0, 0.0, 0.0))
+    check("kept stop is still the second hospital", abs(plan.stops[0].x - 300.0) < 1e-6,
+          f"got {plan.stops[0].x}")
+
+    m = planner()
+    m.apply({"command_type": "plan_route", "destination": "hospital",
+             "waypoints": [{"type": "cafe", "order": 1}]})
+    r = m.apply({"command_type": "insert_stop",
+                 "insert": {"type": "museum", "position": "enroute", "after": "hospital"}})
+    check("insert after the destination extends the route", r.needs_replan)
+    check("new place becomes the destination", m.destination == "museum")
+    check("old destination becomes the last stop",
+          [s.label for s in m.stops] == ["cafe", "hospital"])
+
+    m = planner()
+    r = m.apply({"command_type": "new_destination", "destination": "museum",
+                 "keep_waypoints": True})
+    check("'then go to X' while idle just starts a route",
+          r.needs_replan and m.destination == "museum" and m.stops == []
+          and m.build_plan((0.0, 0.0, 0.0)) is not None)
+
+
+def test_route_prompt():
+    print("\n[llm] current route in the prompt")
+    m = planner()
+    check("idle summary has no destination", m.route_summary()["destination"] is None)
+    m.apply({"command_type": "plan_route", "destination": "hospital",
+             "destination_index": 2, "waypoints": [{"type": "cafe", "order": 1}]})
+    summary = m.route_summary()
+    check("summary lists stops and destination",
+          summary == {"destination": "hospital", "destination_index": 2,
+                      "stops": [{"type": "cafe", "index": None}]}, str(summary))
+
+    try:
+        from core.llm_inference import _build_system_prompt
+    except ImportError as exc:                 # google-genai not in this env
+        print(f"  skip prompt checks ({exc})")
+        return
+    types_ = ["cafe", "hospital", "park"]
+    legacy = _build_system_prompt("Town01", types_)
+    check("no route: no route section", "Current route" not in legacy)
+    idle = _build_system_prompt("Town01", types_, planner().route_summary())
+    check("idle route says so", "Current route: none" in idle)
+    active = _build_system_prompt("Town01", types_, summary)
+    check("active route lists the stop", "1. stop: cafe" in active)
+    check("active route names the indexed destination",
+          "-> destination: hospital (#2)" in active)
+    check("'after the destination' maps to new_destination",
+          'after the hospital") -> new_destination' in active.replace("\n  ", " "))
+
+
+def test_landmark_board():
+    print("\n[viz] landmark board")
+    from runtime.viz import LandmarkBoard, _key
+    m = planner()
+    board = LandmarkBoard(world=None, places=m.all_places())
+    state = lambda p: board._state[_key(p)][0]
+
+    m.apply({"command_type": "plan_route", "destination": "hospital",
+             "waypoints": [{"type": "gas_station", "order": 1}]})
+    plan = m.build_plan((0.0, 0.0, 0.0))
+    board.set_plan(plan)
+    gas = plan.stops[0]
+    check("goal is the destination", state(plan.goal) == "destination")
+    check("stop is a stop", state(gas) == "stop")
+    check("others stay idle",
+          sum(s == "idle" for s, _ in board._state.values()) == len(board._state) - 2)
+
+    board.mark_visited(gas)
+    m.apply({"command_type": "new_destination", "destination": "museum"})
+    new = m.build_plan((gas.x, gas.y, 0.0))
+    board.set_plan(new)
+    check("reached stop stays reached", state(gas) == "visited")
+    check("replaced goal is cancelled", state(plan.goal) == "cancelled")
+    check("new goal is the destination", state(new.goal) == "destination")
+
+    board.set_candidates([plan.goal])
+    check("candidates overlay the state", board._candidates == {_key(plan.goal): 1})
+    board.clear_candidates()
+    board.cancel_active()
+    check("cancel marks the goal cancelled", state(new.goal) == "cancelled")
+    board.reset()
+    check("reset greys everything", {s for s, _ in board._state.values()} == {"idle"})
+    depot = Place("depot", 5.0, 5.0)
+    board.set_plan(GlobalPlan(points=[], goal=depot))
+    check("a place outside the knowledge base is adopted", state(depot) == "destination")
+
+
+def test_bev_render():
+    print("\n[bev] renderer")
+    try:
+        from runtime.bev import BevRenderer
+    except ImportError as exc:
+        print(f"  skip ({exc})")
+        return
+    from types import SimpleNamespace as NS
+
+    class Wp:
+        def __init__(self, x, y):
+            self.transform = NS(location=NS(x=x, y=y, z=0.0))
+            self.lane_width = 3.5
+
+        def next(self, d):
+            return [Wp(self.transform.location.x + d, self.transform.location.y)] \
+                if self.transform.location.x < 100 else []
+
+    class FakeMap:
+        def generate_waypoints(self, d):
+            return [Wp(float(x), y) for y in (0.0, 50.0) for x in range(0, 101, 2)]
+
+    r = BevRenderer(FakeMap(), size_px=300, margin_px=10)
+    check("origin maps to the margin", r.px(0.0, 0.0) == (10, 10))
+    check("x grows right, y grows down", r.px(100.0, 0.0)[0] > 10 and r.px(0.0, 50.0)[1] > 10)
+    m = planner()
+    m.apply({"command_type": "plan_route", "destination": "hospital", "waypoints": []})
+    plan = m.build_plan((0.0, 0.0, 0.0))
+    img = r.render(ego=(10.0, 0.0, 0.0), plan=plan,
+                   landmarks=[(plan.goal, "destination", None, None)])
+    check("map plus legend column", img.shape[0] == r.h and img.shape[1] == r.w + 150,
+          str(img.shape))
+    check("route is drawn", (img[:, :r.w] == (0, 200, 0)).all(axis=2).any())
+
+
+def test_text_only_viz():
+    print("\n[viz] text-only drawing stays out of camera images")
+    from types import SimpleNamespace as NS
+    from runtime.viz import PlanVisualizer
+
+    class Recorder:
+        def __init__(self):
+            self.calls = []
+
+        def __getattr__(self, name):
+            return lambda *a, **k: self.calls.append(name)
+
+    debug = Recorder()
+    viz = PlanVisualizer(NS(debug=debug), planner().all_places(), text_only=True)
+    m = planner()
+    m.apply({"command_type": "plan_route", "destination": "hospital",
+             "waypoints": [{"type": "cafe", "order": 1}]})
+    plan = m.build_plan((0.0, 0.0, 0.0))
+    viz.show(plan)
+    viz.redraw(life_time=0.75)
+    import carla
+    viz.beacon(carla.Location(x=1.0, y=2.0, z=0.0))
+    viz.clear()
+    check("only draw_string is used", set(debug.calls) == {"draw_string"},
+          str(sorted(set(debug.calls))))
+    check("route drawn about every 3 m",
+          debug.calls.count("draw_string") >= int(plan.length() / 3.0))
+
+
+def test_snap_heading():
+    print("\n[route] re-plan start stays on the ego's own lane")
+    try:
+        import carla
+        from core.paths import section_path
+        from core.route_provider import CarlaRouteProvider, _yaw_diff
+    except ImportError as exc:
+        print(f"  skip ({exc})")
+        return
+    xodr_dir = section_path("covlm", "opendrive_dir")
+    xodr = xodr_dir / "Town01.xodr" if xodr_dir else None
+    if xodr is None or not xodr.is_file():
+        print("  skip (no Town01.xodr under [covlm] opendrive_dir)")
+        return
+    m = carla.Map("Town01", xodr.read_text())
+    rp = CarlaRouteProvider(m, 1.0)
+    old_bad = new_bad = n = 0
+    for wp in m.generate_waypoints(25.0):
+        opp = wp.get_left_lane()
+        if wp.is_junction or opp is None or opp.lane_type != carla.LaneType.Driving:
+            continue
+        yaw = wp.transform.rotation.yaw
+        if _yaw_diff(opp.transform.rotation.yaw, yaw) < 90:
+            continue
+        n += 1
+        l = opp.transform.location            # drifted onto the oncoming lane
+        old = m.get_waypoint(carla.Location(*rp.snap(l.x, l.y, l.z)))
+        new = m.get_waypoint(carla.Location(*rp.snap_heading(l.x, l.y, l.z, yaw + 15.0)))
+        old_bad += _yaw_diff(old.transform.rotation.yaw, yaw) > 90
+        new_bad += _yaw_diff(new.transform.rotation.yaw, yaw) > 90
+    check("plain snap puts a drifted ego on the oncoming lane", old_bad == n, f"{old_bad}/{n}")
+    check("snap_heading keeps it on its own lane", n > 0 and new_bad == 0, f"{new_bad}/{n} wrong")
+    own = m.generate_waypoints(25.0)[5]
+    l = own.transform.location
+    back = m.get_waypoint(carla.Location(*rp.snap_heading(l.x, l.y, l.z, own.transform.rotation.yaw)))
+    check("an ego on its own lane stays there", (back.road_id, back.lane_id) == (own.road_id, own.lane_id))
+
+
+def test_sensor_attributes():
+    print("\n[sensors] leaderboard specs -> blueprint attributes")
+    from runtime.sensors import blueprint_attributes
+    cam = blueprint_attributes({"type": "sensor.camera.rgb", "id": "rgb",
+                                "width": 900, "height": 256, "fov": 100})
+    check("camera size uses image_size_x/y",
+          cam.get("image_size_x") == 900 and cam.get("image_size_y") == 256
+          and cam.get("fov") == 100, str(cam))
+    check("no raw width/height (not blueprint attributes)", "width" not in cam and "height" not in cam)
+    check("rgb gets the leaderboard lens and chromatic aberration",
+          cam["lens_circle_multiplier"] == 3.0 and cam["chromatic_aberration_intensity"] == 0.5)
+    depth = blueprint_attributes({"type": "sensor.camera.depth", "width": 10, "height": 10, "fov": 90})
+    check("depth camera has no chromatic aberration", "chromatic_aberration_intensity" not in depth)
+    check("gnss gets zero bias", blueprint_attributes({"type": "sensor.other.gnss"})
+          == {"noise_alt_bias": 0.0, "noise_lat_bias": 0.0, "noise_lon_bias": 0.0})
+
+
+def test_town_view():
+    print("\n[camera] town view framing")
+    from types import SimpleNamespace as NS
+    from runtime.camera import _town_view
+
+    class FakeMap:
+        def __init__(self, w, h):
+            self.pts = [(0, 0), (w, 0), (0, h), (w, h)]
+
+        def generate_waypoints(self, _):
+            return [NS(transform=NS(location=NS(x=x, y=y, z=0.0))) for x, y in self.pts]
+
+    (cx, cy, z), yaw = _town_view(FakeMap(400.0, 200.0), margin=1.0)
+    check("centred on the map", (cx, cy) == (200.0, 100.0))
+    check("wide map runs x across the screen", yaw == -90.0)
+    check("height fits the width", abs(z - 200.0) < 1e-6, f"got {z}")
+    (_, _, z), yaw = _town_view(FakeMap(100.0, 400.0), margin=1.0)
+    check("tall map runs y across the screen", yaw == 0.0)
+    check("height fits the long side", abs(z - 200.0) < 1e-6, f"got {z}")
+
+
 
 # ─────────────────────────────────────────────
 # Backend contracts (verified against the official repos in "AD software/")
@@ -375,6 +650,43 @@ class Lb2Agent:
     def setup(self, path_to_conf_file): self.setup_calls += 1
     def sensors(self): return []
 """
+
+
+def test_leaderboard_replan():
+    print("\n[backends] leaderboard agent picks up a re-plan")
+    from backends.leaderboard import LeaderboardBackend
+    from core.types import Observation
+
+    class TcpLike:
+        """TCP's shape: the route planner is built once, in _init()."""
+
+        def __init__(self):
+            self.initialized = False
+            self._global_plan = None
+            self.planned = None
+
+        def set_global_plan(self, gps, world):
+            self._global_plan = gps
+
+        def run_step(self, input_data, timestamp):
+            if not self.initialized:
+                self.planned = self._global_plan          # _init()
+                self.initialized = True
+            return None
+
+    agent = TcpLike()
+    be = LeaderboardBackend(agent_instance=agent)
+    m = planner()
+    m.apply({"command_type": "plan_route", "destination": "hospital", "waypoints": []})
+    first = m.build_plan((0.0, 0.0, 0.0))
+    be.set_plan(first, m.directive)
+    be.run_step(Observation(ego_transform=None, speed_mps=0.0, sensors={}, timestamp=0.0))
+    planned_first = agent.planned
+    m.apply({"command_type": "new_destination", "destination": "museum"})
+    be.set_plan(m.build_plan((0.0, 0.0, 0.0)), m.directive)
+    be.run_step(Observation(ego_transform=None, speed_mps=0.0, sensors={}, timestamp=0.0))
+    check("agent's route planner is rebuilt from the new plan",
+          agent.planned is not planned_first and agent.planned == agent._global_plan)
 
 
 def test_leaderboard_ctor():
@@ -450,7 +762,8 @@ for line in sys.stdin:
         else:
             reply({"status": "ok",
                    "intent": {"command_type": "plan_route",
-                              "destination": req["text"], "town": req["town"]}})
+                              "destination": req["text"], "town": req["town"],
+                              "route": req.get("route")}})
 '''
     with tempfile.TemporaryDirectory() as d:
         stub_path = Path(d) / "stub_worker.py"
@@ -466,6 +779,13 @@ for line in sys.stdin:
             failed = bridge.parse("__fail__", town="Town01")
             check("a worker-reported error surfaces as None, not a crash",
                   failed is None)
+
+            routed = bridge.parse("cafe", town="Town01",
+                                  route={"destination": "park", "stops": []})
+            check("route reaches the worker",
+                  routed is not None and routed["route"]["destination"] == "park",
+                  str(routed))
+            check("no route, no route field on the wire", intent.get("route") is None)
 
             still_alive = bridge.parse("cafe", town="Town01")
             check("bridge keeps working after a reported error",
@@ -649,8 +969,9 @@ def main() -> int:
     print("talk2drive_modular self-test (no CARLA server required)")
     for fn in (test_plan_route, test_edits, test_enroute_position,
                test_interaction_policies, test_downsample, test_geometry,
-               test_tracker, test_gps, test_arrival,
-               test_leaderboard_ctor, test_downsample_defaults,
+               test_tracker, test_gps, test_arrival, test_stop_progress, test_extend_destination, test_route_prompt,
+               test_landmark_board, test_text_only_viz, test_snap_heading, test_sensor_attributes, test_town_view, test_bev_render,
+               test_leaderboard_replan, test_leaderboard_ctor, test_downsample_defaults,
                test_llm_bridge_protocol,
                test_simlingo_frame_matches_official,
                test_covlm_stays_out_of_core, test_config_paths,

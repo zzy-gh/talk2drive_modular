@@ -10,7 +10,8 @@ Mirrors the ``simlingo_inference.worker_server`` / ``SimLingoWorker`` bridge
 in ``backends/simlingo.py``: one JSON object per line on stdin, one JSON
 object per line on stdout, nothing else on the wire.
 
-    {"type": "parse", "text": "take me to the hospital", "town": "Town01"}
+    {"type": "parse", "text": "take me to the hospital", "town": "Town01",
+     "route": {...} (optional, MissionPlanner.route_summary())}
         -> {"status": "ok", "intent": {...} | null}
 
     {"type": "shutdown"}
@@ -74,7 +75,7 @@ def main() -> None:
             continue
 
         try:
-            intent = parser.parse(req["text"], town=req["town"])
+            intent = parser.parse(req["text"], town=req["town"], route=req.get("route"))
             _reply({"status": "ok", "intent": intent})
         except Exception as exc:                      # worker must never crash silently
             _reply({"status": "error", "message": f"{type(exc).__name__}: {exc}"})
