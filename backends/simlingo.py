@@ -33,7 +33,8 @@ import numpy as np
 from core.tracking import SparseRouteTracker
 from core.types import Directive, GlobalPlan, Observation
 
-from .base import BackendCaps, DrivingBackend, brake_control, register
+from .base import (BackendCaps, DrivingBackend, FpvFrame, brake_control,
+                   camera_rgb, register)
 
 from core.paths import SIMLINGO_PYTHON, SIMLINGO_REPO
 
@@ -149,11 +150,9 @@ class SimLingoBackend(DrivingBackend):
                  route_sample_factor: float = 200.0,
                  pass_language: bool = True, debug: bool = False) -> None:
         self.inference_interval = max(1, int(inference_interval))
-        # 1 m ahead of SimLingo's training mount (-1.5, 0, 2.0), to keep more of
-        # the ego out of frame. The model is still handed the training
-        # extrinsics (simlingo_utils.get_camera_extrinsics); pass
-        # --simlingo-camera -1.5,0,2.0 to restore the exact training setup.
-        self.camera = {"x": -0.5, "y": 0.0, "z": 2.0, "roll": 0.0, "pitch": 0.0,
+        # SimLingo's own front camera (team_code/config_simlingo.py camera_*_0),
+        # which is also what simlingo_utils.get_camera_extrinsics hands the model.
+        self.camera = {"x": -1.5, "y": 0.0, "z": 2.0, "roll": 0.0, "pitch": 0.0,
                        "yaw": 0.0, "width": 1024, "height": 512, "fov": 110.0,
                        **(camera or {})}
         self.pass_language = pass_language
@@ -179,10 +178,8 @@ class SimLingoBackend(DrivingBackend):
         self._cached = None
         self._step = 0
         self.last_language: str | None = None
-        # (rgb sent, target points sent, worker response, instruction, speed)
-        # of the latest inference, for runtime/fpv.py. Replaced whole, never
-        # mutated, so a reader on another thread always sees one consistent frame.
-        self.last_frame: tuple | None = None
+        # The latest inference's input and output, for runtime/fpv.py.
+        self.last_frame: FpvFrame | None = None
 
         self.worker = SimLingoWorker(checkpoint_path=checkpoint_path,
                                      repo_path=repo_path, python_bin=python_bin,
@@ -236,7 +233,14 @@ class SimLingoBackend(DrivingBackend):
 
         self._cached = response["control"]
         self.last_language = response.get("language")
-        self.last_frame = (rgb, target_points, response, self._instruction, obs.speed_mps)
+        h = rgb.shape[0]
+        self.last_frame = FpvFrame(
+            rgb=rgb, control=response.get("control") or {}, speed_mps=obs.speed_mps,
+            model="SimLingo", notes=(str(response.get("language") or ""),),
+            instruction=self._instruction,
+            # Same arithmetic as simlingo_inference/model_runner.py::_build_driving_input
+            # (cut_bottom_quarter): that is how the ego's own roof stays out of view.
+            crop_from_row=int(h - (h * 4.8) // 16))
         if self._debug_log:
             self._debug_log.write(
                 f"{time.strftime('%H:%M:%S')} speed={obs.speed_mps * 3.6:.1f}km/h "
@@ -256,17 +260,7 @@ class SimLingoBackend(DrivingBackend):
 
     # ── helpers ─────────────────────────────────────────────────────────
     def _front_rgb(self, obs: Observation):
-        data = obs.sensors.get(self.CAMERA_ID)
-        if data is None:
-            return None
-        if isinstance(data, tuple):             # leaderboard: (frame, array)
-            data = data[1]
-        arr = np.asarray(data)
-        if arr.ndim != 3:
-            return None
-        if arr.shape[2] == 4:                   # BGRA from CARLA
-            arr = arr[:, :, :3][:, :, ::-1]     # -> RGB
-        return np.ascontiguousarray(arr, dtype=np.uint8)
+        return camera_rgb(obs.sensors.get(self.CAMERA_ID))
 
     @staticmethod
     def _to_control(control: dict | None):

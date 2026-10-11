@@ -1,0 +1,45 @@
+﻿row,id,turn,suggest,why
+27,Town01/need_hurry/0,0,drop,paraphrase rejected 3x; template sentence kept (it passes faithful())
+63,Town01/multi_move_last/0,1,drop,"""final destination"" for a last stop"
+65,Town01/multi_three/1,1,drop,"""then the river"" loses ""afterwards"""
+70,Town01/long_a/0,3,drop,"lost ""Then"" -> reads as a plain new destination"
+94,Town02/hurry_pref/0,0,drop,"""Fastest. Shortest route."" two conflicting preferences"
+98,Town02/self_correction/1,0,drop,paraphrase rejected 3x; template sentence kept (it passes faithful())
+106,Town02/need_hurry/0,0,drop,"""Park."" reads as the park landmark and loses the indirect need"
+109,Town02/then_last/0,1,drop,"""final destination"" for a last stop"
+118,Town02/then_replace/0,1,ok?,"""Cancel that"" phrasing - kept, but worth a second look"
+135,Town02/then_move_last/0,1,drop,"""final destination"" for a move-to-last"
+141,Town02/multi_remove_extend/0,1,drop,lost the removal; reads as a plain itinerary
+143,Town02/multi_three/0,1,drop,"""then playground"" loses ""afterwards"""
+144,Town02/multi_three/1,1,drop,"""then petrol station"" loses ""afterwards"""
+180,Town03/vague/0,0,drop,"""Open the windows."" is not a route request"
+212,Town03/then_move_next/0,1,drop,"""next destination"" for a move-to-next"
+255,Town04/self_correction/0,0,drop,paraphrase rejected 3x; template sentence kept (it passes faithful())
+263,Town04/stops_avoid/0,0,drop,paraphrase rejected 3x; template sentence kept (it passes faithful())
+282,Town04/then_rush_elsewhere/1,1,ok?,"""Cancel that"" phrasing - kept, but worth a second look"
+300,Town04/multi_move_last/0,1,drop,"""final destination"" for a last stop"
+307,Town04/long_a/0,3,drop,"""So"" replaces ""Then"" -> loses after-the-destination"
+328,Town05/preference/0,0,drop,"""ASAP"" adds a hurry the gold does not have"
+352,Town05/then_need/0,1,drop,"""Book a room for the night."" has no travel request"
+356,Town05/then_extend/0,1,drop,"lost ""Then"" -> reads as a plain new destination (missed in my pass; the checker caught it)"
+371,Town05/then_move_next/1,1,drop,"""next destination"" for a move-to-next"
+379,Town05/multi_move_last/0,1,drop,"""final destination"" for a last stop"
+380,Town05/multi_three/0,1,drop,"""then the park"" loses ""afterwards"""
+381,Town05/multi_three/1,1,drop,"""then warehouse"" loses ""afterwards"""
+399,Town06/one_stop/0,0,drop,paraphrase rejected 3x; template sentence kept (it passes faithful())
+426,Town06/then_last/1,1,drop,"""final destination"" for a last stop"
+446,Town06/then_crowded/0,2,drop,"""University first"" claims a position the route does not have"
+457,Town06/multi_remove_extend/0,1,drop,"""Drop me at the research institute"" is the opposite of removing it"
+482,Town07/two_stops/1,0,drop,paraphrase rejected 3x; template sentence kept (it passes faithful())
+501,Town07/need_hurry/0,0,drop,lost the hurry
+505,Town07/then_last/1,1,drop,"""final destination"" for a last stop"
+510,Town07/then_need/0,1,drop,paraphrase rejected 3x; template sentence kept (it passes faithful())
+512,Town07/then_remove/0,1,drop,"""proceed directly to our destination"" implies dropping every stop"
+514,Town07/then_extend/0,1,drop,"lost ""Then"""
+522,Town07/then_remove_only/0,1,drop,paraphrase rejected 3x; template sentence kept (it passes faithful())
+528,Town07/then_move_next/0,1,drop,"""next destination"" for a move-to-next"
+530,Town07/then_move_last/0,1,drop,"""final destination"" for a move-to-last"
+537,Town07/multi_move_last/0,1,drop,"""final destination"" for a last stop"
+571,Town10HD/self_correction/0,0,drop,paraphrase rejected 3x; template sentence kept (it passes faithful())
+580,Town10HD/need_hurry/0,0,drop,paraphrase rejected 3x; template sentence kept (it passes faithful())
+607,Town10HD/then_move_next/0,1,drop,"""next destination"" for a move-to-next"

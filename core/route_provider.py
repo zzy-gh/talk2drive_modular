@@ -111,12 +111,43 @@ class CarlaRouteProvider:
         except Exception as exc:                      # unreachable / off-road
             print(f"[route] trace_route failed: {exc}")
             return []
+        if self._stalled(raw, g):
+            # GlobalRoutePlanner cannot route to a goal behind the start on
+            # the same lane segment: it returns the start alone, and the next
+            # leg then begins out of nowhere -- the car turns round to chase
+            # it. Drive on to the end of this lane first; from the next
+            # junction the planner finds the way round.
+            ahead = self.map.get_waypoint(s).next_until_lane_end(2.0)
+            if ahead:
+                nxt = ahead[-1].next(5.0)
+                mid = (nxt[0] if nxt else ahead[-1]).transform.location
+                try:
+                    raw = self._grp.trace_route(s, mid) + self._grp.trace_route(mid, g)[1:]
+                except Exception as exc:
+                    print(f"[route] trace_route failed: {exc}")
+                    return []
+            if self._stalled(raw, g):
+                print(f"[route] no route from ({s.x:.0f}, {s.y:.0f}) to ({g.x:.0f}, {g.y:.0f})")
+                return []
         out = []
         for wp, option in raw:
             tf = wp.transform
             out.append(RoutePoint(x=tf.location.x, y=tf.location.y, z=tf.location.z,
                                   yaw=tf.rotation.yaw, option=int(option.value)))
         return out
+
+    def _stalled(self, raw, goal, tol_m: float = 10.0) -> bool:
+        """trace_route went nowhere -- the start alone, or points that never
+        leave it -- while the goal (projected onto the road, as trace_route
+        targets it) is elsewhere. Only this case is touched: a trace that runs
+        on but ends short of its goal is left exactly as GlobalRoutePlanner
+        made it."""
+        if not raw:
+            return True
+        start = raw[0][0].transform.location
+        target = self.map.get_waypoint(goal).transform.location
+        moved = max(wp.transform.location.distance(start) for wp, _ in raw)
+        return moved < 2.0 and start.distance(target) > tol_m
 
     def trace_chain(self, points: Sequence[Sequence[float]]) -> list[RoutePoint]:
         """Trace ``points[0] -> points[1] -> ... -> points[-1]`` as ONE plan.

@@ -90,6 +90,39 @@ def build(name: str, **kwargs) -> DrivingBackend:
     return _REGISTRY[name](**kwargs)
 
 
+@dataclass(frozen=True)
+class FpvFrame:
+    """What a camera-driven backend's model saw at its last inference, for
+    runtime/fpv.py. A backend replaces it whole, never mutates it, so a reader
+    on another thread always sees one consistent frame."""
+    rgb: Any                          # HxWx3 uint8 RGB, as sent to the model
+    control: dict                     # steer / throttle / brake the model returned
+    speed_mps: float
+    model: str                        # label for the model's own output lines
+    notes: tuple[str, ...] = ()       # the model's own output (language, branch, ...)
+    instruction: str | None = None    # speed instruction sent along, if any
+    crop_from_row: int | None = None  # rows from here down are cut before the model sees them
+    camera: dict | None = None        # sensor spec (x, z, pitch, fov) to project waypoints
+    waypoints: tuple = ()             # predicted path in the ego frame: (forward, right) metres
+
+
+def camera_rgb(data):
+    """A camera reading -> HxWx3 RGB uint8, or None. Accepts the raw array or
+    the leaderboard's (frame, array) pair; CARLA hands out BGRA."""
+    import numpy as np
+
+    if data is None:
+        return None
+    if isinstance(data, tuple):             # leaderboard: (frame, array)
+        data = data[1]
+    arr = np.asarray(data)
+    if arr.ndim != 3:
+        return None
+    if arr.shape[2] == 4:                   # BGRA from CARLA
+        arr = arr[:, :, :3][:, :, ::-1]     # -> RGB
+    return np.ascontiguousarray(arr, dtype=np.uint8)
+
+
 def brake_control():
     import carla
     return carla.VehicleControl(throttle=0.0, brake=1.0, steer=0.0)

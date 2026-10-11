@@ -162,8 +162,8 @@ def test_edits():
              "keep_waypoints": False})
     check("'instead' clears the stops", m.stops == [])
 
-    r = m.apply({"command_type": "cancel_route", "pull_over": True})
-    check("cancel reports cancelled", r.cancelled and r.pull_over)
+    r = m.apply({"command_type": "cancel_route"})
+    check("cancel reports cancelled", r.cancelled)
     check("cancel clears state", not m.has_mission and m.plan is None)
 
     r = m.apply({"command_type": "remove_stop", "remove": {"type": "cafe"}})
@@ -446,6 +446,54 @@ def test_route_prompt():
           'after the hospital") -> new_destination' in active.replace("\n  ", " "))
 
 
+def test_multi_and_move():
+    print("\n[mission] several commands, moving and 'before'")
+    m = planner()
+    m.apply({"command_type": "plan_route", "destination": "hospital",
+             "waypoints": [{"type": "cafe", "order": 1}, {"type": "museum", "order": 2},
+                           {"type": "gas_station", "order": 3}]})
+    order = lambda: [s.label for s in m.stops]
+    r = m.apply({"command_type": "move_stop", "move": {"type": "museum", "position": "next"}})
+    check("move to next", r.needs_replan and order() == ["museum", "cafe", "gas_station"])
+    m.apply({"command_type": "move_stop", "move": {"type": "museum", "position": "last"}})
+    check("move to last", order() == ["cafe", "gas_station", "museum"])
+    m.apply({"command_type": "move_stop", "move": {"type": "museum", "before": "gas_station"}})
+    check("move before a stop", order() == ["cafe", "museum", "gas_station"])
+    m.apply({"command_type": "move_stop", "move": {"type": "cafe", "after": "gas_station"}})
+    check("move after a stop", order() == ["museum", "gas_station", "cafe"])
+    r = m.apply({"command_type": "move_stop", "move": {"type": "hotel", "position": "next"}})
+    check("moving a place that is not a stop is refused", not r.ok)
+    m.apply({"command_type": "insert_stop", "insert": {"type": "hotel", "before": "gas_station"}})
+    check("insert before a stop", order() == ["museum", "hotel", "gas_station", "cafe"])
+    m.apply({"command_type": "move_stop", "move": {"type": "museum", "after": "hospital"}})
+    check("moving after the destination extends the route",
+          m.destination == "museum" and order()[-1] == "hospital")
+
+    m = planner()
+    m.apply({"command_type": "plan_route", "destination": "hospital",
+             "waypoints": [{"type": "cafe", "order": 1}]})
+    m.apply({"command_type": "insert_stop", "insert": {"type": "museum", "before": "hospital"}})
+    check("'before the destination' is the last stop", order() == ["cafe", "museum"])
+    r = m.apply({"commands": [
+        {"command_type": "remove_stop", "remove": {"type": "cafe"}},
+        {"command_type": "insert_stop", "insert": {"type": "gas_station", "position": "next"}},
+        {"command_type": "new_destination", "destination": "hotel", "keep_waypoints": True}]})
+    check("several commands apply in order, one re-plan",
+          r.ok and r.needs_replan and order() == ["gas_station", "museum", "hospital"]
+          and m.destination == "hotel", f"{order()} -> {m.destination}")
+    r = m.apply({"commands": [
+        {"command_type": "remove_stop", "remove": {"type": "nowhere"}},
+        {"command_type": "move_stop", "move": {"type": "nowhere", "position": "next"}}]})
+    check("a batch that changes nothing does not re-plan",
+          not r.needs_replan and order() == ["gas_station", "museum", "hospital"])
+    r = m.apply({"commands": [{"command_type": "cancel_route"},
+                              {"command_type": "plan_route", "destination": "museum"}]})
+    check("cancel then a new route is a new route, not a cancel",
+          not r.cancelled and r.needs_replan and m.destination == "museum")
+    r = m.apply({"commands": [{"command_type": "cancel_route"}]})
+    check("a cancel inside a batch still cancels", r.cancelled)
+
+
 def test_landmark_board():
     print("\n[viz] landmark board")
     from runtime.viz import LandmarkBoard, _key
@@ -516,6 +564,43 @@ def test_bev_render():
     check("map plus legend column", img.shape[0] == r.h and img.shape[1] == r.w + 150,
           str(img.shape))
     check("route is drawn", (img[:, :r.w] == (0, 200, 0)).all(axis=2).any())
+
+
+def test_fpv():
+    print("\n[fpv] model-input window")
+    try:
+        from runtime.fpv import annotate, project
+    except ImportError as exc:
+        print(f"  skip ({exc})")
+        return
+    import numpy as np
+    from backends.base import FpvFrame, camera_rgb
+
+    bgra = np.zeros((4, 6, 4), dtype=np.uint8)
+    bgra[..., 0] = 200                                  # blue in BGRA
+    rgb = camera_rgb((7, bgra))
+    check("leaderboard (frame, BGRA) -> RGB", rgb.shape == (4, 6, 3) and rgb[0, 0, 2] == 200)
+
+    # TCP's front camera.
+    cam = {"x": -1.5, "y": 0.0, "z": 2.0, "pitch": 0.0, "fov": 100}
+    size = (256, 900)
+    ahead = project(cam, size, 10.0, 0.0)
+    check("point straight ahead is centred, below the horizon",
+          ahead is not None and ahead[0] == 450 and ahead[1] > 128, str(ahead))
+    right = project(cam, size, 10.0, 2.0)
+    check("point to the right is right of centre", right is not None and right[0] > 450)
+    check("point behind the camera is dropped", project(cam, size, -3.0, 0.0) is None)
+
+    img = np.full((256, 900, 3), 50, dtype=np.uint8)
+    tcp = annotate(FpvFrame(rgb=img, control={"steer": 0.1, "throttle": 0.5, "brake": 0.0},
+                            speed_mps=5.0, model="TCPAgent", notes=("branch traj",),
+                            camera=cam, waypoints=((2.0, 0.0), (4.0, 0.2), (6.0, 0.4))))
+    check("TCP frame: image plus strip", tcp.shape == (256 + 110, 900, 3), str(tcp.shape))
+    check("TCP waypoints drawn", (tcp[:256] == (0, 230, 0)).all(axis=2).any())
+    check("no crop band without crop_from_row", (tcp[200:256, :5] == 50).all())
+    sim = annotate(FpvFrame(rgb=img, control={}, speed_mps=0.0, model="SimLingo",
+                            notes=("go straight",), crop_from_row=180))
+    check("SimLingo crop band is dimmed", sim[250, 450, 0] < 50 and sim[100, 450, 0] == 50)
 
 
 def test_text_only_viz():
@@ -600,6 +685,52 @@ def test_sensor_attributes():
     check("depth camera has no chromatic aberration", "chromatic_aberration_intensity" not in depth)
     check("gnss gets zero bias", blueprint_attributes({"type": "sensor.other.gnss"})
           == {"noise_alt_bias": 0.0, "noise_lat_bias": 0.0, "noise_lon_bias": 0.0})
+
+
+def test_language_benchmark():
+    print("\n[benchmark] language dataset and scoring")
+    from benchmark.language import generate as gen
+    from benchmark.language.evaluate import score
+    from benchmark.language.paraphrase import faithful, required
+    from benchmark.language.state import apply_intent, empty_state, route_key
+    from benchmark.language.taxonomy import FUNCTIONS
+    from core.landmark_kb import LandmarkKnowledgeBase
+    from core.paths import KB_CSV
+
+    kb = LandmarkKnowledgeBase(str(KB_CSV))
+    episodes = gen.build(kb, sorted(kb.by_town), reps=1, seed=0)
+    covered = {f for e in episodes for t in e["turns"] for f in t["functions"]}
+    check("every functional intent is covered", covered == set(FUNCTIONS),
+          str(sorted(set(FUNCTIONS) - covered)))
+    turns = [t for e in episodes for t in e["turns"]]
+    check("gold states are MissionPlanner.apply of the gold intent",
+          all(apply_intent(t["state_before"], t["gold_intent"]) == t["state_after"] for t in turns))
+    check("templates pass the paraphrase faithfulness check",
+          not [t for t in turns if faithful(t["utterance"], required(t))])
+    oracle = {(e["id"], i, t["utterance"]): {"intent": t["gold_intent"], "error": None}
+              for e in episodes for i, t in enumerate(e["turns"])}
+    check("the gold answers score 100%", score(episodes, oracle)["state_acc"] == 100.0)
+    silent = {k: {"intent": None, "error": None} for k in oracle}
+    scored = [t for t in turns if not t["setup"]]
+    rejects = sum(t["gold_intent"] is None for t in scored)
+    check("answering nothing only gets the rejections right",
+          abs(score(episodes, silent)["state_acc"] - 100.0 * rejects / len(scored)) < 0.1)
+    s = empty_state()
+    s = apply_intent(s, {"command_type": "plan_route", "destination": "park", "waypoints": []})
+    a = apply_intent(s, {"command_type": "insert_stop",
+                         "insert": {"type": "cafe", "position": "enroute", "after": "park"}})
+    b = apply_intent(s, {"command_type": "new_destination", "destination": "cafe",
+                         "keep_waypoints": True})
+    check("equivalent intents leave the same route", route_key(a) == route_key(b))
+    vague = next(t for e in episodes for t in e["turns"]
+                 if "X7" in t["functions"] and t["accept"].get("destination"))
+    first = vague["gold_intent"]["commands"][0]
+    alt = next(x for x in vague["accept"]["destination"] if x != first["destination"])
+    from benchmark.language.evaluate import gold_keys
+    pred = apply_intent(vague["state_before"], {"commands": [{**first, "destination": alt}]})
+    check("a vague request accepts any matching type", route_key(pred) in gold_keys(vague))
+    check("setup turns are kept out of the difficulty tiers",
+          all((t["tier"] == 0) == t["setup"] for t in turns))
 
 
 def test_town_view():
@@ -969,8 +1100,8 @@ def main() -> int:
     print("talk2drive_modular self-test (no CARLA server required)")
     for fn in (test_plan_route, test_edits, test_enroute_position,
                test_interaction_policies, test_downsample, test_geometry,
-               test_tracker, test_gps, test_arrival, test_stop_progress, test_extend_destination, test_route_prompt,
-               test_landmark_board, test_text_only_viz, test_snap_heading, test_sensor_attributes, test_town_view, test_bev_render,
+               test_tracker, test_gps, test_arrival, test_stop_progress, test_extend_destination, test_multi_and_move, test_route_prompt,
+               test_landmark_board, test_text_only_viz, test_snap_heading, test_sensor_attributes, test_language_benchmark, test_town_view, test_bev_render, test_fpv,
                test_leaderboard_replan, test_leaderboard_ctor, test_downsample_defaults,
                test_llm_bridge_protocol,
                test_simlingo_frame_matches_official,

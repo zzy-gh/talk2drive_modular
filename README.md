@@ -35,7 +35,7 @@ utterance ──► GeminiCommandParser ──► intent ──► MissionPlanne
 | `runtime/viz.py` | all CARLA debug drawing, plus plan/landmark state for the BEV |
 | `runtime/camera.py` | spectator: top-down on the ego, pulls back to the whole town |
 | `runtime/bev.py` | `--bev` window: roads, route, landmarks, ego — drawn outside CARLA |
-| `runtime/fpv.py` | `--fpv` window: the frame SimLingo last saw |
+| `runtime/fpv.py` | `--fpv` window: the camera frame the driving model last saw |
 | `runtime/gui.py` | the one thread all OpenCV windows run on |
 | `runtime/sensors.py` | sensor rig, leaderboard-shaped `input_data` |
 | `logs/` | `--debug` per-step logs (git-ignored) |
@@ -133,7 +133,9 @@ python3 runtime/cli.py --backend leaderboard --town 1 --sync --bev
 ```
 
 Then type instructions at the `>` prompt, in English or Chinese ("take me to
-the second cafe", "顺路去一下ATM", "在这之后我们去公园"). Built-in commands:
+the second cafe", "顺路去一下ATM", "在这之后我们去公园"). One utterance may carry
+several changes ("skip the bakery and stop at the ATM first") and may reorder
+stops ("let's do the park first"). Built-in commands:
 
 | command | effect |
 |---|---|
@@ -147,10 +149,10 @@ the second cafe", "顺路去一下ATM", "在这之后我们去公园"). Built-in
 | flag | effect |
 |---|---|
 | `--bev` | bird's-eye-view window: roads, route, landmark states, ego |
-| `--fpv` | the exact camera frame SimLingo last saw (simlingo only); the dimmed band at the bottom is cropped off before the model |
+| `--fpv` | the exact camera frame the driving model last saw (simlingo, or a leaderboard agent with a forward camera such as TCP). SimLingo: the dimmed band at the bottom is cropped off before the model. TCP: its predicted waypoints are drawn in green, with the branch (traj/ctrl) and desired speed below |
 | `--debug` | per-step model output to `logs/simlingo_debug.log` or `logs/leaderboard_debug.log`, not the terminal |
 | `--sync` / `--no-sync` | synchronous 20 Hz stepping; on by default for simlingo, pass `--sync` for TCP |
-| `--simlingo-camera X,Y,Z[,PITCH]` | SimLingo camera mount; default `-0.5,0,2.0`, training mount is `-1.5,0,2.0` |
+| `--simlingo-camera X,Y,Z[,PITCH]` | SimLingo camera mount; default `-1.5,0,2.0`, SimLingo's training mount |
 | `--simlingo-interval N` | control steps per SimLingo inference (default 1 in sync mode) |
 | `--vehicle BP` | ego blueprint; default Lincoln MKZ 2020 for simlingo, Tesla Model 3 otherwise |
 | `--world-viz` | draw points and lines in CARLA even for a camera backend (its camera sees them) |
@@ -193,6 +195,12 @@ mid-route, the numbers you report would belong to neither. A policy's failure
 has to stay visible as that policy's failure.
 
 `--auto` never prompts (nearest landmark wins) — use it for evaluation runs.
+
+## Benchmark
+
+[`benchmark/`](benchmark/README.md) evaluates the system at two levels: (a) how
+accurately an LLM turns passenger speech into navigation intents, offline, and
+(b) how well each driving backend carries those intents out in closed loop.
 
 ## The two loop shapes
 

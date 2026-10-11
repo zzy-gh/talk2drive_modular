@@ -20,10 +20,7 @@ import json
 import os
 from typing import Optional
 
-from google import genai
-from google.genai import types
-
-from .intent_schema import DrivingIntent, JSON_SCHEMA_STR, EXAMPLES
+from .intent_schema import DrivingIntent, JSON_SCHEMA_STR, EXAMPLES, commands_of
 from .landmark_kb import LandmarkKnowledgeBase
 
 from .paths import KB_CSV
@@ -71,9 +68,11 @@ Current route, in driving order:
 Resolve the instruction against this route:
 - Going somewhere AFTER the destination ("after that", "then", "afterwards",
   "after the {dest}") -> new_destination with keep_waypoints=true.
-- "after the X" where X is one of the stops ({", ".join(stop_types) or "none"})
-  -> insert_stop with after=X.
-- remove_stop only names a type that is one of the stops above.
+- "after the X" / "before the X" where X is one of the stops
+  ({", ".join(stop_types) or "none"}) -> insert_stop with after=X / before=X.
+- Changing when one of those stops is visited ("do the X first", "leave the X
+  for last", "the X before the Y") -> move_stop, not insert_stop.
+- remove_stop and move_stop only name a type that is one of the stops above.
 - A brand-new trip that ignores this route ("forget all that", "instead")
   -> new_destination with keep_waypoints=false, or plan_route if it lists stops.
 """
@@ -84,7 +83,8 @@ def _build_system_prompt(town: str, landmark_types: list[str],
     examples_str = ""
     for ex in EXAMPLES[:NUM_EXAMPLES]:
         examples_str += f'\nInput:  "{ex["command"]}"\n'
-        examples_str += f'Output: {json.dumps(ex["intent"])}\n'
+        out = ex["intent"] if "commands" in ex["intent"] else {"commands": [ex["intent"]]}
+        examples_str += f'Output: {json.dumps(out)}\n'
 
     return f"""You are an in-vehicle command parser for an autonomous driving simulation in CARLA.
 Convert the passenger's spoken instruction into a structured JSON object.
@@ -110,14 +110,24 @@ Output ONLY the JSON object, no markdown, no explanation."""
 # Parser class
 # ─────────────────────────────────────────────
 
-class GeminiCommandParser:
-    def __init__(self, kb: LandmarkKnowledgeBase, model: str = MODEL):
+class CommandParser:
+    """Utterance -> DrivingIntent, independent of the LLM provider.
+
+    The prompt, the JSON handling and the validation live here so every
+    provider is measured on exactly the same task; a subclass only implements
+    :meth:`complete` -- send a system prompt and the utterance, return text.
+    """
+
+    provider = "base"
+
+    def __init__(self, kb: LandmarkKnowledgeBase, model: str) -> None:
         self.kb = kb
         self.model = model
-        # Reads GEMINI_API_KEY (AI Studio) or GOOGLE_CLOUD_PROJECT,
-        # GOOGLE_CLOUD_LOCATION and GOOGLE_GENAI_USE_ENTERPRISE (Enterprise)
-        # from environment automatically
-        self.client = genai.Client()
+        self.last_raw: Optional[str] = None       # the model's text, for logging
+        self.last_usage: Optional[dict] = None    # token counts, when reported
+
+    def complete(self, system_prompt: str, text: str) -> str:
+        raise NotImplementedError
 
     def parse(self, text: str, town: str,
               route: Optional[dict] = None) -> Optional[DrivingIntent]:
@@ -126,6 +136,25 @@ class GeminiCommandParser:
         stand-alone utterance -- the prompt is then exactly as before."""
         landmark_types = self.kb.get_landmark_types(town)
         system_prompt  = _build_system_prompt(town, landmark_types, route)
+        self.last_raw, self.last_usage = None, None
+        raw = (self.complete(system_prompt, text) or "").strip()
+        self.last_raw = raw
+        return _validate(raw, landmark_types)
+
+
+class GeminiCommandParser(CommandParser):
+    provider = "gemini"
+
+    def __init__(self, kb: LandmarkKnowledgeBase, model: str = MODEL):
+        super().__init__(kb, model)
+        from google import genai
+        # Reads GEMINI_API_KEY (AI Studio) or GOOGLE_CLOUD_PROJECT,
+        # GOOGLE_CLOUD_LOCATION and GOOGLE_GENAI_USE_ENTERPRISE (Enterprise)
+        # from environment automatically
+        self.client = genai.Client()
+
+    def complete(self, system_prompt: str, text: str) -> str:
+        from google.genai import types
 
         response = self.client.models.generate_content(
             model=self.model,
@@ -136,37 +165,45 @@ class GeminiCommandParser:
                 temperature=0.0,
             ),
         )
+        usage = getattr(response, "usage_metadata", None)
+        if usage is not None:
+            self.last_usage = {"input_tokens": getattr(usage, "prompt_token_count", None),
+                               "output_tokens": getattr(usage, "candidates_token_count", None)}
+        return response.text or ""
 
-        raw = response.text.strip()
 
-        try:
-            result = json.loads(raw)
-        except json.JSONDecodeError:
-            print(f"[llm_inference] Failed to parse JSON:\n{raw[:300]}")
-            return None
+def _validate(raw: str, landmark_types: list[str]) -> Optional[DrivingIntent]:
+    """``{"commands": [...]}``, or None if nothing usable came back.
 
-        # The model occasionally wraps the object in a list, or returns a bare
-        # array of candidate intents. Unwrap a single-element list; refuse
-        # anything else rather than crashing on `.get` -- an unusable answer is
-        # a parse failure, not an exception for the caller to handle.
-        if isinstance(result, list):
-            if len(result) == 1 and isinstance(result[0], dict):
-                result = result[0]
-            else:
-                print(f"[llm_inference] Expected one JSON object, got a list of "
-                      f"{len(result)}")
-                return None
-        if not isinstance(result, dict):
-            print(f"[llm_inference] Expected a JSON object, got {type(result).__name__}")
-            return None
+    A command naming a place type that is not on this map is dropped with a
+    message (the rest still apply); if nothing is left the whole answer is
+    rejected -- so a lone off-map request leaves the route untouched.
+    """
+    try:
+        result = json.loads(raw)
+    except json.JSONDecodeError:
+        print(f"[llm_inference] Failed to parse JSON:\n{raw[:300]}")
+        return None
 
-        # Secondary validation: reject building_type not in known list
-        bt = result.get("destination") or (result.get("insert") or {}).get("type")
-        if bt and bt not in landmark_types:
-            print(f"[llm_inference] Rejected unknown building_type: '{bt}'")
-            return None
+    # Tolerate the shapes models slip into: a bare command, or a bare list of
+    # commands, instead of {"commands": [...]}.
+    if isinstance(result, list):
+        result = {"commands": result}
+    commands = commands_of(result)
+    if not commands:
+        print(f"[llm_inference] No command in the answer: {raw[:200]}")
+        return None
 
-        return result
+    kept = []
+    for c in commands:
+        named = [c.get("destination"), (c.get("insert") or {}).get("type"),
+                 (c.get("move") or {}).get("type")]
+        unknown = [t for t in named if t and t not in landmark_types]
+        if unknown:
+            print(f"[llm_inference] Rejected unknown building_type: {unknown[0]!r}")
+            continue
+        kept.append(c)
+    return {"commands": kept} if kept else None
 
 
 # ─────────────────────────────────────────────
@@ -216,9 +253,11 @@ if __name__ == "__main__":
 
         print(json.dumps(intent, ensure_ascii=False, indent=2))
 
-        # Look up coordinates for destination
-        bt = intent.get("destination") or (intent.get("insert") or {}).get("type")
-        if bt:
+        # Look up coordinates for each place a command names
+        for c in commands_of(intent):
+            bt = c.get("destination") or (c.get("insert") or {}).get("type")
+            if not bt:
+                continue
             coord = kb.find_coordinate(town, bt)
             if coord:
                 print(f"-> coord: ({coord['x']}, {coord['y']}, {coord['z']})  [{coord['carla_name']}]\n")

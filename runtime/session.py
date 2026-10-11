@@ -50,6 +50,9 @@ class SessionConfig:
     # timing a slow VLA like SimLingo sees as it was trained (20 Hz, an
     # inference every frame). Restored to asynchronous on close().
     sync: bool = False
+    # Pace the loop to the wall clock. A batch run in sync mode turns this off
+    # and lets the simulator go as fast as the backend can.
+    realtime: bool = True
     ego_view_height_m: float = 50.0
     landmark_redraw_s: float = 0.5
 
@@ -85,6 +88,11 @@ class DriveSession:
         self.rig = SensorRig(world, self.vehicle, self.backend.sensors()) \
             if self.backend.caps.needs_sensors else None
 
+        # Called on the control thread after every step, as f(session, info):
+        # how the benchmark runner logs a drive and fires its scripted events
+        # with the simulation held still.
+        self.observers: list = []
+        self.last_control = None
         self._lock = threading.Lock()
         self._driving = False
         self._running = True
@@ -186,7 +194,8 @@ class DriveSession:
         with self._lock:
             self._driving = False
             self.backend.cancel()
-            self.vehicle.apply_control(carla.VehicleControl(brake=1.0))
+            self.last_control = carla.VehicleControl(brake=1.0)
+            self.vehicle.apply_control(self.last_control)
         if self.viz:
             self.viz.clear()
             self.viz.board.cancel_active()
@@ -231,12 +240,18 @@ class DriveSession:
                 self._tick()
             except Exception as exc:
                 print_throttled("tick", f"[session] tick failed: {exc}")
+            if self.observers:
+                try:
+                    self._notify()
+                except Exception as exc:
+                    print_throttled("observer", f"[session] observer failed: {exc}")
             try:
                 if self.camera:
                     self.camera.update()
             except Exception as exc:
                 print_throttled("camera", f"[session] camera failed: {exc}")
-            time.sleep(max(0.0, period - (time.time() - t0)))
+            if self.config.realtime or not self.config.sync:
+                time.sleep(max(0.0, period - (time.time() - t0)))
 
     def _viz_loop(self) -> None:
         """Beacon every 0.1 s, landmarks every ``landmark_redraw_s``, on the
@@ -289,6 +304,18 @@ class DriveSession:
             control = self.backend.run_step(obs)
         if control is not None:
             self.vehicle.apply_control(control)
+            self.last_control = control
+
+    def _notify(self) -> None:
+        tf = self.vehicle.get_transform()
+        c = self.last_control
+        info = {"sim_time": self.world.get_snapshot().timestamp.elapsed_seconds,
+                "x": tf.location.x, "y": tf.location.y, "z": tf.location.z,
+                "yaw": tf.rotation.yaw, "speed": self.speed_mps(),
+                "control": (c.steer, c.throttle, c.brake) if c is not None else None,
+                "driving": self._driving}
+        for f in list(self.observers):
+            f(self, info)
 
     def _arrived(self, tf) -> bool:
         # A VLA has no notion of mission completion, so the mission layer is

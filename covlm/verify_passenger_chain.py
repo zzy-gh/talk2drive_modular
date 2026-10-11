@@ -44,6 +44,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from core.intent_schema import commands_of                                   # noqa: E402
 from core.landmark_kb import LandmarkKnowledgeBase                           # noqa: E402
 from core.paths import KB_CSV                                                # noqa: E402
 from core.route_provider import CarlaRouteProvider                           # noqa: E402
@@ -220,6 +221,10 @@ def main() -> int:
         # the last stop -- NOT all of them from the start. Resolving the
         # destination from the start would pass here and diverge in the real
         # planner.
+        # A passenger mission is one route request: the first command that
+        # names a destination (plan_route or new_destination). Cached answers
+        # predate the {"commands": [...]} wrapper; commands_of reads both.
+        intent = next((c for c in commands_of(intent) if c.get("destination")), {})
         dest = intent.get("destination") or ""
         row["llm_destination"] = dest
         want_stops = [s["label"] for s in m.get("stops", [])]

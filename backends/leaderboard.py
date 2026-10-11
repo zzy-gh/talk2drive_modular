@@ -24,7 +24,8 @@ from pathlib import Path
 
 from core.types import Directive, GlobalPlan, Observation, get_latlon_ref
 
-from .base import BackendCaps, DrivingBackend, brake_control, print_throttled, register
+from .base import (BackendCaps, DrivingBackend, FpvFrame, brake_control, camera_rgb,
+                   print_throttled, register)
 
 
 def _seed_data_provider(world=None, client=None) -> None:
@@ -90,6 +91,9 @@ class LeaderboardBackend(DrivingBackend):
         self.sample_factor = sample_factor
         self.lat_ref, self.lon_ref = 42.0, 2.0
         self._active = False
+        # The latest step's camera input and output, for runtime/fpv.py.
+        self.last_frame: FpvFrame | None = None
+        self._front_camera = None   # sensor spec, resolved on first use
         # Per-step debug lines go to a file, not the terminal: at 20 Hz they
         # would bury the passenger's input prompt. `tail -F` it instead.
         self._debug_log = None
@@ -266,7 +270,46 @@ class LeaderboardBackend(DrivingBackend):
             control.manual_gear_shift = False
         if self._debug_log and control is not None:
             self._write_debug(obs, control)
+        if control is not None:
+            self._record_frame(obs, control)
         return control
+
+    def _record_frame(self, obs: Observation, control) -> None:
+        """Keep the forward camera image the agent just drove on, plus its
+        output, for the FPV window. Agents with no forward camera get none."""
+        if self._front_camera is None:
+            # TCP also mounts a top-down 'bev' camera (pitch -90): skip it.
+            self._front_camera = next(
+                (s for s in self.sensors() if s.get("type") == "sensor.camera.rgb"
+                 and abs(float(s.get("pitch", 0.0))) < 45.0), {})
+        if not self._front_camera:
+            return
+        rgb = camera_rgb(obs.sensors.get(self._front_camera.get("id")))
+        if rgb is None:
+            return
+        meta = getattr(self.agent, "pid_metadata", None) or {}
+        notes, waypoints = [], ()
+        if meta:
+            # TCP: which branch drove (trajectory or direct control) and what
+            # its trajectory implies. Its wp_* are (right, forward) metres.
+            parts = []
+            if "agent" in meta:
+                parts.append(f"branch {meta['agent']}")
+            if "desired_speed" in meta:
+                parts.append(f"desired speed {float(meta['desired_speed']) * 3.6:.1f} km/h")
+            if parts:
+                notes.append("   ".join(parts))
+            wps = [meta[k] for k in ("wp_1", "wp_2", "wp_3", "wp_4") if k in meta]
+            try:
+                waypoints = tuple((float(w[1]), float(w[0])) for w in wps)
+            except (TypeError, ValueError, IndexError):
+                waypoints = ()
+        self.last_frame = FpvFrame(
+            rgb=rgb,
+            control={"steer": control.steer, "throttle": control.throttle,
+                     "brake": control.brake},
+            speed_mps=obs.speed_mps, model=type(self.agent).__name__,
+            notes=tuple(notes), camera=self._front_camera, waypoints=waypoints)
 
     def _write_debug(self, obs: Observation, control) -> None:
         """One line per step: speed, the control sent, and the agent's own

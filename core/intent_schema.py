@@ -39,7 +39,8 @@ BuildingType = Literal[
     "factory", "warehouse",
 ]
 
-CommandType     = Literal["plan_route", "insert_stop", "remove_stop", "new_destination", "cancel_route"]
+CommandType     = Literal["plan_route", "insert_stop", "remove_stop", "move_stop",
+                          "new_destination", "cancel_route"]
 Urgency         = Literal["high", "normal"]
 InsertPosition  = Literal["next", "enroute", "last"]
 RemoveFallback  = Literal["next_waypoint", "destination"]
@@ -63,6 +64,14 @@ class InsertPayload(TypedDict):
     confidence: float
     index:      Optional[int]          # 1-based building index if passenger specified one
     after:      Optional[BuildingType] # insert right after this existing stop type; null if not specified
+    before:     Optional[BuildingType] # insert right before this existing stop type; null if not specified
+
+
+class MovePayload(TypedDict):
+    type:     BuildingType                      # an existing intermediate stop
+    position: Optional[Literal["next", "last"]]
+    after:    Optional[BuildingType]
+    before:   Optional[BuildingType]
 
 
 class RemovePayload(TypedDict):
@@ -95,6 +104,11 @@ class RemoveStopIntent(TypedDict):
     remove:       RemovePayload
 
 
+class MoveStopIntent(TypedDict):
+    command_type: Literal["move_stop"]
+    move:         MovePayload
+
+
 class NewDestinationIntent(TypedDict):
     command_type:      Literal["new_destination"]
     destination:       BuildingType
@@ -104,18 +118,34 @@ class NewDestinationIntent(TypedDict):
 
 
 class CancelRouteIntent(TypedDict):
-    command_type: Literal["cancel_route"]
-    pull_over:    bool        # whether to pull over immediately
+    command_type: Literal["cancel_route"]     # stop: the car brakes to a halt
 
 
-# Return type of voice_parser.py
-DrivingIntent = (
+Command = (
     PlanRouteIntent
     | InsertStopIntent
     | RemoveStopIntent
+    | MoveStopIntent
     | NewDestinationIntent
     | CancelRouteIntent
 )
+
+
+class DrivingIntent(TypedDict):
+    """What the parser returns: one utterance may carry several commands,
+    applied in order."""
+    commands: list[Command]
+
+
+def commands_of(intent) -> list[dict]:
+    """The commands in an intent, old style (one bare command) or new
+    (``{"commands": [...]}``); [] for None or anything malformed."""
+    if not isinstance(intent, dict):
+        return []
+    if "commands" in intent:
+        cmds = intent["commands"]
+        return [c for c in cmds if isinstance(c, dict)] if isinstance(cmds, list) else []
+    return [intent] if "command_type" in intent else []
 
 
 # ─────────────────────────────────────────────
@@ -276,11 +306,50 @@ EXAMPLES: list[dict] = [
         },
     },
     {
-        "command": "Stop here, I'll get out.",
+        "command": "Stop at the gas station before the pharmacy.",
         "intent": {
-            "command_type": "cancel_route",
-            "pull_over":    True,
+            "command_type": "insert_stop",
+            "insert": {"type": "gas_station", "position": "enroute", "confidence": 0.93,
+                       "index": None, "after": None, "before": "pharmacy"},
         },
+    },
+    {
+        "command": "Actually, let's do the bakery first.",
+        "intent": {
+            "command_type": "move_stop",
+            "move": {"type": "bakery", "position": "next", "after": None, "before": None},
+        },
+    },
+    {
+        "command": "Go to the library before the post office.",
+        "intent": {
+            "command_type": "move_stop",
+            "move": {"type": "library", "position": None, "after": None, "before": "post_office"},
+        },
+    },
+    {
+        "command": "Skip the bakery and stop at the pharmacy first.",
+        "intent": {"commands": [
+            {"command_type": "remove_stop", "remove": {"type": "bakery", "fallback": "next_waypoint"}},
+            {"command_type": "insert_stop",
+             "insert": {"type": "pharmacy", "position": "next", "confidence": 0.94,
+                        "index": None, "after": None, "before": None}},
+        ]},
+    },
+    {
+        "command": "Drop the gym, go to the post office first, and afterwards take me to the hotel.",
+        "intent": {"commands": [
+            {"command_type": "remove_stop", "remove": {"type": "gym", "fallback": "next_waypoint"}},
+            {"command_type": "insert_stop",
+             "insert": {"type": "post_office", "position": "next", "confidence": 0.9,
+                        "index": None, "after": None, "before": None}},
+            {"command_type": "new_destination", "destination": "hotel",
+             "destination_index": None, "keep_waypoints": True, "urgency": "normal"},
+        ]},
+    },
+    {
+        "command": "Stop here, I'll get out.",
+        "intent": {"command_type": "cancel_route"},
     },
 ]
 
@@ -292,7 +361,15 @@ EXAMPLES: list[dict] = [
 JSON_SCHEMA_STR = """
 Output ONLY valid JSON. No explanation, no markdown, no preamble.
 
-The JSON must match one of the following five structures based on the passenger's intent:
+Always output one object with a list of commands, applied in order:
+{ "commands": [ <command>, <command>, ... ] }
+
+Most utterances are a single command. Use several ONLY when the passenger asks
+for several changes at once ("skip the bakery and add the ATM instead" -> a
+remove_stop then an insert_stop), and list them in the order they should
+happen. Never split one request into several commands.
+
+Each command matches one of the following six structures:
 
 1. plan_route — full route planned before departure
 {
@@ -314,11 +391,14 @@ The JSON must match one of the following five structures based on the passenger'
     "position":   "next" | "enroute" | "last",
     "confidence": <float 0.0–1.0>,
     "index":      <int 1-based> | null,
-    "after":      "<BuildingType>" | null
+    "after":      "<BuildingType>" | null,
+    "before":     "<BuildingType>" | null
   }
 }
-  after: ONLY when the passenger explicitly names the stop this one follows
-         ("after the X", "following the X"). Never infer it; otherwise null.
+  after:  ONLY when the passenger explicitly names the stop this one follows
+          ("after the X", "following the X"). Never infer it; otherwise null.
+  before: ONLY when the passenger explicitly names the stop this one comes
+          before ("before the X", "on the way to the X"). Otherwise null.
   position — pick from the passenger's words only, never guess an order:
     "next"    — they explicitly want it FIRST / right now ("first", "right now",
                 "immediately", "先", "马上")
@@ -340,7 +420,21 @@ The JSON must match one of the following five structures based on the passenger'
   }
 }
 
-4. new_destination — change the final destination while driving
+4. move_stop — change WHEN an existing intermediate stop is visited
+{
+  "command_type": "move_stop",
+  "move": {
+    "type":     "<BuildingType>",
+    "position": "next" | "last" | null,
+    "after":    "<BuildingType>" | null,
+    "before":   "<BuildingType>" | null
+  }
+}
+  Only for a place that is ALREADY one of the stops on the current route
+  ("go to the bakery first" when the bakery is a later stop). Set exactly one
+  of position / after / before. A place not yet on the route is an insert_stop.
+
+5. new_destination — change the final destination while driving
 {
   "command_type":      "new_destination",
   "destination":       "<BuildingType>",
@@ -354,10 +448,9 @@ The JSON must match one of the following five structures based on the passenger'
     false — the new place REPLACES the current route ("instead", "forget the X",
             "change of plans").
 
-5. cancel_route — abort all navigation
+6. cancel_route — abort all navigation; the car stops
 {
-  "command_type": "cancel_route",
-  "pull_over":    true | false
+  "command_type": "cancel_route"
 }
 
 Valid BuildingType values:

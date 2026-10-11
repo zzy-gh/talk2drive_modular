@@ -95,44 +95,21 @@ def build_backend(args, world, client=None):
     return make(args.backend)
 
 
-def main() -> None:
-    p = argparse.ArgumentParser(description="talk2drive — modular")
+def add_backend_args(p: argparse.ArgumentParser) -> None:
+    """The arguments that pick and configure a driving backend -- shared by
+    this CLI and the benchmark runner, so both build a backend the same way."""
     p.add_argument("--backend", default="basic_agent",
                    help="basic_agent | simlingo | leaderboard")
-    p.add_argument("--town", default=None)
     p.add_argument("--host", default="localhost")
     p.add_argument("--port", type=int, default=2000)
     p.add_argument("--target-speed", type=float, default=30.0)
-    p.add_argument("--spawn", type=int, default=0)
     p.add_argument("--control-hz", type=float, default=20.0)
-    p.add_argument("--csv", default=None, help="override [paths] kb_csv")
-    p.add_argument("--llm-python", default=None,
-                   help="run Gemini parsing in its own subprocess, using this "
-                        "interpreter, instead of in-process (see [paths] "
-                        "llm_python in config.yaml)")
-    p.add_argument("--paths", action="store_true",
-                   help="print the paths from config.yaml, then exit")
-    p.add_argument("--auto", action="store_true",
-                   help="never prompt: nearest landmark, append enroute stops")
-    p.add_argument("--no-viz", action="store_true")
     p.add_argument("--sync", action=argparse.BooleanOptionalAction, default=None,
                    help="synchronous 1/control-hz simulation steps (default: on "
                         "for simlingo, which runs that way officially)")
-    p.add_argument("--world-viz", action="store_true",
-                   help="draw route and landmarks with points and lines even for a "
-                        "camera-driven backend (its camera sees them too); by "
-                        "default such a backend gets text-only drawing")
-    p.add_argument("--bev", action="store_true",
-                   help="open a bird's-eye-view window: roads, route, landmarks, "
-                        "ego -- drawn outside CARLA, so no camera ever sees it")
-    p.add_argument("--fpv", action="store_true",
-                   help="open a window with the camera frame the driving model "
-                        "last saw (simlingo backend)")
     p.add_argument("--vehicle", default=None,
                    help="ego blueprint (default: the Lincoln MKZ SimLingo was "
                         "trained with for --backend simlingo, else a Tesla Model 3)")
-    p.add_argument("--no-reload", action="store_true",
-                   help="use the running map instead of reloading it")
     p.add_argument("--debug", action="store_true")
     # SimLingo
     p.add_argument("--simlingo-ckpt", default=None)
@@ -144,18 +121,57 @@ def main() -> None:
                         "as SimLingo runs officially, else 15)")
     p.add_argument("--simlingo-camera", default=None, metavar="X,Y,Z[,PITCH]",
                    help="front camera mount on the ego in metres (x forward, "
-                        "z up) and degrees; default -0.5,0,2.0,0, 1 m ahead of "
-                        "SimLingo's training mount -1.5,0,2.0, which its model "
-                        "still assumes")
+                        "z up) and degrees; default -1.5,0,2.0,0, SimLingo's "
+                        "training mount")
     # Leaderboard / E2E
     p.add_argument("--agent-module", default=None)
     p.add_argument("--agent-config", default=None)
     p.add_argument("--agent-pythonpath", action="append", default=[],
                    help="extra import root for the agent's repo (repeatable); "
                         "usually derived automatically from --agent-module")
-    args = p.parse_args()
+
+
+def backend_defaults(args) -> str:
+    """Fill in backend-dependent defaults; returns the ego blueprint."""
     if args.sync is None:
         args.sync = args.backend == "simlingo"
+    # SimLingo's camera sits behind the roof, so the ego's own roof is in every
+    # frame; a car it never saw in training (the Model 3's black glass roof)
+    # can read as an obstacle.
+    return args.vehicle or ("vehicle.lincoln.mkz_2020" if args.backend == "simlingo"
+                            else SessionConfig.vehicle_filter)
+
+
+def main() -> None:
+    p = argparse.ArgumentParser(description="talk2drive — modular")
+    add_backend_args(p)
+    p.add_argument("--town", default=None)
+    p.add_argument("--spawn", type=int, default=0)
+    p.add_argument("--csv", default=None, help="override [paths] kb_csv")
+    p.add_argument("--llm-python", default=None,
+                   help="run Gemini parsing in its own subprocess, using this "
+                        "interpreter, instead of in-process (see [paths] "
+                        "llm_python in config.yaml)")
+    p.add_argument("--paths", action="store_true",
+                   help="print the paths from config.yaml, then exit")
+    p.add_argument("--auto", action="store_true",
+                   help="never prompt: nearest landmark, append enroute stops")
+    p.add_argument("--no-viz", action="store_true")
+    p.add_argument("--world-viz", action="store_true",
+                   help="draw route and landmarks with points and lines even for a "
+                        "camera-driven backend (its camera sees them too); by "
+                        "default such a backend gets text-only drawing")
+    p.add_argument("--bev", action="store_true",
+                   help="open a bird's-eye-view window: roads, route, landmarks, "
+                        "ego -- drawn outside CARLA, so no camera ever sees it")
+    p.add_argument("--fpv", action="store_true",
+                   help="open a window with the camera frame the driving model "
+                        "last saw (simlingo, or a leaderboard agent with a forward "
+                        "camera such as TCP)")
+    p.add_argument("--no-reload", action="store_true",
+                   help="use the running map instead of reloading it")
+    args = p.parse_args()
+    vehicle = backend_defaults(args)
 
     if args.paths:
         print(paths.describe())
@@ -187,11 +203,6 @@ def main() -> None:
     mission = MissionPlanner(kb, routes, interaction=AutoInteraction(), town=town)
 
     backend = build_backend(args, world, client)
-    # SimLingo's camera sits behind the roof, so the ego's own roof is in every
-    # frame; a car it never saw in training (the Model 3's black glass roof)
-    # can read as an obstacle.
-    vehicle = args.vehicle or ("vehicle.lincoln.mkz_2020" if args.backend == "simlingo"
-                               else SessionConfig.vehicle_filter)
     # Debug points/lines are rendered into the world, so a camera sensor sees
     # them as objects on the road; debug strings are server-side only. For a
     # camera-driven backend draw text only, unless shapes are asked for.

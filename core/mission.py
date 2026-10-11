@@ -21,6 +21,7 @@ import math
 from dataclasses import dataclass, field
 from typing import Callable, Sequence
 
+from .intent_schema import commands_of
 from .landmark_kb import LandmarkKnowledgeBase
 from .resolver import (AutoInteraction, InsertChoice, Interaction, PlaceChoice)
 from .route_provider import RouteProvider
@@ -43,7 +44,6 @@ class ApplyResult:
     ok: bool = True
     needs_replan: bool = False
     cancelled: bool = False
-    pull_over: bool = False
     message: str = ""
 
 
@@ -78,6 +78,51 @@ class MissionPlanner:
     # ─────────────────────────────────────────
 
     def apply(self, intent: dict) -> ApplyResult:
+        """Apply one command, or ``{"commands": [...]}`` in order. Several
+        commands come back as one result, so the host re-plans once."""
+        if isinstance(intent, dict) and "commands" in intent:
+            return self._apply_all(intent)
+        return self._apply_one(intent)
+
+    def _apply_all(self, intent: dict) -> ApplyResult:
+        utterance = intent.get("_utterance")
+        results = []
+        for c in commands_of(intent):
+            if utterance is not None:
+                c = {**c, "_utterance": utterance}
+            results.append(self._apply_one(c))
+        message = "; ".join(r.message for r in results) or "no command"
+        done = [r for r in results if r.ok]
+        if not done:
+            return ApplyResult(ok=False, message=message)
+        # Cancelled only if the route is gone at the end: "cancel, then take
+        # me to the park" leaves a route.
+        cancelled = self.destination is None and any(r.cancelled for r in done)
+        return ApplyResult(needs_replan=not cancelled and any(r.needs_replan or r.cancelled
+                                                              for r in done),
+                           cancelled=cancelled, message=message)
+
+    def _stop_at(self, label: str | None) -> int | None:
+        return next((i for i, s in enumerate(self.stops) if s.label == label), None)
+
+    def _place(self, stop: Stop, position, after, before) -> bool:
+        """Put ``stop`` into the stop list where it was asked to go; False if
+        no position was given. A named stop that is not there means the end."""
+        if position == "next":
+            self.stops.insert(0, stop)
+        elif position == "last":
+            self.stops.append(stop)
+        elif after:
+            at = self._stop_at(after)
+            self.stops.insert(at + 1 if at is not None else len(self.stops), stop)
+        elif before:
+            at = self._stop_at(before)
+            self.stops.insert(at if at is not None else len(self.stops), stop)
+        else:
+            return False
+        return True
+
+    def _apply_one(self, intent: dict) -> ApplyResult:
         cmd = (intent or {}).get("command_type")
 
         if cmd == "plan_route":
@@ -128,38 +173,54 @@ class MissionPlanner:
             if ins.get("after") and ins["after"] == self.destination:
                 # "after the <destination>" is past the end of the route: the
                 # new place becomes the destination, the old one its last stop.
-                return self.apply({"command_type": "new_destination",
-                                   "destination": ins["type"],
-                                   "destination_index": ins.get("index"),
-                                   "keep_waypoints": True,
-                                   "urgency": self.directive.urgency,
-                                   "_utterance": intent.get("_utterance",
-                                                            self.directive.utterance)})
+                return self._extend(ins["type"], ins.get("index"), intent)
             stop = Stop(label=ins["type"], confidence=ins.get("confidence", 1.0),
                         index=ins.get("index"))
-            position = ins.get("position")
-            after = ins.get("after")
-            if position == "next":
-                self.stops.insert(0, stop)
-            elif position == "last":
-                self.stops.append(stop)
-            elif after:
-                at = next((i for i, s in enumerate(self.stops) if s.label == after), None)
-                self.stops.insert(at + 1 if at is not None else len(self.stops), stop)
-            else:
+            position, before = ins.get("position"), ins.get("before")
+            if before and before == self.destination:      # "before the destination"
+                position, before = "last", None
+            if not self._place(stop, position, ins.get("after"), before):
                 stop.enroute = True          # position decided at plan time
                 self.stops.append(stop)
             self._renumber()
             return ApplyResult(needs_replan=True,
                                message=f"inserted '{stop.label}' ({position})")
 
+        if cmd == "move_stop":
+            mv = intent.get("move") or {}
+            label = mv.get("type")
+            at = self._stop_at(label)
+            if self.destination is None or at is None:
+                return ApplyResult(ok=False, message=f"no stop '{label}' to move")
+            position, after, before = mv.get("position"), mv.get("after"), mv.get("before")
+            if label in (after, before):
+                return ApplyResult(ok=False, message=f"cannot move '{label}' relative to itself")
+            if after and after == self.destination:
+                stop = self.stops.pop(at)
+                return self._extend(stop.label, stop.index, intent)
+            if before and before == self.destination:
+                position, before = "last", None
+            stop = self.stops.pop(at)
+            stop.enroute = False
+            if not self._place(stop, position, after, before):
+                self.stops.insert(at, stop)                 # put it back
+                return ApplyResult(ok=False, message=f"no position to move '{label}' to")
+            self._renumber()
+            return ApplyResult(needs_replan=True, message=f"moved '{label}'")
+
         if cmd == "cancel_route":
             self.reset()
-            return ApplyResult(cancelled=True,
-                               pull_over=bool(intent.get("pull_over", True)),
-                               message="route cancelled")
+            return ApplyResult(cancelled=True, message="route cancelled")
 
         return ApplyResult(ok=False, message=f"unknown command_type: {cmd!r}")
+
+    def _extend(self, label: str, index: int | None, intent: dict) -> ApplyResult:
+        """Going somewhere after the destination: it becomes the destination
+        and the old one its last stop."""
+        return self._apply_one({"command_type": "new_destination", "destination": label,
+                                "destination_index": index, "keep_waypoints": True,
+                                "urgency": self.directive.urgency,
+                                "_utterance": intent.get("_utterance", self.directive.utterance)})
 
     def reset(self) -> None:
         self.destination = None
