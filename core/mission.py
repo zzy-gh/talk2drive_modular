@@ -54,13 +54,36 @@ class MissionPlanner:
                  interaction: Interaction | None = None,
                  town: str = "Town01",
                  detour_ratio: float = 1.4,
-                 arrival_radius: float = 5.0) -> None:
+                 arrival_radius: float = 5.0,
+                 place_distance: str = "route",
+                 route_top_k: int = 10) -> None:
+        """``place_distance`` is how "nearest" and "on the way" measure:
+
+        * ``"route"``: the route the planner traces to each candidate, best
+          first with a straight-line lower bound so that few are traced. The
+          lengths are those of the routes actually driven. For towns with a
+          handful of places per type.
+        * ``"graph"``: one Dijkstra from the car (and, for a stop, one back
+          from the destination) over the lane graph in metres scores every
+          candidate at once. For large towns with hundreds of places.
+        * ``"euclidean"``: the straight line throughout.
+
+        Either road mode falls back to the next one the route provider
+        supports, down to the straight line. ``route_top_k`` is how many
+        candidates a question offers -- the best ones; in ``"route"`` mode
+        also the fewest traced. <= 0 means all. The best candidate does not
+        depend on it."""
+        if place_distance not in ("route", "graph", "euclidean"):
+            raise ValueError(f"place_distance must be 'route', 'graph' or 'euclidean', "
+                             f"not {place_distance!r}")
         self.kb = kb
         self.routes = route_provider
         self.interaction = interaction or AutoInteraction()
         self.town = town
         self.detour_ratio = detour_ratio
         self.arrival_radius = arrival_radius
+        self.place_distance = place_distance
+        self.route_top_k = route_top_k
 
         # Mission state
         self.destination: str | None = None
@@ -264,20 +287,21 @@ class MissionPlanner:
             return None
 
         # Phase 1 — resolve places (the only phase that may prompt)
+        ego_z = ego[2] if len(ego) > 2 else 0.0
         dest = self._resolve(self.destination, "destination", ego[0], ego[1],
-                             index=self.destination_index)
+                             index=self.destination_index, ref_z=ego_z)
         if dest is None:
             return None
 
         resolved: list[tuple[Stop, Place]] = []
-        probe_x, probe_y = ego[0], ego[1]
+        probe = (ego[0], ego[1], ego_z)
         for stop in self.stops:
-            place = self._resolve(stop.label, "stop", probe_x, probe_y,
-                                  index=stop.index, dest=dest)
+            place = self._resolve(stop.label, "stop", probe[0], probe[1],
+                                  index=stop.index, dest=dest, ref_z=probe[2])
             if place is None:
                 continue
             resolved.append((stop, place))
-            probe_x, probe_y = place.x, place.y
+            probe = place.as_tuple()
 
         fixed = [(s, p) for s, p in resolved if not s.enroute]
         for s, p in (x for x in resolved if x[0].enroute):
@@ -349,17 +373,20 @@ class MissionPlanner:
 
     def _candidates(self, label: str) -> list[Place]:
         out = []
-        for row in self.kb.find_all(self.town, label):
+        for i, row in enumerate(self.kb.find_all(self.town, label), start=1):
             x, y, z = self.routes.snap(row["x"], row["y"], row["z"])
-            out.append(Place(label=label, x=x, y=y, z=z, name=row.get("carla_name", "")))
+            out.append(Place(label=label, x=x, y=y, z=z, name=row.get("carla_name", ""),
+                             index=i))
         return out
 
     def _resolve(self, label: str, role: str, ref_x: float, ref_y: float,
-                 index: int | None = None, dest: Place | None = None) -> Place | None:
+                 index: int | None = None, dest: Place | None = None,
+                 ref_z: float = 0.0) -> Place | None:
         if label in self._place_cache:
             return self._place_cache[label]
 
         cands = self._candidates(label)
+        total = len(cands)
         if not cands:
             print(f"[mission] no '{label}' in {self.town}")
             return None
@@ -370,18 +397,24 @@ class MissionPlanner:
             self._place_cache[label] = chosen
             return chosen
 
-        # Stops: prefer the ones that do not blow up the detour
-        if role == "stop" and dest is not None and len(cands) > 1:
-            direct = math.hypot(dest.x - ref_x, dest.y - ref_y)
-            if direct > 1.0:
-                on_way = [p for p in cands
-                          if (p.distance_to(ref_x, ref_y)
-                              + math.hypot(dest.x - p.x, dest.y - p.y)) / direct
-                          < self.detour_ratio]
-                if on_way:
-                    if len(on_way) < len(cands):
-                        print(f"[mission] {len(on_way)}/{len(cands)} '{label}' are on the way")
-                    cands = on_way
+        ref = (ref_x, ref_y, ref_z)
+        meter = self._road_meter()
+        dist = direct = None
+        if len(cands) > 1 and self.place_distance == "graph" \
+                and hasattr(self.routes, "route_lengths"):
+            cands, dist, direct = self._rank_by_graph(cands, ref, role, dest)
+        elif len(cands) > 1 and meter is not None:
+            cands, dist, direct = self._rank_by_road(cands, ref, role, dest, meter)
+        if dist is None and role == "stop" and dest is not None and len(cands) > 1:
+            cands = self._on_the_way_by_line(label, cands, ref_x, ref_y, dest)
+
+        # A question offers the best route_top_k, however many the town has
+        k = self.route_top_k if self.route_top_k > 0 else len(cands)
+        if len(cands) > k:
+            if dist is None:
+                cands = sorted(cands, key=lambda p: p.distance_to(ref_x, ref_y))[:k]
+            else:
+                cands, dist = cands[:k], dist[:k]
 
         if len(cands) == 1:
             self._place_cache[label] = cands[0]
@@ -389,10 +422,127 @@ class MissionPlanner:
 
         chosen = self.interaction.choose_place(
             PlaceChoice(label=label, role=role, candidates=cands,
-                        ref_x=ref_x, ref_y=ref_y))
+                        ref_x=ref_x, ref_y=ref_y, distances=dist, direct=direct,
+                        total=total))
         if chosen is not None:
             self._place_cache[label] = chosen
         return chosen
+
+    def _road_meter(self) -> Callable[[Sequence[float], Sequence[float]], float] | None:
+        """The route provider's driving-distance function, or None when
+        places are ranked by the straight line."""
+        if self.place_distance == "euclidean":
+            return None
+        return getattr(self.routes, "route_length", None)
+
+    def _rank_by_road(self, cands: list[Place], ref: Sequence[float], role: str,
+                      dest: Place | None,
+                      meter: Callable[[Sequence[float], Sequence[float]], float]
+                      ) -> tuple[list[Place], list[float] | None, float | None]:
+        """Candidates best first, their costs, and -- for a stop -- the trip
+        without it.
+
+        A destination costs its driving distance from ``ref``. A stop costs
+        the whole trip ``ref -> stop -> dest``, so the best stop is the one
+        that lengthens the trip least, not the one nearest the car (that may
+        lie behind it). Stops that stretch the trip past ``detour_ratio`` are
+        dropped while any other is on the way.
+
+        Costs are None if nothing measured was reachable; the candidates then
+        keep their straight-line order.
+        """
+        line = lambda p: p.distance_to(ref[0], ref[1])
+        if role != "stop" or dest is None:
+            ranked, cost = self._best_first(cands, line, lambda p: meter(ref, p.as_tuple()))
+            return ranked, cost, None
+
+        goal = dest.as_tuple()
+        ranked, cost = self._best_first(
+            cands,
+            lambda p: line(p) + math.hypot(dest.x - p.x, dest.y - p.y),
+            lambda p: meter(ref, p.as_tuple()) + meter(p.as_tuple(), goal))
+        direct = meter(ref, goal)
+        return self._on_the_way(ranked, cost, direct)
+
+    def _rank_by_graph(self, cands: list[Place], ref: Sequence[float], role: str,
+                       dest: Place | None
+                       ) -> tuple[list[Place], list[float] | None, float | None]:
+        """As :meth:`_rank_by_road`, but every candidate is scored by one
+        search from ``ref`` (and, for a stop, one back from ``dest``), and only
+        the ``route_top_k`` best are returned."""
+        goals = [p.as_tuple() for p in cands]
+        stop = role == "stop" and dest is not None
+        fwd = self.routes.route_lengths(ref, goals + ([dest.as_tuple()] if stop else []))
+        direct = fwd.pop() if stop else None
+        cost = fwd
+        if stop:
+            cost = [a + b for a, b in
+                    zip(fwd, self.routes.route_lengths_to(goals, dest.as_tuple()))]
+        if all(math.isinf(c) for c in cost):
+            return cands, None, None
+        line = lambda i: cands[i].distance_to(ref[0], ref[1])
+        order = sorted(range(len(cands)), key=lambda i: (cost[i], line(i)))
+        ranked, cost = [cands[i] for i in order], [cost[i] for i in order]
+        if stop:
+            ranked, cost, direct = self._on_the_way(ranked, cost, direct)
+        k = self.route_top_k if self.route_top_k > 0 else len(ranked)
+        return ranked[:k], cost[:k], direct
+
+    def _on_the_way(self, ranked: list[Place], cost: list[float] | None,
+                    direct: float) -> tuple[list[Place], list[float] | None, float | None]:
+        """Drop the stops that stretch the trip past ``detour_ratio``, unless
+        none is left. ``direct`` comes back None if it is no use as a base."""
+        if cost is None or not 1.0 < direct < math.inf:
+            return ranked, cost, None
+        keep = [i for i, c in enumerate(cost) if c / direct < self.detour_ratio]
+        if keep and len(keep) < len(ranked):
+            print(f"[mission] {len(keep)}/{len(ranked)} '{ranked[0].label}' "
+                  f"measured are on the way")
+            ranked, cost = [ranked[i] for i in keep], [cost[i] for i in keep]
+        return ranked, cost, direct
+
+    def _best_first(self, cands: list[Place], bound: Callable[[Place], float],
+                    cost: Callable[[Place], float]
+                    ) -> tuple[list[Place], list[float] | None]:
+        """``cands`` by ``cost``, cheapest first, measuring as few as it can.
+
+        ``bound`` is a straight-line lower bound on ``cost``. Candidates are
+        measured in order of bound: the ``route_top_k`` lowest, then any whose
+        bound is still below the cheapest cost so far -- nothing left
+        unmeasured can be cheaper, so the cheapest is exact for any k. k only
+        sets how many come back to choose from. Unreachable ones go last; if
+        none of the first k is reachable, the search stops there and returns
+        them in bound order with no costs.
+        """
+        by_bound = sorted(cands, key=bound)
+        k = self.route_top_k if self.route_top_k > 0 else len(by_bound)
+        measured: list[tuple[float, Place]] = []
+        for i, p in enumerate(by_bound):
+            if i >= k:
+                best = min(c for c, _ in measured)
+                if math.isinf(best) or bound(p) >= best:
+                    break
+            measured.append((cost(p), p))
+        if all(math.isinf(c) for c, _ in measured):
+            return by_bound[:k], None
+        measured.sort(key=lambda t: t[0])           # stable: ties keep bound order
+        return [p for _, p in measured], [c for c, _ in measured]
+
+    def _on_the_way_by_line(self, label: str, cands: list[Place], ref_x: float,
+                            ref_y: float, dest: Place) -> list[Place]:
+        """Straight-line ranking: the stops that do not blow up the detour."""
+        direct = math.hypot(dest.x - ref_x, dest.y - ref_y)
+        if direct <= 1.0:
+            return cands
+        on_way = [p for p in cands
+                  if (p.distance_to(ref_x, ref_y)
+                      + math.hypot(dest.x - p.x, dest.y - p.y)) / direct
+                  < self.detour_ratio]
+        if not on_way:
+            return cands
+        if len(on_way) < len(cands):
+            print(f"[mission] {len(on_way)}/{len(cands)} '{label}' are on the way")
+        return on_way
 
 
 def _directive_from(intent: dict, previous: Directive | None = None) -> Directive:

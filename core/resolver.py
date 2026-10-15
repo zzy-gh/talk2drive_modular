@@ -11,7 +11,8 @@ caller injects.
 
 Three policies ship here:
 
-``AutoInteraction``     nearest candidate, append enroute stops — headless,
+``AutoInteraction``     nearest candidate (by road when the mission layer
+                        measured it), append enroute stops — headless,
                         never blocks. Use for evaluation.
 ``CliInteraction``      the original interactive prompts. Use for the demo.
 ``DeferredInteraction`` answers nothing, records the open question and lets
@@ -37,6 +38,22 @@ class PlaceChoice:
     candidates: list[Place]
     ref_x: float
     ref_y: float
+    # Cost of each candidate by road, aligned with ``candidates`` (which then
+    # come cheapest first); None = rank by the straight line. The driving
+    # distance from the reference for a destination; for a stop, the whole
+    # trip reference -> stop -> destination when ``direct`` is set.
+    distances: list[float] | None = None
+    direct: float | None = None      # the trip to the destination without the stop
+    total: int | None = None         # how many of this label the town has, all told
+
+    def distance(self, i: int) -> float:
+        if self.distances is not None:
+            return self.distances[i]
+        return self.candidates[i].distance_to(self.ref_x, self.ref_y)
+
+    def nearest(self) -> Place:
+        """The cheapest: nearest, or for a stop ranked by road, least detour."""
+        return self.candidates[min(range(len(self.candidates)), key=self.distance)]
 
 
 @dataclass
@@ -74,7 +91,7 @@ class AutoInteraction(Interaction):
     def choose_place(self, req: PlaceChoice) -> Place | None:
         if not req.candidates:
             return None
-        return min(req.candidates, key=lambda p: p.distance_to(req.ref_x, req.ref_y))
+        return req.nearest()
 
     def choose_insert_position(self, req: InsertChoice) -> int:
         return len(req.stop_labels)          # append just before the destination
@@ -133,25 +150,34 @@ class CliInteraction(Interaction):
         if len(cands) == 1:
             return cands[0]
 
-        print(f"\n  Multiple '{req.label}' found for {req.role}. Choose one:")
-        for i, p in enumerate(cands):
-            d = p.distance_to(req.ref_x, req.ref_y)
-            print(f"  [{i + 1}] {p.name or p.label}  ({p.x:.1f}, {p.y:.1f})  {d:.0f} m away")
+        # Listed nearest first, each under the ID the map shows (and the
+        # parser's index means), so the passenger answers with that one
+        # number whether typing here or speaking.
+        order = sorted(range(len(cands)), key=req.distance)
+        ids = ([cands[i].index for i in order] if all(p.index for p in cands)
+               else list(range(1, len(cands) + 1)))
+        if req.distances is None:
+            first, cost = "nearest", lambda i: f"{req.distance(i):5.0f} m away"
+        elif req.direct is None:
+            first, cost = "nearest", lambda i: f"{req.distance(i):5.0f} m by road"
+        else:
+            first, cost = "least detour", lambda i: f"+{req.distance(i) - req.direct:4.0f} m detour"
+        print(f"\n  Which {req.label} for the {req.role}?  ({first} first)")
+        for n, i in zip(ids, order):
+            print(f"    [{n}] {req.label}  {cost(i)}")
+        if req.total and req.total > len(cands):
+            print(f"    ({len(cands)} best of {req.total} shown)")
         if self.preview:
-            self.preview(cands)
+            self.preview([cands[i] for i in order])
 
         try:
-            idx = _prompt_index(f"  Enter 1-{len(cands)} (Enter = nearest): ",
-                                len(cands), allow_empty=True)
+            pick = _prompt_id(f"  Enter {req.label} # (Enter = {first}): ", ids)
         finally:
             if self.clear_preview:
                 self.clear_preview()
 
-        if idx is None:
-            chosen = min(cands, key=lambda p: p.distance_to(req.ref_x, req.ref_y))
-        else:
-            chosen = cands[idx]
-        print(f"  -> Selected: {chosen.name or chosen.label}")
+        chosen = req.nearest() if pick is None else cands[order[ids.index(pick)]]
+        print(f"  -> Selected: {chosen.tag}")
         return chosen
 
     def choose_insert_position(self, req: InsertChoice) -> int:
@@ -165,6 +191,21 @@ class CliInteraction(Interaction):
             print(f"  [{i + 1}] {' -> '.join(chain)}")
         idx = _prompt_index(f"  Enter 1-{n + 1}: ", n + 1, allow_empty=False)
         return idx or 0
+
+
+def _prompt_id(prompt: str, ids: list[int]) -> int | None:
+    """One of ``ids``, or None on an empty answer."""
+    while True:
+        try:
+            raw = input(prompt).strip().lstrip("#")
+        except (EOFError, KeyboardInterrupt):
+            print()
+            return None
+        if not raw:
+            return None
+        if raw.isdigit() and int(raw) in ids:
+            return int(raw)
+        print(f"  Please enter one of: {', '.join(f'#{i}' for i in ids)}")
 
 
 def _prompt_index(prompt: str, n: int, allow_empty: bool) -> int | None:

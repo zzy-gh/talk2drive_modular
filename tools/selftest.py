@@ -206,6 +206,257 @@ def test_enroute_position():
           [s.label for s in plan.stops] == ["museum", "cafe"])
 
 
+class FakeRoadRoutes(FakeRoutes):
+    """Driving distance is the straight line, except to places across a
+    river: the hospital at (100, 0) and the cafe at (50, 0) are 1000 m away by
+    road from anywhere."""
+
+    ACROSS = {(100.0, 0.0), (50.0, 0.0)}
+
+    def __init__(self):
+        self.measured = []
+
+    def route_length(self, start, goal):
+        self.measured.append((tuple(start[:2]), tuple(goal[:2])))
+        if tuple(goal[:2]) in self.ACROSS:
+            return 1000.0
+        return math.hypot(goal[0] - start[0], goal[1] - start[1])
+
+
+class FakeGraphRoutes(FakeRoadRoutes):
+    """FakeRoadRoutes plus the one-search batch calls; counts the searches."""
+
+    def __init__(self):
+        super().__init__()
+        self.searches = 0
+
+    def route_lengths(self, start, goals):
+        self.searches += 1
+        return [FakeRoadRoutes.route_length(self, start, g) for g in goals]
+
+    def route_lengths_to(self, starts, goal):
+        self.searches += 1
+        return [FakeRoadRoutes.route_length(self, s, goal) for s in starts]
+
+
+def test_place_distance():
+    print("\n[mission] nearest by road, not by straight line")
+
+    def road_planner(**kw):
+        routes = FakeRoadRoutes()
+        return MissionPlanner(FakeKB(), routes, town="TownX", **kw), routes
+
+    for kind, want in (("euclidean", 100.0), ("route", 300.0)):
+        m, _ = road_planner(place_distance=kind)
+        m.apply({"command_type": "plan_route", "destination": "hospital", "waypoints": []})
+        plan = m.build_plan((0.0, 0.0, 0.0))
+        check(f"{kind}: nearest hospital at x={want:.0f}", plan.goal.x == want,
+              f"got {plan.goal.x}")
+
+    m = planner()
+    m.apply({"command_type": "plan_route", "destination": "hospital", "waypoints": []})
+    check("a router that cannot measure falls back to the straight line",
+          m.build_plan((0.0, 0.0, 0.0)).goal.x == 100.0)
+
+    m, routes = road_planner(route_top_k=1)
+    m.apply({"command_type": "plan_route", "destination": "hospital",
+             "waypoints": [{"type": "cafe", "order": 1, "confidence": 1.0}]})
+    plan = m.build_plan((0.0, 0.0, 0.0))
+    check("top-k=1 still finds the nearest by road (straight line is a lower bound)",
+          plan.goal.x == 300.0, f"got {plan.goal.x}")
+    check("cafe across the river is not 'on the way'; the reachable one is",
+          plan.stops[0].x == 150.0, f"got {plan.stops[0].x}")
+    from_ego = [g for s, g in routes.measured if s == (0.0, 0.0)]
+    check("the far cafe is never measured by road", (900.0, 900.0) not in from_ego,
+          str(from_ego))
+
+    class BehindKB(FakeKB):
+        """Cafe #1 is 200 m behind the car, #2 is ahead towards the hospital."""
+        DATA = {"hospital": [(1000.0, 0.0)], "cafe": [(-200.0, 0.0), (450.0, 200.0)]}
+
+    for k in (1, 10):
+        routes = FakeRoadRoutes()
+        m = MissionPlanner(BehindKB(), routes, town="TownX", route_top_k=k)
+        m.apply({"command_type": "plan_route", "destination": "hospital",
+                 "waypoints": [{"type": "cafe", "order": 1, "confidence": 1.0}]})
+        plan = m.build_plan((0.0, 0.0, 0.0))
+        check(f"top-k={k}: the stop that lengthens the trip least, not the nearest (#2)",
+              plan.stops[0].index == 2, f"got #{plan.stops[0].index}")
+    routes = FakeRoadRoutes()
+    m = MissionPlanner(BehindKB(), routes, town="TownX", route_top_k=1)
+    m.apply({"command_type": "plan_route", "destination": "hospital",
+             "waypoints": [{"type": "cafe", "order": 1, "confidence": 1.0}]})
+    m.build_plan((0.0, 0.0, 0.0))
+    check("top-k=1 never measures the cafe behind (its bound is already worse)",
+          (-200.0, 0.0) not in [g for _, g in routes.measured], str(routes.measured))
+
+    class Ask(AutoInteraction):
+        req = None
+
+        def choose_place(self, req):
+            Ask.req = req
+            return super().choose_place(req)
+
+    m = MissionPlanner(FakeKB(), FakeRoadRoutes(), interaction=Ask(), town="TownX")
+    m.apply({"command_type": "plan_route", "destination": "hospital", "waypoints": []})
+    m.build_plan((0.0, 0.0, 0.0))
+    check("the question lists candidates nearest-by-road first, with distances",
+          [p.x for p in Ask.req.candidates] == [300.0, 100.0]
+          and Ask.req.distances == [300.0, 1000.0], str(Ask.req))
+
+    for kind in ("route", "graph", "euclidean"):
+        Ask.req = None
+        m = MissionPlanner(FakeKB(), FakeGraphRoutes(), interaction=Ask(), town="TownX",
+                           place_distance=kind, route_top_k=2)
+        m.apply({"command_type": "plan_route", "destination": "cafe", "waypoints": []})
+        plan = m.build_plan((0.0, 0.0, 0.0))
+        check(f"{kind}: a question offers at most top-k, and says how many there are",
+              len(Ask.req.candidates) == 2 and Ask.req.total == 3, str(Ask.req))
+        check(f"{kind}: the cap keeps the best", plan.goal.x == 150.0 if kind != "euclidean"
+              else plan.goal.x == 50.0, f"got {plan.goal.x}")
+
+    try:
+        MissionPlanner(FakeKB(), FakeRoutes(), place_distance="manhattan")
+        ok = False
+    except ValueError:
+        ok = True
+    check("unknown place_distance is rejected", ok)
+
+    print("\n[mission] graph mode: every candidate scored by one search")
+    for k in (1, 10):
+        routes = FakeGraphRoutes()
+        m = MissionPlanner(FakeKB(), routes, town="TownX", place_distance="graph",
+                           route_top_k=k)
+        m.apply({"command_type": "plan_route", "destination": "hospital",
+                 "waypoints": [{"type": "cafe", "order": 1, "confidence": 1.0}]})
+        plan = m.build_plan((0.0, 0.0, 0.0))
+        check(f"top-k={k}: same picks as route mode (hospital x=300, cafe x=150)",
+              (plan.goal.x, plan.stops[0].x) == (300.0, 150.0),
+              f"got {(plan.goal.x, plan.stops[0].x)}")
+        check(f"top-k={k}: one search for the destination, two for the stop",
+              routes.searches == 3, str(routes.searches))
+    m = MissionPlanner(BehindKB(), FakeGraphRoutes(), town="TownX", place_distance="graph")
+    m.apply({"command_type": "plan_route", "destination": "hospital",
+             "waypoints": [{"type": "cafe", "order": 1, "confidence": 1.0}]})
+    check("graph mode also picks the cafe ahead, not the one behind",
+          m.build_plan((0.0, 0.0, 0.0)).stops[0].index == 2)
+    m = MissionPlanner(FakeKB(), FakeRoadRoutes(), town="TownX", place_distance="graph")
+    m.apply({"command_type": "plan_route", "destination": "hospital", "waypoints": []})
+    check("graph mode without batch calls falls back to tracing each",
+          m.build_plan((0.0, 0.0, 0.0)).goal.x == 300.0)
+
+
+def test_landmark_ids():
+    print("\n[mission] landmarks carry the ID the map shows and the parser means")
+    import builtins
+    import contextlib
+    import io
+
+    m = planner()
+    cafes = m._candidates("cafe")
+    check("IDs are 1..n in knowledge-base order", [p.index for p in cafes] == [1, 2, 3])
+    check("a place shows as 'label #ID'", cafes[1].tag == "cafe #2", cafes[1].tag)
+
+    m.apply({"command_type": "plan_route", "destination": "cafe",
+             "destination_index": 3, "waypoints": []})
+    check("index 3 is cafe #3", m.build_plan((0.0, 0.0, 0.0)).goal.index == 3)
+
+    # hospital #1 is 1000 m by road, #2 is 300 m: listed #2 first, and an
+    # answer of "1" means hospital #1, not the first line of the list
+    shown = []
+    cli = CliInteraction(preview=lambda ps: shown.extend(p.index for p in ps))
+    m = MissionPlanner(FakeKB(), FakeRoadRoutes(), interaction=cli, town="TownX")
+    m.apply({"command_type": "plan_route", "destination": "hospital", "waypoints": []})
+    out, real_input = io.StringIO(), builtins.input
+    builtins.input = lambda prompt="": "1"
+    try:
+        with contextlib.redirect_stdout(out):
+            plan = m.build_plan((0.0, 0.0, 0.0))
+    finally:
+        builtins.input = real_input
+    rows = [l.split()[0] for l in out.getvalue().splitlines() if l.strip().startswith("[")]
+    check("CLI lists candidates nearest first, by ID", rows == ["[2]", "[1]"], str(rows))
+    check("CLI previews them in the same order", shown == [2, 1], str(shown))
+    check("the answer is an ID, not a list position", plan.goal.index == 1,
+          f"got #{plan.goal.index}")
+
+    from runtime.viz import LandmarkBoard
+    near = LandmarkBoard(None, cafes, near_m=100.0)      # cafes at x=50, 150, (900, 900)
+    check("before the ego is placed every landmark shows", len(near.snapshot()) == 3)
+    near.set_ego(0.0, 0.0)
+    check("only idle landmarks near the ego show",
+          [p.index for p, *_ in near.snapshot()] == [1], str(near.snapshot()))
+    near.set_candidates([cafes[2]])
+    check("a candidate shows however far",
+          sorted(p.index for p, *_ in near.snapshot()) == [1, 3])
+    board = LandmarkBoard(None, cafes)
+    board.set_candidates([cafes[2], cafes[0]])
+    marks = {p.index: cand for p, _, _, cand in board.snapshot()}
+    check("candidate markers are labelled with the ID", marks == {1: 1, 2: None, 3: 3},
+          str(marks))
+
+
+def test_route_length():
+    print("\n[route] route_length on Town01")
+    try:
+        import carla
+        from agents.navigation.local_planner import RoadOption
+        from core.paths import section_path
+        from core.route_provider import CarlaRouteProvider
+    except ImportError as exc:
+        print(f"  skip ({exc})")
+        return
+    xodr_dir = section_path("covlm", "opendrive_dir")
+    xodr = xodr_dir / "Town01.xodr" if xodr_dir else None
+    if xodr is None or not xodr.is_file():
+        print("  skip (no Town01.xodr under [covlm] opendrive_dir)")
+        return
+    m = carla.Map("Town01", xodr.read_text())
+    rp = CarlaRouteProvider(m, 1.0)
+    wps = m.generate_waypoints(50.0)
+    pairs = [(wps[i], wps[-1 - i]) for i in range(0, 40, 4)]
+    ok_bound = ok_sum = True
+    for a, b in pairs:
+        s, g = a.transform.location, b.transform.location
+        s, g = (s.x, s.y, s.z), (g.x, g.y, g.z)
+        d = rp.route_length(s, g)
+        pts = rp.trace(s, g)
+        ok_bound &= d + 1e-6 >= math.hypot(g[0] - s[0], g[1] - s[1])
+        gaps = (math.hypot(pts[0].x - s[0], pts[0].y - s[1])
+                + math.hypot(g[0] - pts[-1].x, g[1] - pts[-1].y))
+        ok_sum &= abs(d - gaps - sum(p.distance_to(q) for p, q in zip(pts, pts[1:]))) < 1e-6
+    check("driving distance is never below the straight line", ok_bound)
+    check("driving distance is the traced route plus its end gaps", ok_sum)
+    rp._grp._previous_decision, rp._grp._intersection_end_node = RoadOption.LEFT, 7
+    rp.route_length((pairs[0][0].transform.location.x, pairs[0][0].transform.location.y, 0.0),
+                    (pairs[0][1].transform.location.x, pairs[0][1].transform.location.y, 0.0))
+    check("measuring leaves the router's turn state alone",
+          (rp._grp._previous_decision, rp._grp._intersection_end_node) == (RoadOption.LEFT, 7))
+
+    # Off junctions: a start part-way into a junction connector is where the
+    # traced route may leave by a branch already behind the car.
+    road = [w for w in wps if not w.is_junction]
+    pairs = [(road[i], road[-1 - i]) for i in range(0, 40, 4)]
+    ends = [(a.transform.location, b.transform.location) for a, b in pairs]
+    ends = [((a.x, a.y, a.z), (b.x, b.y, b.z)) for a, b in ends]
+    fwd = [rp.route_lengths(a, [b])[0] for a, b in ends]
+    bwd = [rp.route_lengths_to([a], b)[0] for a, b in ends]
+    check("one-to-many forward and reverse searches agree",
+          all(abs(f - b) < 1e-6 for f, b in zip(fwd, bwd)), str(list(zip(fwd, bwd))))
+    traced = [rp.route_length(a, b) for a, b in ends]
+    close = sum(abs(f - t) <= max(20.0, 0.05 * t) for f, t in zip(fwd, traced))
+    check("graph lengths match the traced routes (within 20 m or 5%)",
+          close >= len(ends) - 1, f"{close}/{len(ends)}: {list(zip(fwd, traced))}")
+    stock = CarlaRouteProvider(m, 1.0)
+    del stock._grp._find_closest_in_list            # GlobalRoutePlanner's own search
+    check("the cached closest-waypoint search plans exactly the stock routes",
+          all(rp.trace_chain([a, b]) == stock.trace_chain([a, b]) for a, b in ends))
+    batch = rp.route_lengths(ends[0][0], [b for _, b in ends])
+    check("a batch equals one call per goal",
+          all(abs(x - rp.route_lengths(ends[0][0], [b])[0]) < 1e-6
+              for x, (_, b) in zip(batch, ends)))
+
+
 def test_interaction_policies():
     print("\n[interaction] policies")
     check("AutoInteraction is non-blocking", not AutoInteraction().blocking)
@@ -565,6 +816,21 @@ def test_bev_render():
           str(img.shape))
     check("route is drawn", (img[:, :r.w] == (0, 200, 0)).all(axis=2).any())
 
+    check("a small town is shown whole", not r.follow)
+
+    # The same 100 m road, as a "large" town: the view follows the ego
+    f = BevRenderer(FakeMap(), size_px=300, window_m=40.0, follow_above_m=50.0, max_tiles=3)
+    check("a large town follows the ego", f.follow)
+    img = f.render(ego=(30.0, 0.0, 0.0), plan=plan, landmarks=[])
+    check("the window is centred on the ego", f.px(30.0, 0.0) == (150, 150))
+    check("follow view: map plus legend column", img.shape[:2] == (300, 450), str(img.shape))
+    from runtime.bev import ROAD
+    check("roads near the ego are drawn",       # beside the route, inside the lane
+          (img[158, :300] == ROAD).all(axis=1).any())
+    for x in range(0, 101, 10):
+        f.render(ego=(float(x), 0.0, 0.0), plan=None, landmarks=[])
+    check("tile cache stays bounded", len(f._tiles) <= 3, str(len(f._tiles)))
+
 
 def test_fpv():
     print("\n[fpv] model-input window")
@@ -628,6 +894,9 @@ def test_text_only_viz():
     viz.clear()
     check("only draw_string is used", set(debug.calls) == {"draw_string"},
           str(sorted(set(debug.calls))))
+    from runtime.session import SessionConfig
+    check("text-only is the default, whatever the backend",
+          SessionConfig().viz_text_only and PlanVisualizer(NS(debug=debug)).text_only)
     check("route drawn about every 3 m",
           debug.calls.count("draw_string") >= int(plan.length() / 3.0))
 
@@ -745,13 +1014,44 @@ def test_town_view():
         def generate_waypoints(self, _):
             return [NS(transform=NS(location=NS(x=x, y=y, z=0.0))) for x, y in self.pts]
 
-    (cx, cy, z), yaw = _town_view(FakeMap(400.0, 200.0), margin=1.0)
+    (cx, cy, z), yaw, span = _town_view(FakeMap(400.0, 200.0), margin=1.0)
     check("centred on the map", (cx, cy) == (200.0, 100.0))
     check("wide map runs x across the screen", yaw == -90.0)
     check("height fits the width", abs(z - 200.0) < 1e-6, f"got {z}")
-    (_, _, z), yaw = _town_view(FakeMap(100.0, 400.0), margin=1.0)
+    check("reports the town's extent", span == 400.0)
+    (_, _, z), yaw, _ = _town_view(FakeMap(100.0, 400.0), margin=1.0)
     check("tall map runs y across the screen", yaw == 0.0)
     check("height fits the long side", abs(z - 200.0) < 1e-6, f"got {z}")
+
+    from runtime.camera import SpectatorCamera
+    poses = []
+
+    class Spectator:
+        def set_transform(self, tf):
+            poses.append((tf.location.x, tf.location.y, tf.location.z))
+
+    def camera(w, h):
+        world = NS(get_spectator=Spectator, get_map=lambda: FakeMap(w, h))
+        car = NS(get_location=lambda: NS(x=1000.0, y=500.0, z=10.0))
+        return SpectatorCamera(world, car, transition_s=0.0, margin=1.0)
+
+    small = camera(400.0, 200.0)
+    small.show_town([(5000.0, 500.0, 0.0)])
+    small.update()
+    check("a small town still pulls back to the whole town",      # Location is float32
+          all(abs(a - b) < 1e-3 for a, b in zip(poses[-1], small._town)), str(poses[-1]))
+
+    big = camera(9000.0, 8000.0)
+    check("a 9 km town counts as large", big.large)
+    big.show_town([(1200.0, 500.0, 10.0)])         # a short route, 200 m east
+    big.update()
+    x, y, z = poses[-1]
+    check("large town: frames the ego and the route, not the town",
+          (x, y) == (1100.0, 500.0) and z < 200.0, str(poses[-1]))
+    big.show_town([(4000.0, 500.0, 10.0)])         # 3 km away: too high to frame
+    big.update()
+    check("large town: too wide to frame stays over the ego, capped",
+          poses[-1] == (1000.0, 500.0, 10.0 + big.max_height_m), str(poses[-1]))
 
 
 
@@ -1099,6 +1399,7 @@ def test_agent_import_roots():
 def main() -> int:
     print("talk2drive_modular self-test (no CARLA server required)")
     for fn in (test_plan_route, test_edits, test_enroute_position,
+               test_place_distance, test_landmark_ids, test_route_length,
                test_interaction_policies, test_downsample, test_geometry,
                test_tracker, test_gps, test_arrival, test_stop_progress, test_extend_destination, test_multi_and_move, test_route_prompt,
                test_landmark_board, test_text_only_viz, test_snap_heading, test_sensor_attributes, test_language_benchmark, test_town_view, test_bev_render, test_fpv,

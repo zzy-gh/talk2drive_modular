@@ -155,7 +155,7 @@ stops ("let's do the park first"). Built-in commands:
 | `--simlingo-camera X,Y,Z[,PITCH]` | SimLingo camera mount; default `-1.5,0,2.0`, SimLingo's training mount |
 | `--simlingo-interval N` | control steps per SimLingo inference (default 1 in sync mode) |
 | `--vehicle BP` | ego blueprint; default Lincoln MKZ 2020 for simlingo, Tesla Model 3 otherwise |
-| `--world-viz` | draw points and lines in CARLA even for a camera backend (its camera sees them) |
+| `--world-viz` | draw route and landmarks in CARLA as points and lines, for debugging: any camera sees them |
 | `--no-viz` | no drawing, no spectator control |
 | `--auto` | never prompt: nearest landmark, unordered stops appended last |
 | `--no-reload` | keep the running map (and any old drawings) instead of reloading |
@@ -171,12 +171,15 @@ tail -F logs/simlingo_debug.log        # or logs/leaderboard_debug.log
 * **BEV window** — the reference view. Landmarks: grey unused, red
   destination, orange stop (numbered), green reached, purple cancelled, yellow
   `[n]` a candidate to pick.
-* **CARLA window** — for `basic_agent`, route, start and landmarks as points
-  and lines. For camera backends only the route (a dotted line of `o`) and an
-  `EGO` label, all drawn with `draw_string`, which camera sensors do not
-  capture; a cancelled route is painted grey.
+* **CARLA window** — whatever the backend, only the route (a dotted line of
+  `o`) and an `EGO` label, all drawn with `draw_string`, which camera sensors
+  do not capture; a cancelled route is painted grey. Landmarks are in the BEV
+  window. `--world-viz` draws route, start and landmarks as points and lines
+  instead -- for debugging only, since any camera then sees them.
 * **Spectator** — top-down 50 m above the ego; pulls back to the whole town
-  when a route is planned or candidates are offered, returns on arrival.
+  when a route is planned or candidates are offered, returns on arrival. In a
+  town wider than 1.5 km it frames the ego and the route (or the candidates)
+  instead, at most 800 m up, and the BEV follows the ego in a 600 m window.
 
 When a stop is left unordered ("I also want to go to X"), you are asked where
 in the route it goes. When the passenger says where (first, last, after the

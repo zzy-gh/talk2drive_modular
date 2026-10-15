@@ -158,9 +158,9 @@ def main() -> None:
                    help="never prompt: nearest landmark, append enroute stops")
     p.add_argument("--no-viz", action="store_true")
     p.add_argument("--world-viz", action="store_true",
-                   help="draw route and landmarks with points and lines even for a "
-                        "camera-driven backend (its camera sees them too); by "
-                        "default such a backend gets text-only drawing")
+                   help="draw route and landmarks in CARLA with points and lines; "
+                        "any camera sees them, so only for debugging. By default "
+                        "only text is drawn, which cameras do not capture")
     p.add_argument("--bev", action="store_true",
                    help="open a bird's-eye-view window: roads, route, landmarks, "
                         "ego -- drawn outside CARLA, so no camera ever sees it")
@@ -170,6 +170,14 @@ def main() -> None:
                         "camera such as TCP)")
     p.add_argument("--no-reload", action="store_true",
                    help="use the running map instead of reloading it")
+    p.add_argument("--place-distance", choices=("route", "graph", "euclidean"), default="route",
+                   help="how 'the nearest X' and 'on the way' are measured: the "
+                        "route traced to each candidate (route), one graph search "
+                        "scoring all candidates, for large towns (graph), or the "
+                        "straight line (euclidean)")
+    p.add_argument("--route-top-k", type=int, default=10,
+                   help="how many candidates a question offers, best first "
+                        "(<= 0: all); does not change the best one")
     args = p.parse_args()
     vehicle = backend_defaults(args)
 
@@ -200,16 +208,19 @@ def main() -> None:
         world = client.load_world(town)
 
     routes = CarlaRouteProvider(world.get_map(), sampling_resolution=1.0)
-    mission = MissionPlanner(kb, routes, interaction=AutoInteraction(), town=town)
+    mission = MissionPlanner(kb, routes, interaction=AutoInteraction(), town=town,
+                             place_distance=args.place_distance,
+                             route_top_k=args.route_top_k)
 
     backend = build_backend(args, world, client)
-    # Debug points/lines are rendered into the world, so a camera sensor sees
-    # them as objects on the road; debug strings are server-side only. For a
-    # camera-driven backend draw text only, unless shapes are asked for.
-    text_only = backend.caps.needs_sensors and not args.world_viz
+    # Debug points/lines are rendered into the world, so any camera sensor sees
+    # them as objects on the road; debug strings are server-side only. Draw
+    # text only, whatever the backend, unless shapes are asked for -- so what
+    # a camera records never depends on which backend drove.
+    text_only = not args.world_viz
     if text_only and not args.no_viz:
-        print("[cli] camera-driven backend: only the route and EGO are drawn in CARLA, "
-              "as text (kept out of the camera image); landmarks are in --bev")
+        print("[cli] only the route and EGO are drawn in CARLA, as text (kept out of "
+              "camera images); landmarks are in --bev, shapes with --world-viz")
     session = DriveSession(world, backend, mission,
                            SessionConfig(control_hz=args.control_hz,
                                          vehicle_filter=vehicle,

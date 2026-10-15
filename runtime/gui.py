@@ -14,6 +14,16 @@ import time
 
 import cv2
 
+# opencv-python points Qt at a font directory it does not ship
+# (cv2/config-3.py, on import), and Qt then warns on every font lookup. Qt
+# reads the variable when the first window opens, so the system's fonts can
+# still stand in.
+if not os.path.isdir(os.environ.get("QT_QPA_FONTDIR", "")):
+    for _fonts in ("/usr/share/fonts/truetype/dejavu", "/usr/share/fonts"):
+        if os.path.isdir(_fonts):
+            os.environ["QT_QPA_FONTDIR"] = _fonts
+            break
+
 
 class Panel:
     """A window's content. ``setup`` runs once on the GUI thread; ``frame``

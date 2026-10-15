@@ -58,6 +58,12 @@ class Place:
     def as_tuple(self) -> tuple[float, float, float]:
         return (self.x, self.y, self.z)
 
+    @property
+    def tag(self) -> str:
+        """How the passenger sees it on the map, e.g. "museum #2": the same
+        number the parser's index means."""
+        return f"{self.label} #{self.index}" if self.index else self.label
+
 
 # ─────────────────────────────────────────────
 # Routes

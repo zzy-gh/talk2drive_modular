@@ -91,15 +91,19 @@ def _key(place: Place) -> tuple[str, float, float]:
 
 class LandmarkBoard:
     """
-    Every landmark in the town, always on screen, coloured by its role:
+    The town's landmarks, coloured by their role:
 
         grey    not part of the mission     orange  planned stop
         red     destination                 green   reached (stop or goal)
         purple  cancelled                   yellow  numbered candidate
 
+    Every one with a role is shown. Grey ones only within ``near_m`` of the
+    ego once :meth:`set_ego` has placed it -- a large town has hundreds -- or
+    all of them with ``near_m=None``.
+
     Markers are drawn with a short ``life_time`` and redrawn by the session
     loop, so a state change replaces the old marker instead of painting a
-    dark one over it.
+    dark one over it, and one the ego has driven away from fades out.
     """
 
     # state -> (colour, point size, label prefix)
@@ -111,8 +115,10 @@ class LandmarkBoard:
         "cancelled":   (PURPLE, 0.15, "CANCELLED: "),
     }
 
-    def __init__(self, world, places: list[Place]) -> None:
+    def __init__(self, world, places: list[Place], near_m: float | None = 300.0) -> None:
         self.world = world
+        self.near_m = near_m
+        self._ego: tuple[float, float] | None = None
         self._lock = threading.Lock()
         self._places = {_key(p): p for p in places}
         self._state: dict[tuple, tuple[str, int | None]] = \
@@ -155,18 +161,27 @@ class LandmarkBoard:
         with self._lock:
             for p in places:
                 self._places.setdefault(_key(p), p)
-            self._candidates = {_key(p): i + 1 for i, p in enumerate(places)}
+            self._candidates = {_key(p): p.index or i + 1 for i, p in enumerate(places)}
 
     def clear_candidates(self) -> None:
         with self._lock:
             self._candidates = {}
 
+    def set_ego(self, x: float, y: float) -> None:
+        self._ego = (x, y)
+
     # ── read-out ────────────────────────────────────────────────────────
     def snapshot(self) -> list[tuple[Place, str, int | None, int | None]]:
-        """(place, state, stop number, candidate number) for every landmark."""
+        """(place, state, stop number, candidate ID) for every landmark on
+        show: all with a role, and the idle ones near the ego."""
+        ego, near = self._ego, self.near_m
         with self._lock:
-            return [(self._places[k], *self._state.get(k, ("idle", None)),
+            rows = [(self._places[k], *self._state.get(k, ("idle", None)),
                      self._candidates.get(k)) for k in self._places]
+        if ego is None or near is None:
+            return rows
+        return [r for r in rows
+                if r[1] != "idle" or r[3] is not None or r[0].distance_to(*ego) <= near]
 
     # ── drawing (control thread) ────────────────────────────────────────
     def draw(self, life_time: float) -> None:
@@ -175,7 +190,7 @@ class LandmarkBoard:
                 color, size, label = YELLOW, 0.25, f"[{cand}] {p.label}"
             else:
                 color, size, prefix = self.STYLE[state]
-                label = prefix.format(n=n) + p.label
+                label = prefix.format(n=n) + p.tag
             draw_marker(self.world, p.x, p.y, p.z, label, color,
                         life_time=life_time, size=size)
 
@@ -195,11 +210,11 @@ class PlanVisualizer:
     over in grey, as with points and lines."""
 
     def __init__(self, world, places: list[Place] = (), draw_world: bool = True,
-                 text_only: bool = False) -> None:
+                 text_only: bool = True, near_m: float | None = 300.0) -> None:
         self.world = world
         self.draw_world = draw_world
         self.text_only = text_only
-        self.board = LandmarkBoard(world, list(places))
+        self.board = LandmarkBoard(world, list(places), near_m=near_m)
         self.plan: GlobalPlan | None = None      # what is on screen, for the BEV
         self.urgency = "normal"
         self._points = None

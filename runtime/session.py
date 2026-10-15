@@ -43,7 +43,7 @@ class SessionConfig:
     look_ahead_m: float = 8.0        # plan from ahead of the car, avoids a U-turn
     visualize: bool = True
     beacon: bool = True
-    viz_text_only: bool = False      # draw_string only: seen in CARLA, not by cameras
+    viz_text_only: bool = True       # draw_string only: seen in CARLA, not by cameras
     camera: bool = True              # drive the spectator (ego BEV <-> town BEV)
     # Synchronous mode: the simulator advances one fixed 1/control_hz step per
     # loop and waits for the backend -- how the leaderboard runs, and the only
@@ -55,6 +55,9 @@ class SessionConfig:
     realtime: bool = True
     ego_view_height_m: float = 50.0
     landmark_redraw_s: float = 0.5
+    # Landmarks with no part in the mission are shown only this close to the
+    # ego (None: all of them) -- a large town has hundreds.
+    landmark_near_m: float | None = 300.0
 
 
 class DriveSession:
@@ -79,7 +82,8 @@ class DriveSession:
         # into the CARLA world only when ``visualize`` is on.
         self.viz = PlanVisualizer(world, mission.all_places(),
                                   draw_world=self.config.visualize,
-                                  text_only=self.config.viz_text_only)
+                                  text_only=self.config.viz_text_only,
+                                  near_m=self.config.landmark_near_m)
         self.camera = SpectatorCamera(world, self.vehicle,
                                       ego_height=self.config.ego_view_height_m) \
             if self.config.camera else None
@@ -185,7 +189,7 @@ class DriveSession:
         if self.viz:
             self.viz.show(plan, urgency=self.mission.directive.urgency)
         if self.camera:
-            self.camera.show_town()
+            self.camera.show_town([(p.x, p.y, p.z) for p in plan.points])
         print(f"[session] plan rev={plan.revision}: {len(plan)} pts, "
               f"{plan.length():.0f} m -> {plan.goal.label}")
         return True
@@ -215,7 +219,7 @@ class DriveSession:
         if self.viz:
             self.viz.preview_places(places)
         if self.camera:
-            self.camera.show_town()
+            self.camera.show_town([p.as_tuple() for p in places])
 
     def clear_previews(self) -> None:
         if self.viz:
@@ -262,8 +266,10 @@ class DriveSession:
         while self._running:
             t0 = time.time()
             try:
+                loc = self.vehicle.get_location()
+                self.viz.board.set_ego(loc.x, loc.y)
                 if self.config.beacon:
-                    self.viz.beacon(self.vehicle.get_location(), life_time=beacon_s * 1.5)
+                    self.viz.beacon(loc, life_time=beacon_s * 1.5)
                 if t0 >= next_redraw:
                     # Live three periods, so a late redraw never leaves a gap.
                     self.viz.redraw(life_time=redraw * 3.0)

@@ -12,6 +12,7 @@ downstream never see the router at all.
 
 from __future__ import annotations
 
+import math
 from typing import Protocol, Sequence
 
 from .types import RoutePoint
@@ -30,6 +31,23 @@ class RouteProvider(Protocol):
         """Dense route through a keypoint chain, as one logical plan."""
         ...
 
+    def route_length(self, start: Sequence[float], goal: Sequence[float]) -> float:
+        """Metres driven from ``start`` to ``goal`` along the road network;
+        ``math.inf`` if unreachable. Optional: without it the mission layer
+        ranks places by straight-line distance."""
+        ...
+
+    def route_lengths(self, start: Sequence[float],
+                      goals: Sequence[Sequence[float]]) -> list[float]:
+        """Metres from ``start`` to each of ``goals`` in one graph search;
+        ``math.inf`` for an unreachable one. Optional, like route_length."""
+        ...
+
+    def route_lengths_to(self, starts: Sequence[Sequence[float]],
+                         goal: Sequence[float]) -> list[float]:
+        """Metres from each of ``starts`` to ``goal`` in one graph search."""
+        ...
+
     def reset(self) -> None:
         """Forget any per-plan router state. See CarlaRouteProvider.reset."""
         ...
@@ -43,6 +61,8 @@ class CarlaRouteProvider:
 
         self.map = carla_map
         self._grp = GlobalRoutePlanner(carla_map, sampling_resolution=sampling_resolution)
+        self._grp._find_closest_in_list = _closest_in_list_cached()
+        self._road_graph: _RoadGraph | None = None       # built on first use
 
     def reset(self) -> None:
         """Clear the router's carry-over turn state.
@@ -136,6 +156,55 @@ class CarlaRouteProvider:
                                   yaw=tf.rotation.yaw, option=int(option.value)))
         return out
 
+    def route_length(self, start: Sequence[float], goal: Sequence[float]) -> float:
+        """Metres along the route :meth:`trace` would plan from ``start`` to
+        ``goal``, plus the straight-line gaps between ``start`` and the route's
+        first point and between its last point and ``goal``; ``math.inf`` if
+        it finds no route.
+
+        The gaps matter: GlobalRoutePlanner starts a route up to a segment
+        from ``start`` and now and then ends one far short of ``goal``.
+        Counting them keeps the result >= the straight line (triangle
+        inequality), which the mission layer's top-k cut relies on, and
+        charges a route that stops short instead of ranking it nearest.
+
+        Tracing advances the router's turn state (see :meth:`reset`), so that
+        state is saved and restored: measuring candidates must not change the
+        RoadOption labels of the plan traced after them.
+        """
+        saved = (self._grp._intersection_end_node, self._grp._previous_decision)
+        try:
+            pts = self.trace(start, goal)
+        finally:
+            self._grp._intersection_end_node, self._grp._previous_decision = saved
+        if not pts:
+            return math.inf
+        first, last = pts[0], pts[-1]
+        return (math.hypot(first.x - start[0], first.y - start[1])
+                + sum(a.distance_to(b) for a, b in zip(pts, pts[1:]))
+                + math.hypot(goal[0] - last.x, goal[1] - last.y))
+
+    def route_lengths(self, start: Sequence[float],
+                      goals: Sequence[Sequence[float]]) -> list[float]:
+        """Metres from ``start`` to each of ``goals``, all from one Dijkstra
+        over the planner's lane graph -- the cost of the search does not grow
+        with the number of goals, which a call to :meth:`route_length` per goal
+        does. The lengths are of the shortest path in metres, which is not
+        always the path :meth:`trace` plans: GlobalRoutePlanner's A* weighs an
+        edge by its waypoint count. ``math.inf`` for an unreachable goal."""
+        return self._lane_graph().lengths_from(start, goals)
+
+    def route_lengths_to(self, starts: Sequence[Sequence[float]],
+                         goal: Sequence[float]) -> list[float]:
+        """Metres from each of ``starts`` to ``goal``: one Dijkstra on the
+        reversed lane graph. See :meth:`route_lengths`."""
+        return self._lane_graph().lengths_to(starts, goal)
+
+    def _lane_graph(self) -> "_RoadGraph":
+        if self._road_graph is None:
+            self._road_graph = _RoadGraph(self._grp)
+        return self._road_graph
+
     def _stalled(self, raw, goal, tol_m: float = 10.0) -> bool:
         """trace_route went nowhere -- the start alone, or points that never
         leave it -- while the goal (projected onto the road, as trace_route
@@ -166,6 +235,218 @@ class CarlaRouteProvider:
             if not leg:
                 return []
             out.extend(leg)
+        return out
+
+
+def _closest_in_list_cached():
+    """A drop-in for ``GlobalRoutePlanner._find_closest_in_list``.
+
+    ``trace_route`` calls it on every edge of a route to find where to join
+    that edge's waypoints, and the original walks the list in Python, reading
+    each waypoint's location through the C++ binding. That is about 90 % of a
+    trace, and it grows with route length: 17 ms median and up to seconds per
+    trace on Town12/13, whose routes run for kilometres. Here each list's
+    coordinates are read once into an array and searched vectorised.
+
+    Same answer: the first index of the minimum distance, in float32 as the
+    binding computes it. The lists it is given are, or are built from, the
+    planner's own edge waypoints, which live as long as the planner, so the
+    ids of their ends and their length key the cache.
+    """
+    import numpy as np
+
+    cache: dict[tuple, "np.ndarray"] = {}
+
+    def find(current_waypoint, waypoint_list) -> int:
+        if not waypoint_list:
+            return -1
+        key = (id(waypoint_list[0]), id(waypoint_list[-1]), len(waypoint_list))
+        xyz = cache.get(key)
+        if xyz is None:
+            xyz = np.array([(l.x, l.y, l.z) for l in
+                            (w.transform.location for w in waypoint_list)], dtype=np.float32)
+            cache[key] = xyz
+        c = current_waypoint.transform.location
+        d = xyz - np.array((c.x, c.y, c.z), dtype=np.float32)
+        return int(np.sqrt(np.einsum("ij,ij->i", d, d)).argmin())
+
+    return find
+
+
+class _RoadGraph:
+    """GlobalRoutePlanner's lane graph, weighted in metres, for one-to-many
+    driving distances.
+
+    The planner's own edge ``length`` is a waypoint count, and a place sits
+    part-way along an edge, so neither its nodes nor its weights give metres
+    directly. Here every lane-follow edge keeps its polyline (entry, path,
+    exit) with cumulative arc length, a position is (edge, metres from the
+    edge's entry), and a search is seeded from the start's position rather
+    than from a node:
+
+    * from ``start`` on edge (u, v) at offset s, node v is reached after
+      ``L(u, v) - s``; a goal at offset g on edge (a, b) costs
+      ``dist(a) + g``, or ``g - s`` when it is ahead on the start's own edge;
+    * the planner allows a lane change only at an edge's entry, at no cost,
+      to the entry of the neighbour lane's edge -- which may start well
+      ahead; such a change is charged the distance it jumps ahead. A car
+      part-way along a multi-lane road can change lanes too, so the start is
+      also placed on each neighbouring lane at the same fraction of its
+      length, and the goal likewise for the reverse search.
+
+    The straight-line gaps between a coordinate and the polyline point it
+    is matched to are added at both ends, as in ``route_length``.
+
+    ``SAME_SPOT_M`` is how close counts as the same spot: a goal that close
+    behind the start on its lane is where the car already is, not a loop
+    round the block (as ``trace`` sees it too); a start that close to its
+    edge's entry can still take any branch of that fork, and a goal that
+    close to its edge's exit is reached from any lane that joins there.
+    """
+
+    SAME_SPOT_M = 5.0
+
+    def __init__(self, grp) -> None:
+        import numpy as np
+        from agents.navigation.local_planner import RoadOption
+
+        self._grp = grp
+        self._geom: dict[tuple, tuple] = {}     # edge -> (xy[n, 2], cum[n])
+        self.succ: dict[int, list] = {}         # node -> [(node, metres)]
+        self.pred: dict[int, list] = {}
+        self._changes: dict[tuple, list] = {}   # edge -> neighbour lanes it can change into
+        self._changes_in: dict[tuple, list] = {}
+
+        follow = (RoadOption.LANEFOLLOW, RoadOption.VOID)
+        changes = []
+        for u, v, d in grp._graph.edges(data=True):
+            if d["type"] in follow:
+                wps = [d["entry_waypoint"], *d["path"], d["exit_waypoint"]]
+                xy = np.array([(w.transform.location.x, w.transform.location.y) for w in wps])
+                cum = np.concatenate(([0.0], np.cumsum(np.hypot(*np.diff(xy, axis=0).T))))
+                self._geom[(u, v)] = (xy, cum)
+                w = float(cum[-1])
+            else:
+                # The planner links a lane change entry-to-entry at no cost,
+                # but the neighbour's segment may start well ahead: charge
+                # the way it is ahead along the lane, or it is a free jump.
+                changes.append(d)
+                f = d["entry_waypoint"].transform.get_forward_vector()
+                (x0, y0, _), (x1, y1, _) = (grp._graph.nodes[n]["vertex"] for n in (u, v))
+                w = max(0.0, (x1 - x0) * f.x + (y1 - y0) * f.y)
+            self.succ.setdefault(u, []).append((v, w))
+            self.pred.setdefault(v, []).append((u, w))
+        for d in changes:
+            src = grp._localize(d["entry_waypoint"].transform.location)
+            dst = grp._localize(d["change_waypoint"].transform.location)
+            if src in self._geom and dst in self._geom:
+                self._changes.setdefault(src, []).append(dst)
+                self._changes_in.setdefault(dst, []).append(src)
+
+    def locate(self, xyz: Sequence[float]):
+        """(edge, metres from its entry, straight-line gap) or None."""
+        import carla
+
+        edge = self._grp._localize(carla.Location(x=float(xyz[0]), y=float(xyz[1]),
+                                                  z=float(xyz[2])))
+        if edge not in self._geom:
+            return None
+        xy, cum = self._geom[edge]
+        d2 = (xy[:, 0] - xyz[0]) ** 2 + (xy[:, 1] - xyz[1]) ** 2
+        i = int(d2.argmin())
+        return edge, float(cum[i]), math.sqrt(float(d2[i]))
+
+    def _length(self, edge) -> float:
+        return float(self._geom[edge][1][-1])
+
+    def _lanes(self, edge, off: float, links: dict) -> list[tuple]:
+        """(edge, offset) of ``edge`` and every lane reachable from it by lane
+        changes along ``links``, at the same fraction of the way along."""
+        frac = off / self._length(edge) if self._length(edge) > 0 else 0.0
+        out, seen, todo = [(edge, off)], {edge}, [edge]
+        while todo:
+            for nb in links.get(todo.pop(), ()):
+                if nb not in seen:
+                    seen.add(nb)
+                    todo.append(nb)
+                    out.append((nb, frac * self._length(nb)))
+        return out
+
+    @staticmethod
+    def _dijkstra(seeds: dict, adj: dict) -> dict:
+        import heapq
+
+        dist = dict(seeds)
+        heap = [(c, n) for n, c in dist.items()]
+        heapq.heapify(heap)
+        done = set()
+        while heap:
+            c, n = heapq.heappop(heap)
+            if n in done:
+                continue
+            done.add(n)
+            for m, w in adj.get(n, ()):
+                if c + w < dist.get(m, math.inf):
+                    dist[m] = c + w
+                    heapq.heappush(heap, (c + w, m))
+        return dist
+
+    def lengths_from(self, start, goals) -> list[float]:
+        s = self.locate(start)
+        if s is None:
+            return [math.inf] * len(goals)
+        lanes = self._lanes(s[0], s[1], self._changes)
+        seeds: dict = {}
+        for e, off in lanes:
+            seeds[e[1]] = min(seeds.get(e[1], math.inf), self._length(e) - off)
+            if off <= self.SAME_SPOT_M:                     # still at the fork
+                seeds[e[0]] = min(seeds.get(e[0], math.inf), off)
+        dist = self._dijkstra(seeds, self.succ)
+        out = []
+        for goal in goals:
+            g = self.locate(goal)
+            if g is None:
+                out.append(math.inf)
+                continue
+            best = math.inf
+            for edge, off_g in self._lanes(g[0], g[1], self._changes_in):
+                best = min(best, dist.get(edge[0], math.inf) + off_g)
+                tail = self._length(edge) - off_g
+                if tail <= self.SAME_SPOT_M:                # where its lanes join
+                    best = min(best, dist.get(edge[1], math.inf) + tail)
+                for e, off in lanes:
+                    if e == edge and off_g >= off - self.SAME_SPOT_M:
+                        best = min(best, abs(off_g - off))
+            out.append(best + s[2] + g[2])
+        return out
+
+    def lengths_to(self, starts, goal) -> list[float]:
+        g = self.locate(goal)
+        if g is None:
+            return [math.inf] * len(starts)
+        lanes = self._lanes(g[0], g[1], self._changes_in)
+        seeds: dict = {}
+        for e, off in lanes:
+            seeds[e[0]] = min(seeds.get(e[0], math.inf), off)
+            tail = self._length(e) - off
+            if tail <= self.SAME_SPOT_M:
+                seeds[e[1]] = min(seeds.get(e[1], math.inf), tail)
+        dist = self._dijkstra(seeds, self.pred)      # metres from a node to the goal
+        out = []
+        for start in starts:
+            s = self.locate(start)
+            if s is None:
+                out.append(math.inf)
+                continue
+            best = math.inf
+            for edge, off_s in self._lanes(s[0], s[1], self._changes):
+                best = min(best, self._length(edge) - off_s + dist.get(edge[1], math.inf))
+                if off_s <= self.SAME_SPOT_M:
+                    best = min(best, off_s + dist.get(edge[0], math.inf))
+                for e, off in lanes:
+                    if e == edge and off >= off_s - self.SAME_SPOT_M:
+                        best = min(best, abs(off - off_s))
+            out.append(best + s[2] + g[2])
         return out
 
 
