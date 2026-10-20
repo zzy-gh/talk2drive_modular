@@ -214,7 +214,9 @@ def score(episodes: list[dict], run: dict, partial: bool = False) -> dict:
         "by_town": {k: (acc(v), len(v)) for k, v in sorted(by_town.items())},
         "fields": {k: (acc(v), len(v)) for k, v in sorted(field_hits.items())},
         "ask_recall": acc([True] * ask["tp"] + [False] * ask["fn"]),
-        "ask_false_rate": acc([True] * ask["fp"] + [False] * (len(turns) - ask["fp"])),
+        # Denominator: turns that should not ask.
+        "ask_false_rate": acc([True] * ask["fp"]
+                              + [False] * (len(turns) - ask["tp"] - ask["fn"] - ask["fp"])),
         "confusion": {f"{g} -> {p}": n for (g, p), n in sorted(confusion.items()) if g != p},
         "latency_p50": pct(latency, 50), "latency_p95": pct(latency, 95),
         "tokens_in_mean": round(statistics.mean(tokens_in)) if tokens_in else None,

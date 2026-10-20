@@ -343,7 +343,9 @@ class MissionPlanner:
         return self.plan
 
     def is_arrived(self, x: float, y: float) -> bool:
-        return bool(self.plan) and self.plan.distance_to_goal(x, y) <= self.arrival_radius
+        """At the goal with every stop reached."""
+        return (bool(self.plan) and self._next_stop >= len(self.plan.stops)
+                and self.plan.distance_to_goal(x, y) <= self.arrival_radius)
 
     def reached_stop(self, x: float, y: float) -> Place | None:
         """The next planned stop, once the car is within ``arrival_radius`` of

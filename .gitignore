@@ -20,3 +20,13 @@ benchmark/runs/
 # Upstream CoVLM checkout for testing the nav patch, plus the patch repo itself
 # (it has its own git repo and GitHub remote).
 covlm_test/
+
+# Dataset review and rewrite tooling (not needed to run the benchmark)
+benchmark/language/rewrite_task/
+benchmark/language/review_app.py
+benchmark/language/review.py
+benchmark/language/apply_review.py
+benchmark/language/data/review.csv
+benchmark/language/data/model_pass.csv
+benchmark/execution/review_app.py
+benchmark/execution/data/utterances_review.csv

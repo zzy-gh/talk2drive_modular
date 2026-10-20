@@ -154,7 +154,7 @@ stops ("let's do the park first"). Built-in commands:
 | `--sync` / `--no-sync` | synchronous 20 Hz stepping; on by default for simlingo, pass `--sync` for TCP |
 | `--simlingo-camera X,Y,Z[,PITCH]` | SimLingo camera mount; default `-1.5,0,2.0`, SimLingo's training mount |
 | `--simlingo-interval N` | control steps per SimLingo inference (default 1 in sync mode) |
-| `--vehicle BP` | ego blueprint; default Lincoln MKZ 2020 for simlingo, Tesla Model 3 otherwise |
+| `--vehicle BP` | ego blueprint; default the car the stack was trained on: Lincoln MKZ 2020 for simlingo, MKZ 2017 for leaderboard (TCP), Tesla Model 3 otherwise |
 | `--world-viz` | draw route and landmarks in CARLA as points and lines, for debugging: any camera sees them |
 | `--no-viz` | no drawing, no spectator control |
 | `--auto` | never prompt: nearest landmark, unordered stops appended last |

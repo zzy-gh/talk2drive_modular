@@ -78,6 +78,7 @@ def build_backend(args, world, client=None):
                                   inference_interval=args.simlingo_interval
                                   or (1 if args.sync else 15),
                                   camera=_camera_mount(args.simlingo_camera),
+                                  use_cot=not args.simlingo_no_cot,
                                   debug=args.debug)
         if name == "leaderboard":
             module = args.agent_module or paths.AGENT_MODULE
@@ -119,6 +120,8 @@ def add_backend_args(p: argparse.ArgumentParser) -> None:
     p.add_argument("--simlingo-interval", type=int, default=None,
                    help="control ticks per inference (default: 1 in sync mode "
                         "as SimLingo runs officially, else 15)")
+    p.add_argument("--simlingo-no-cot", action="store_true",
+                   help="disable SimLingo's chain of thought (faster)")
     p.add_argument("--simlingo-camera", default=None, metavar="X,Y,Z[,PITCH]",
                    help="front camera mount on the ego in metres (x forward, "
                         "z up) and degrees; default -1.5,0,2.0,0, SimLingo's "
@@ -135,11 +138,10 @@ def backend_defaults(args) -> str:
     """Fill in backend-dependent defaults; returns the ego blueprint."""
     if args.sync is None:
         args.sync = args.backend == "simlingo"
-    # SimLingo's camera sits behind the roof, so the ego's own roof is in every
-    # frame; a car it never saw in training (the Model 3's black glass roof)
-    # can read as an obstacle.
-    return args.vehicle or ("vehicle.lincoln.mkz_2020" if args.backend == "simlingo"
-                            else SessionConfig.vehicle_filter)
+    # Camera stacks see the ego's roof, so use the car they were trained on.
+    trained_on = {"simlingo": "vehicle.lincoln.mkz_2020",
+                  "leaderboard": "vehicle.lincoln.mkz_2017"}
+    return args.vehicle or trained_on.get(args.backend, SessionConfig.vehicle_filter)
 
 
 def main() -> None:

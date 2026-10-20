@@ -153,8 +153,10 @@ class SensorRig:
         return out
 
     def speed_mps(self) -> float:
+        """Velocity along the heading, as the leaderboard's speedometer."""
         v = self.vehicle.get_velocity()
-        return math.sqrt(v.x ** 2 + v.y ** 2 + v.z ** 2)
+        f = self.vehicle.get_transform().get_forward_vector()
+        return v.x * f.x + v.y * f.y + v.z * f.z
 
     def destroy(self) -> None:
         for actor in self._actors:

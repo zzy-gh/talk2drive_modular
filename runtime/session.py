@@ -155,8 +155,9 @@ class DriveSession:
                     ahead_m=self.config.look_ahead_m)
 
     def speed_mps(self) -> float:
+        """Horizontal speed (excludes the drop at spawn)."""
         v = self.vehicle.get_velocity()
-        return math.sqrt(v.x ** 2 + v.y ** 2 + v.z ** 2)
+        return math.hypot(v.x, v.y)
 
     # ─────────────────────────────────────────
     # Command thread

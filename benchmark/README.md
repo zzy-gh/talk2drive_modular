@@ -1,11 +1,13 @@
 # Talk2Drive benchmark
 
-Two questions, measured separately:
+Three questions:
 
 * **(a) language level** — does an LLM turn what the passenger says into the
   right structured navigation intent? Offline, no simulator.
 * **(b) execution level** — does a driving backend carry out a navigation
   intent that changes while it drives? Closed loop in CARLA.
+* **(c) end to end** — the (b) scenarios with the passenger's words instead
+  of gold intents: utterance → LLM → grounding → route → backend.
 
 ## (a) Language level — `benchmark/language/`
 
@@ -15,8 +17,7 @@ Two questions, measured separately:
 conda activate zhiyuan_gemini
 python3 benchmark/language/generate.py        # templates   -> data/episodes_template.jsonl
 python3 benchmark/language/paraphrase.py      # LLM rewrite -> data/episodes_paraphrased.jsonl
-python3 benchmark/language/review.py export   # human check -> data/review.csv
-python3 benchmark/language/review.py import   #             -> data/episodes_verified.jsonl
+# human review                              -> data/episodes_reviewed.jsonl
 
 python3 benchmark/language/run.py --model gemini-3.5-flash-lite --data <episodes.jsonl>
 python3 benchmark/language/evaluate.py benchmark/runs/<run>.jsonl [<run> ...] --data <episodes.jsonl>
@@ -92,8 +93,7 @@ ordinal wherever the gold has an index, does not name the place in an
 indirect turn, and keeps both the off-map place and both halves of a
 self-correction — checked against the turn's structure, never by asking a
 model. Three failed rewrites keep the template sentence and flag the turn.
-`review.py` then puts every turn in front of a person; `import` refuses to
-write the verified set while any row is undecided.
+Every turn was then reviewed by hand (`data/episodes_reviewed.jsonl`).
 
 ### Metrics (`evaluate.py`)
 
@@ -103,7 +103,7 @@ write the verified set while any row is undecided.
 | episode accuracy | every turn of the conversation right |
 | command accuracy | command type right (`reject` for rejected / unparsable) |
 | field accuracy | destination, its index, stops, insert type / position (with after / before) / index, move type / position, removed stop, keep_waypoints, urgency (only where the passenger says it), preference, avoid, number of commands — each on the turns whose gold sets it, command by command. plan_route and a new_destination that drops the stops are compared as one kind. |
-| ask recall / false-ask rate | an unordered stop is left for the passenger to place exactly when it should be |
+| ask recall / false-ask rate | an unordered stop is left for the passenger to place exactly when it should be: recall over the turns that add one (48), false-ask rate over all other scored turns |
 | latency p50 / p95, tokens | cost |
 
 Each turn is parsed from its **gold** starting state, so one wrong turn does
@@ -170,11 +170,73 @@ A stop is **visited** when the car passes within 5 m of it — no dwell.
 | **success** | headline: every expected stop visited in order (each at its first approach after the previous one), arrived at the expected destination — or standing still after a cancel — no dropped place visited, within the time limit |
 | completion | share of the expected stops + destination reached in order |
 | detour | distance driven / distance of the ideal drive |
-| collisions, lane invasions / km, wrong-way seconds | driving quality (sensor events de-duplicated over 1 s / 0.5 s) |
+| collisions (vehicle / static), lane invasions / km, wrong-way seconds | driving quality (sensor events de-duplicated over 1 s / 0.5 s) |
 | hurry speed ratio | mean moving speed with / without hurry on the same route (paired scenarios) |
 | rush speed ratio | mean speed after / before a hurried change of destination |
 | cancel stop time | seconds from the cancel to standing still |
 
 Hurry is realised only by `basic_agent` (target speed) and SimLingo (a prompt
 sentence); TCP has no input for it.
+
+## (c) End to end — `benchmark/execution/ --language`
+
+### Pipeline
+
+```bash
+python3 benchmark/execution/utterances.py      # offline -> data/scenarios_language.jsonl
+python3 benchmark/execution/run.py --backend basic_agent --language --llm-model gemini-3.8-flash
+python3 benchmark/execution/evaluate.py benchmark/runs/execution/basic_agent__e2e__gemini-3.8-flash \
+    --gold benchmark/runs/execution/basic_agent
+```
+
+`--llm-python <python>` parses in another environment, as the CLI does (TCP's
+env has no Gemini SDK).
+
+### Sentences
+
+Every event of every (b) scenario gets a sentence taken from the reviewed
+language set, not written anew: a turn whose gold intent has the same
+commands, positions, anchors, urgency and number of stops, with its place
+names swapped for the scenario's (any surface form, "coffee shop" or
+"cafe"). The result must pass the paraphrase faithfulness check. Turns that
+never name the place (X1, X7), name a second one (X4), say "nearest" (X6) or
+carry a preference or an avoid (P6, P7) are not used. The language set has
+no two-stop plan with hurry and no three-stop plan: hurry is appended as the
+language generator appends it, and a three-stop plan extends the two-stop
+template (3 sentences each). All sentences were reviewed by hand.
+
+The passenger names a place by type, and the system grounds it — ranked by
+road, the passenger asked when there are several. The scripted passenger
+answers with the scenario's landmark ID. Where grounding by type cannot
+reach the scenario's place (it is far off the way, so not offered), the
+passenger says the ID ("bus stop number 3"); `utterances.py` finds those
+places by replaying each scenario offline with the indexes dropped (5 of 39
+scenarios).
+
+Each event also carries `expect_state` — the route (goal, remaining stops,
+urgency, or cancelled) after the gold intent — so a parse is scored inside
+the loop.
+
+### Running
+
+As (b), and the world is held still while the LLM parses, the mission
+grounds and the route is planned, as it is for a gold event: the drive does
+not depend on how fast the model answers, and the time each step took is
+logged. The LLM sees the route as it stands, as in the CLI. A provider
+error is retried, then the scenario is logged `api_error` and re-run next
+time; a start event that leaves nothing to drive ends as `no_plan`.
+
+### Metrics
+
+Success, completion and driving quality as (b), plus:
+
+| metric | |
+|---|---|
+| **success** | headline, as (b) |
+| language loss | (b) success minus (c) success, same backend (`--gold`) |
+| event state accuracy | events after which the mission stands where the gold intent puts it |
+| all events ok | scenarios in which every event did |
+| failure cause | **language** (an event left the wrong state, or the first request gave no route), else **execution** (every event issued was right, the drive failed); an event is issued only once its trigger is reached, so a drive that fails first is execution. The language failures whose gold run failed too are counted alongside |
+| asks per scenario | how often the passenger was asked which place |
+| parse / plan latency p50, p95 | LLM call; grounding + planning |
 

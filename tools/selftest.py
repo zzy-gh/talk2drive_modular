@@ -617,6 +617,17 @@ def test_arrival():
     check("remaining distance shrinks",
           plan.remaining_distance(90.0, 0.0) < plan.remaining_distance(10.0, 0.0))
 
+    # Round trip: goal at the start, one stop between.
+    m = planner()
+    m.apply({"command_type": "plan_route", "destination": "hospital",
+             "waypoints": [{"type": "gas_station", "order": 1}]})
+    plan = m.build_plan((0.0, 0.0, 0.0))
+    stop = plan.stops[0]
+    check("not arrived at the goal before the stop",
+          not m.is_arrived(plan.goal.x, plan.goal.y))
+    m.reached_stop(stop.x, stop.y)
+    check("arrived at the goal once the stop is reached", m.is_arrived(plan.goal.x, plan.goal.y))
+
 
 def test_stop_progress():
     print("\n[mission] reaching stops")
@@ -1227,6 +1238,22 @@ for line in sys.stdin:
             bridge.close()
         proc.wait(timeout=3.0)
         check("close() actually stops the subprocess", proc.poll() is not None)
+
+        # raise_errors: failures raise; the bridge recovers afterwards.
+        strict = LLMBridge(python_bin=sys.executable,
+                           cmd=[sys.executable, str(stub_path)], raise_errors=True)
+        try:
+            try:
+                strict.parse("__fail__", town="Town01")
+                raised = False
+            except RuntimeError:
+                raised = True
+            check("raise_errors: a worker-reported error raises", raised)
+            again = strict.parse("cafe", town="Town01")
+            check("raise_errors: the bridge still answers afterwards",
+                  again is not None and again["destination"] == "cafe", str(again))
+        finally:
+            strict.close()
 
 
 def test_simlingo_frame_matches_official():

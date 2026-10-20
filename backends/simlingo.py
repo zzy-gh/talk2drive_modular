@@ -148,7 +148,8 @@ class SimLingoBackend(DrivingBackend):
                  camera: dict | None = None,
                  min_distance: float = 7.5, max_distance: float = 50.0,
                  route_sample_factor: float = 200.0,
-                 pass_language: bool = True, debug: bool = False) -> None:
+                 pass_language: bool = True, use_cot: bool = True,
+                 debug: bool = False) -> None:
         self.inference_interval = max(1, int(inference_interval))
         # SimLingo's own front camera (team_code/config_simlingo.py camera_*_0),
         # which is also what simlingo_utils.get_camera_extrinsics hands the model.
@@ -177,13 +178,16 @@ class SimLingoBackend(DrivingBackend):
         self._instruction: str | None = None
         self._cached = None
         self._step = 0
+        self._still_since = None
+        self._creep_until = -1.0
         self.last_language: str | None = None
         # The latest inference's input and output, for runtime/fpv.py.
         self.last_frame: FpvFrame | None = None
 
         self.worker = SimLingoWorker(checkpoint_path=checkpoint_path,
                                      repo_path=repo_path, python_bin=python_bin,
-                                     device=device, hydra_config_path=hydra_config_path)
+                                     device=device, hydra_config_path=hydra_config_path,
+                                     use_cot=use_cot)
 
     # ── wiring ──────────────────────────────────────────────────────────
     def sensors(self) -> list[dict]:
@@ -200,7 +204,27 @@ class SimLingoBackend(DrivingBackend):
                   f"instruction={self._instruction!r}")
 
     # ── control ─────────────────────────────────────────────────────────
+    # Creep as in SimLingo's agent: after 40 s standing still, throttle 0.4 for 0.75 s.
+    STUCK_S, CREEP_S, CREEP_THROTTLE = 40.0, 0.75, 0.4
+
     def run_step(self, obs: Observation):
+        control = self._infer(obs)
+        if self._plan is None or control is None:
+            return control
+        t = obs.timestamp
+        if obs.speed_mps < 0.1:
+            self._still_since = t if self._still_since is None else self._still_since
+        else:
+            self._still_since = None
+        if self._still_since is not None and t - self._still_since > self.STUCK_S:
+            self._creep_until = t + self.CREEP_S
+            self._still_since = None
+        if t < self._creep_until:
+            control.throttle = max(self.CREEP_THROTTLE, control.throttle)
+            control.brake = 0.0
+        return control
+
+    def _infer(self, obs: Observation):
         if self._plan is None:
             return brake_control()
 

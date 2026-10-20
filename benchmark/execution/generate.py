@@ -99,11 +99,15 @@ def key(label: str, index: int | None) -> str:
 # Offline drive
 # ─────────────────────────────────────────────
 
-def drive(town: "Town", start: dict, events: list[dict]) -> dict:
+def drive(town: "Town", start: dict, events: list[dict], inter: Interaction | None = None,
+          on_fire=None) -> dict:
     """Follow the plan point by point, firing ``events`` where the runner
-    would, and return what happened: visits in order, arrival, the path."""
+    would, and return what happened: visits in order, arrival, the path.
+
+    ``inter`` replaces the scripted passenger; ``on_fire(planner, result)``
+    runs after each event is applied."""
     routes = town.routes
-    inter = Scripted()
+    inter = inter or Scripted()
     m = MissionPlanner(town.kb, routes, inter, town=town.name)
     pending = list(events)
     visits, path, fired = [], [], []
@@ -120,6 +124,8 @@ def drive(town: "Town", start: dict, events: list[dict]) -> dict:
         fired.append({"driven_m": round(driven, 1), "x": round(x, 1), "y": round(y, 1)})
         if result.cancelled:
             cancelled = True
+            if on_fire:
+                on_fire(m, result)
             return
         s = routes.snap_heading(x, y, z, yaw, ahead_m=LOOK_AHEAD_M)
         new = m.build_plan(s)
@@ -127,6 +133,8 @@ def drive(town: "Town", start: dict, events: list[dict]) -> dict:
             raise Infeasible("re-plan failed")
         check_plan(new)
         plan, i = new, 0
+        if on_fire:
+            on_fire(m, result)
 
     fire(pending.pop(0))                                     # the start event
     for _ in range(100000):

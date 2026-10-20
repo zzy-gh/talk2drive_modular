@@ -29,23 +29,32 @@ class LLMBridge:
 
     def __init__(self, python_bin: str, csv_path: str | None = None,
                  request_timeout_s: float = 30.0,
-                 cmd: list[str] | None = None) -> None:
+                 cmd: list[str] | None = None, raise_errors: bool = False) -> None:
         """``cmd``, if given, replaces the ``python -m core.llm_worker``
         argv entirely -- only ``tools/selftest.py`` uses this, to run a
         synthetic stub worker instead of the real (google-genai-dependent)
-        one."""
+        one.
+
+        ``raise_errors``: a failed request raises instead of returning None,
+        so a retrying caller can tell a failure from "not parsed"."""
         self.timeout = request_timeout_s
+        self.raise_errors = raise_errors
+        self.python_bin = python_bin
         repo_root = Path(__file__).resolve().parents[1]
         if cmd is None:
             cmd = [python_bin, "-m", "core.llm_worker"]
             if csv_path:
                 cmd += ["--csv", str(csv_path)]
+        self._cmd, self._cwd = cmd, str(repo_root)
+        self._start()
+
+    def _start(self) -> None:
         self.proc = subprocess.Popen(
-            cmd, cwd=str(repo_root),
+            self._cmd, cwd=self._cwd,
             stdin=subprocess.PIPE, stdout=subprocess.PIPE,
             stderr=None, text=True, bufsize=1,
         )
-        print(f"[llm_bridge] worker pid={self.proc.pid} ({python_bin})")
+        print(f"[llm_bridge] worker pid={self.proc.pid} ({self.python_bin})")
         ready = self._read_reply(self.timeout)
         if ready.get("status") != "ok":
             raise RuntimeError(ready.get("message", "llm worker failed to start"))
@@ -60,9 +69,16 @@ class LLMBridge:
             response = self._request(req)
         except Exception as exc:
             print(f"[llm_bridge] request failed: {exc}")
-            return None
+            if not self.raise_errors:
+                return None
+            # Restart so a late reply is not read as the next answer.
+            self.close()
+            self._start()
+            raise
         if response.get("status") != "ok":
             print(f"[llm_bridge] {response.get('message')}")
+            if self.raise_errors:
+                raise RuntimeError(f"llm worker: {response.get('message')}")
             return None
         return response.get("intent")
 
