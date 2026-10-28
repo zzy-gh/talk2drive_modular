@@ -12,6 +12,10 @@ utterance ──► LLM parser ──► intent ──► MissionPlanner ──�
                      LandmarkKnowledgeBase, RouteProvider (CARLA GRP), Interaction
 ```
 
+A passenger's words reach the right route 95.9% of the time, and driving from
+those words scores the same as driving from gold intents. See
+[Results](#results).
+
 ## Layout
 
 | path | role |
@@ -22,10 +26,21 @@ utterance ──► LLM parser ──► intent ──► MissionPlanner ──�
 | `benchmark/` | language, execution and end-to-end evaluation |
 | `covlm/` | PlugV2V: talk2drive in multi-vehicle cooperative driving |
 | `data/` | landmark knowledge base CSV |
-| `tools/` | `selftest.py` (offline), `smoke_carla.py` (needs a server) |
 | `examples/leaderboard_agent.py` | drop-in team_code agent for Bench2Drive |
 
 ## Configuration
+
+Three things to set up: the conda environments, `config.yaml` and an API key.
+
+### Environments
+
+| env | used for |
+|---|---|
+| `zhiyuan_gemini` | `basic_agent`, `simlingo`; carla 0.9.15, google-genai |
+| `zhiyuan_simlingo` | SimLingo's worker, started automatically |
+| `zhiyuan_tcp` | `leaderboard` with TCP |
+
+### `config.yaml`
 
 Copy `config.example.yaml` to `config.yaml` (git-ignored) and fill in the paths.
 Relative paths resolve from the repo root; `python3 runtime/cli.py --paths`
@@ -44,12 +59,6 @@ leaderboard:
   agent_module: AD software/TCP/leaderboard/team_code/tcp_agent.py
   agent_config: /path/to/TCP/new.ckpt
 ```
-
-- `--backend simlingo` needs a SimLingo checkout with `simlingo_inference/`
-  (not in the official release). InternVL2 is looked up under
-  `<repo>/pretrained/InternVL2-1B`.
-- `--backend leaderboard` loads the policy in-process, so run it in that
-  stack's environment. `--llm-python` moves the LLM call to another one.
 
 ### API key
 
@@ -78,28 +87,20 @@ benchmark can go through any OpenAI-compatible endpoint instead, with
 
 ## Run
 
-| env | used for |
-|---|---|
-| `zhiyuan_gemini` | `basic_agent`, `simlingo`; carla 0.9.15, google-genai |
-| `zhiyuan_simlingo` | SimLingo's worker, started automatically |
-| `zhiyuan_tcp` | `leaderboard` with TCP |
-
-Each of these needs `GEMINI_API_KEY` in its environment; see
-[API key](#api-key).
-
 ```bash
 cd /path/to/carla_0.9.15 && ./CarlaUE4.sh                    # server
 
 conda activate zhiyuan_gemini                                # zhiyuan_tcp for TCP
-python3 tools/selftest.py
 python3 runtime/cli.py --backend basic_agent --town 1 --bev
 python3 runtime/cli.py --backend simlingo --town 1 --bev --fpv
 python3 runtime/cli.py --backend leaderboard --town 1 --sync --bev
 ```
 
 Type requests at the `>` prompt in English or Chinese ("take me to the second
-cafe", "顺路去一下ATM"). Commands: `view` (toggle spectator), `plan` (print
-state), `clear` (cancel), `quit`.
+cafe", "stop by an ATM on the way"). Commands: `view` (toggle spectator),
+`plan` (print state), `clear` (cancel), `quit`.
+
+### Flags
 
 | flag | effect |
 |---|---|
@@ -113,19 +114,21 @@ state), `clear` (cancel), `quit`.
 | `--world-viz` / `--no-viz` | draw in the CARLA world (visible to cameras) / no drawing |
 | `--no-reload` | keep the running map |
 
+### Recovery
+
 If the process is killed in sync mode, CARLA waits for a tick forever; reset it with
-`python3 -c "import carla; w=carla.Client('localhost',2000).get_world(); s=w.get_settings(); s.synchronous_mode=False; s.fixed_delta_seconds=None; w.apply_settings(s)"`.
 
-## Benchmark
+```bash
+python3 -c "import carla; w=carla.Client('localhost',2000).get_world(); s=w.get_settings(); s.synchronous_mode=False; s.fixed_delta_seconds=None; w.apply_settings(s)"
+```
 
-See [`benchmark/README.md`](benchmark/README.md): (a) language — utterance to
-intent, offline; (b) execution — each backend drives gold intents in closed
-loop, optionally with NPC traffic; (c) end to end — the same scenarios driven
+## Results
+
+CARLA 0.9.15, synchronous 20 Hz, Town01–07 and Town10HD. Three levels, defined
+in [`benchmark/README.md`](benchmark/README.md): (a) language, utterance to
+intent, offline; (b) execution, each backend drives gold intents in closed
+loop, optionally with NPC traffic; (c) end to end, the same scenarios driven
 from the passenger's words.
-
-### Results
-
-CARLA 0.9.15, synchronous 20 Hz, Town01–07 and Town10HD.
 
 **(a) Language** — 632 scored turns. State accuracy: the route after applying
 the parsed intent equals the gold route. Tiers: T1 one plain function, T2
@@ -186,32 +189,28 @@ mission layer), `consumes_language` (directive as a sentence or a number).
 | process | in-process | separate env, JSON over a pipe | in-process |
 | arrival | own | mission layer | mission layer |
 
+Two contracts the table depends on:
+
+- **Ego frame** is `[forward, right]` from CARLA's own forward/right vectors,
+  as SimLingo uses for `target_points_ego`.
+- **Sparsity is per stack**: 50 m for leaderboard / Bench2Drive, 200 m for
+  SimLingo. Never hand a VLA dense points, and never pre-downsample for a
+  leaderboard agent (its `set_global_plan` does it).
+
+What each backend needs:
+
+- `--backend simlingo` needs a SimLingo checkout with `simlingo_inference/`
+  (not in the official release). InternVL2 is looked up under
+  `<repo>/pretrained/InternVL2-1B`.
+- `--backend leaderboard` loads the policy in-process, so run it in that
+  stack's environment. `--llm-python` moves the LLM call to another one.
+
 One backend per run: a policy is never silently replaced by another mid-route.
 
 Two loop shapes: in `runtime/session.py` talk2drive owns the loop (control
 thread drives, CLI thread parses and re-plans); in `runtime/passenger.py` a
 harness calls `run_step()`, and parsing and planning run on a worker thread
 behind non-blocking `submit()` / `poll()`.
-
-## Pitfalls
-
-- **Ego frame** is `[forward, right]` from CARLA's own forward/right vectors,
-  as SimLingo uses for `target_points_ego`.
-- **Target points behind the car** make a VLA steer backwards;
-  `SparseRouteTracker` drops them.
-- **Sparsity is per stack**: 50 m for leaderboard / Bench2Drive, 200 m for
-  SimLingo. Never hand a VLA dense points, and never pre-downsample for a
-  leaderboard agent (its `set_global_plan` does it).
-- **Never prompt on the control thread**: `build_plan` may prompt, so pass a
-  non-blocking `Interaction` in real-time loops.
-- **Sensor specs**: leaderboard `width`/`height` map to `image_size_x/y`
-  (`runtime/sensors.py::blueprint_attributes`).
-- **Debug drawing**: `draw_point`/`draw_line` appear in camera images;
-  `draw_string` does not.
-- **Copy sensor buffers**: `image.raw_data` is freed after the callback.
-- **Re-plans** start from `CarlaRouteProvider.snap_heading` so a drifted ego
-  does not plan from the oncoming lane.
-- **TCP's route planner** is built once; the backend resets it on every re-plan.
 
 ## PlugV2V
 
@@ -223,5 +222,4 @@ intents with an urgency tier (`covlm/data/export/`). The patch that feeds these
 intents into the V2V negotiation is the separate `covlm-passenger-intents`
 repo. `covlm/v2v_compare.py` compares runs with and without the intents.
 
-`covlm/` may import `core/`; `core/` never imports `covlm/` (checked by
-`tools/selftest.py`).
+`covlm/` may import `core/`; `core/` never imports `covlm/`.
