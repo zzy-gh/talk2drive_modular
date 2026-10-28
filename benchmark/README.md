@@ -20,10 +20,20 @@ python3 benchmark/language/evaluate.py benchmark/runs/<run>.jsonl [...] --data b
 ```
 
 `run.py` resumes, rate-limits (`--rpm`, `--workers`) and retries 429s;
-`--no-context` hides the current route (ablation). `--provider qwen` uses any
-OpenAI-compatible endpoint (`QWEN_BASE_URL`, `QWEN_API_KEY`, optional
-`QWEN_EXTRA_BODY`), e.g. a local Ollama server. A new provider is a
-`CommandParser` subclass in `models.py`.
+`--no-context` hides the current route (ablation). Gemini reads
+`GEMINI_API_KEY` from the environment, as everywhere else in the project (see
+the [main README](../README.md#api-key)).
+
+`--provider qwen` goes through any OpenAI-compatible endpoint instead, so point
+these at your own and nothing else has to change:
+
+```bash
+export QWEN_BASE_URL=http://localhost:11434/v1      # e.g. a local Ollama server
+export QWEN_API_KEY=your-key-here                   # any non-empty string if the server ignores it
+export QWEN_EXTRA_BODY='{"reasoning_effort": "none"}' # optional, merged into each request body
+```
+
+A new provider is a `CommandParser` subclass in `models.py`.
 
 ### Data
 

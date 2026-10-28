@@ -51,6 +51,31 @@ leaderboard:
 - `--backend leaderboard` loads the policy in-process, so run it in that
   stack's environment. `--llm-python` moves the LLM call to another one.
 
+### API key
+
+The LLM call reads its credentials from the environment, so no key goes in
+`config.yaml` or anywhere else in the repo. Set your own and you are ready to
+run:
+
+```bash
+export GEMINI_API_KEY=your-key-here
+export GEMINI_MODEL=gemini-2.5-flash     # optional, this is the default
+```
+
+To avoid retyping it, put the same lines in the conda environment's activate
+hook, which runs on every `conda activate`:
+
+```bash
+# $CONDA_PREFIX/etc/conda/activate.d/gemini.sh
+export GEMINI_API_KEY=your-key-here
+export GEMINI_MODEL=gemini-2.5-flash
+```
+
+Do this in every environment that makes the LLM call: `zhiyuan_gemini`, plus
+`zhiyuan_tcp` when `--backend leaderboard` runs it in-process. The language
+benchmark can go through any OpenAI-compatible endpoint instead, with
+`QWEN_BASE_URL` and `QWEN_API_KEY` -- see `benchmark/README.md`.
+
 ## Run
 
 | env | used for |
@@ -59,8 +84,8 @@ leaderboard:
 | `zhiyuan_simlingo` | SimLingo's worker, started automatically |
 | `zhiyuan_tcp` | `leaderboard` with TCP |
 
-`GEMINI_API_KEY` and `GEMINI_MODEL` are set in each env's
-`etc/conda/activate.d/gemini.sh`.
+Each of these needs `GEMINI_API_KEY` in its environment; see
+[API key](#api-key).
 
 ```bash
 cd /path/to/carla_0.9.15 && ./CarlaUE4.sh                    # server
