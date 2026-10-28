@@ -4,7 +4,7 @@ covlm/
 Everything specific to the CoVLM / InterDrive benchmark, kept out of the
 general package.
 
-The dependency rule is one-way and enforced by ``tools/selftest.py``:
+The dependency rule is one-way:
 
     covlm/  may import  core/, backends/, runtime/
     core/   may NEVER import covlm/

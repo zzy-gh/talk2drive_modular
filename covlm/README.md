@@ -11,7 +11,7 @@ utterance ──► LLM ──► intent ──► landmark ──► GRP route 
 ```
 
 `covlm/` may import `core/`, `backends/`, `runtime/`; `core/` never imports
-`covlm/` (checked by `tools/selftest.py`).
+`covlm/`.
 
 ## Pipeline
 

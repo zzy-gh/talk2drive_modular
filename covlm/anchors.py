@@ -237,7 +237,7 @@ def assert_kb_untouched(kb, book: AnchorBook, towns: Sequence[str] = ()) -> None
 
     Snapshots every KB lookup a mission can make, wraps the KB in a
     ``ScenarioKB`` bound to each anchor in turn, and re-runs them. Raises on
-    the first difference. Cheap enough to run in ``tools/selftest.py``.
+    the first difference. Cheap enough to run as a regression check.
     """
     towns = list(towns) or sorted(kb.by_town.keys())
     before = {}

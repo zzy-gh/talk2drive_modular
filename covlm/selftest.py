@@ -4,9 +4,9 @@ covlm/selftest.py
 =================
 Regression checks for the CoVLM / InterDrive subpackage.
 
-Self-contained on purpose: it shares no fixtures with ``tools/selftest.py``, so
-the general package's checks never depend on this benchmark's, and deleting
-``covlm/`` cannot break them. Needs no CARLA server, no GPU, no LLM.
+Self-contained on purpose: it shares no fixtures with the general package, so
+deleting ``covlm/`` cannot break anything outside it. Needs no CARLA server,
+no GPU, no LLM.
 
     python covlm/selftest.py
 

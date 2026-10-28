@@ -31,9 +31,8 @@ class LLMBridge:
                  request_timeout_s: float = 30.0,
                  cmd: list[str] | None = None, raise_errors: bool = False) -> None:
         """``cmd``, if given, replaces the ``python -m core.llm_worker``
-        argv entirely -- only ``tools/selftest.py`` uses this, to run a
-        synthetic stub worker instead of the real (google-genai-dependent)
-        one.
+        argv entirely, so a test can run a synthetic stub worker instead
+        of the real (google-genai-dependent) one.
 
         ``raise_errors``: a failed request raises instead of returning None,
         so a retrying caller can tell a failure from "not parsed"."""
