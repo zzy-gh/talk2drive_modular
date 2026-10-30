@@ -27,25 +27,19 @@ paths:
   llm_python: ""
 
 
-# The covlm/ subpackage only — the CoVLM / InterDrive benchmark. Nothing in
-# core/, backends/ or runtime/ reads this section. Leave it empty if you do not
-# work on that benchmark; the rest of the package runs without it.
+# Read by benchmark/execution/ (generate.py, npc.py, utterances.py,
+# evaluate.py) when --xodr is not given. Nothing in core/, backends/ or runtime/ reads this section, so
+# leave it empty if you do not run the execution benchmark. The section name is
+# historical; the CoVLM / InterDrive work it was added for now lives in its own
+# repository.
 covlm:
   # CARLA's OpenDRIVE road-network files — one .xodr per town (Town01.xodr,
   # Town02.xodr, ...). They describe lanes, junctions and road geometry, which
-  # is everything the route planner needs.
-  #
-  # covlm/verify_nav_routes.py builds carla.Map straight from the .xodr, so it
-  # can trace and compare routes with NO CARLA server running.
+  # is everything the route planner needs, and they let a route be traced with
+  # NO CARLA server running.
   #
   # Inside a CARLA install: <CARLA>/CarlaUE4/Content/Carla/Maps/OpenDrive
   opendrive_dir: ""
-
-  # CoLMDriver scenario data, used only by covlm/build_route_anchors.py to
-  # regenerate covlm/data/route_anchors.json. The generated file is already in
-  # the repo, so these are only needed if you rebuild it.
-  interdrive_dir: ""
-  driver_intents: ""
 
 # For --backend simlingo, which drives SimLingo in a subprocess.
 simlingo:

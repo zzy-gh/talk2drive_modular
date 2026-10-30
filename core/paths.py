@@ -84,7 +84,7 @@ def section_path(section: str, key: str) -> Path | None:
 
     Relative values resolve from the package root. Public so a subpackage can
     own its own config section without core having to know it exists --
-    ``covlm/paths.py`` reads ``[covlm]`` this way.
+    ``benchmark/execution/`` reads ``[covlm] opendrive_dir`` this way.
     """
     value = (_cfg.get(section) or {}).get(key)
     if not isinstance(value, str) or not value.strip():

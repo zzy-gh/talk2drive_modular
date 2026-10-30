@@ -24,7 +24,6 @@ those words scores the same as driving from gold intents. See
 | `backends/` | one adapter per driving stack (`basic_agent`, `simlingo`, `leaderboard`) |
 | `runtime/` | CLI, drive loop (`session.py`), harness loop (`passenger.py`), sensors, BEV/FPV windows |
 | `benchmark/` | language, execution and end-to-end evaluation |
-| `covlm/` | PlugV2V: talk2drive in multi-vehicle cooperative driving |
 | `data/` | landmark knowledge base CSV |
 | `examples/leaderboard_agent.py` | drop-in team_code agent for Bench2Drive |
 
@@ -211,15 +210,3 @@ Two loop shapes: in `runtime/session.py` talk2drive owns the loop (control
 thread drives, CLI thread parses and re-plans); in `runtime/passenger.py` a
 harness calls `run_step()`, and parsing and planning run on a worker thread
 behind non-blocking `submit()` / `poll()`.
-
-## PlugV2V
-
-[`covlm/`](covlm/README.md) brings passenger requests into multi-vehicle
-cooperative driving (CoVLM / CoLMDriver on the InterDrive scenarios, CARLA
-0.9.10). Each vehicle's request goes through the talk2drive chain (utterance →
-LLM → landmark → route) and is exported as leaderboard route files plus driver
-intents with an urgency tier (`covlm/data/export/`). The patch that feeds these
-intents into the V2V negotiation is the separate `covlm-passenger-intents`
-repo. `covlm/v2v_compare.py` compares runs with and without the intents.
-
-`covlm/` may import `core/`; `core/` never imports `covlm/`.

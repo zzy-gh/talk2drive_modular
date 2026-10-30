@@ -21,6 +21,9 @@ benchmark/runs/
 # (it has its own git repo and GitHub remote).
 covlm_test/
 
+# The CoVLM / InterDrive work lives in its own repository now.
+covlm/
+
 # Dataset review and rewrite tooling (not needed to run the benchmark)
 benchmark/language/rewrite_task/
 benchmark/language/review_app.py
